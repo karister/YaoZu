@@ -1,0 +1,1 @@
+"E:\Karister\software\微信web开发者工具\cli.bat" cloud functions deploy --e cloud1-1g5um355baea68a0 --n quickstartFunctions --r --project "E:\Karister\development\WeChatProjects\cloud-dev" --report_first --report

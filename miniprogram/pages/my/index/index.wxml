@@ -1,0 +1,13 @@
+<!--pages/my/index/index.wxml-->
+<!-- 地区轮播图 -->
+<swiper class="swiperBox" indicator-dots autoplay interval="2000" circular> 
+    <swiper-item wx:for="{{imgUrls}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
+        <image src="{{item}}"></image>
+    </swiper-item>
+</swiper>
+<!-- 地区图片 -->
+<view class="areaBigBox">
+    <view class="areaImgBox"  hover-class="areaImgHover" wx:for="{{imgUrls}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
+      <image src="{{item}}" style="height: 200rpx;width: 200rpx;"></image>
+    </view>
+</view>
