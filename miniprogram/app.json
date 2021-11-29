@@ -1,7 +1,11 @@
 {
   "pages": [
-    "pages/my/test/test",
+    
     "pages/my/index/index",
+    "pages/my/display/display",
+    "pages/my/search/search",
+    "pages/my/test/test",
+    
     
     "pages/index/index",
     "pages/getOpenId/index",
@@ -33,13 +37,19 @@
         "pagePath": "pages/my/index/index",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
-        "text": "主页"
+        "text": "门店区域"
+      },
+      {
+        "pagePath": "pages/my/search/search",
+        "iconPath": "/images/wechat.png",
+        "selectedIconPath": "/images/wechatHL.png",
+        "text": "搜索门店"
       },
       {
         "pagePath": "pages/my/test/test",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
-        "text": "设置"
+        "text": "测试页面"
       }
     ]
   },

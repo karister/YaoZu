@@ -1,0 +1,46 @@
+<!--pages/my/display/display.wxml-->
+<!-- 彩色分割线 -->
+<!-- <view class="view_fengexian">
+	<view></view>
+	<text class="text_fengexian"></text>
+	<view></view>
+</view> -->
+
+<!-- 分割线 -->
+<!-- <view class="divLine"></view> -->
+<!-- 区域列表 -->
+<view class="list_box mid">
+  <view class="list_item" wx:for="{{area_info}}" wx:key="key" bindtap="clickAreaItem" data-index="{{index}}">
+    <text class="mid" style="color: {{item.font_color}};">{{item.area}}</text>
+  </view>
+</view>
+<!-- 分割线 -->
+<view class="divLine"></view>
+
+<view wx:for="{{stores_data}}" wx:key="key">
+  <!-- 商家列表 -->
+  <view class="store_box">
+    <!-- 门店图片 -->
+    <view class="store_img_box ">
+      <image src="/images/consult.png" style="height: 140rpx;width: 140rpx;">
+      </image>
+    </view>
+    <!-- 信息 -->
+    <view class="store_text_box">
+      <text>{{item.brand}}</text>
+      <text style="margin: 7rpx 0;">{{item.address}}</text>
+      <text>{{item.phone}}</text>
+    </view>
+  </view>
+  <view class="stroe_divLine"></view>
+</view>
+
+
+
+
+
+<text>\r\n\r\n</text>
+
+
+
+

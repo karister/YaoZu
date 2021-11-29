@@ -1,0 +1,101 @@
+/* pages/my/display/display.wxss */
+.view_fengexian {
+  width: 96%;
+  height: 50rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0rpx 2% 0rpx 2%;
+}
+
+/* 两个view的样式 */
+.view_fengexian view {
+  width: 33%;
+  height: 4rpx;
+  background: linear-gradient(to right, #ead6ee, #a0f1ea);
+}
+
+/* 字体的样式 */
+.text_fengexian {
+  font-size: 25rpx;
+  color: rgb(253, 143, 143);
+  margin: 0rpx 2% 0rpx 2%;
+}
+
+
+
+
+
+/* 标签居中 */
+.mid{
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  text-align: center；
+}
+/*分割线样式*/
+.divLine{
+  background-color: #e4e4e4;
+  width: 100%;
+  height: 2rpx;
+ }
+ .stroe_divLine{
+  width: 100%;
+  height: 15rpx;
+ }
+/* 区域列表菜单样式 */
+.list_box{
+  width: 100%;
+  height:100rpx;
+  /* border: 1px solid red; */
+  border-radius: 5rpx;
+  /* margin: 0rpx 2% 0rpx 2%; */
+  background-color: white;
+}
+/* 区域列表选项样式 */
+.list_item{
+  height: 100%;
+  width: 25%;
+  /* border: 1px solid red; */
+  border-radius: 5rpx;
+  display: inline-block;
+}
+/* 列表中文字样式 */
+.list_item text{
+  width: 100%;
+  height: 100%;
+  font-size: 32rpx;
+  font-weight: bold;
+  font-family:'Courier New', Courier, monospace;
+}
+
+.store_box{
+  width: 100%;
+  height:180rpx;
+  /* border: 1px solid red; */
+  border-radius: 5rpx;
+  /* margin: 0rpx 2% 0rpx 2%; */
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+}
+.store_img_box{
+  width: 140rpx;
+  height: 140rpx;
+  margin: 20rpx 20rpx;
+  border-radius: 10rpx;
+}
+.store_text_box{
+  height: 140rpx;
+  width: 70%;
+  margin: 20rpx 20rpx;
+  border-radius: 10rpx;
+  display: flex;
+  flex-direction: column;
+}
+.store_text_box text{
+  width: 100%;
+  height: 30%;
+  border-radius: 10rpx;
+}
