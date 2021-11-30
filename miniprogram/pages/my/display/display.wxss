@@ -49,7 +49,7 @@
   width: 100%;
   height:100rpx;
   /* border: 1px solid red; */
-  border-radius: 5rpx;
+  /* border-radius: 5rpx; */
   /* margin: 0rpx 2% 0rpx 2%; */
   background-color: white;
 }
@@ -58,14 +58,23 @@
   height: 100%;
   width: 25%;
   /* border: 1px solid red; */
-  border-radius: 5rpx;
+  border-radius: 100rpx;
+  /* background-color: rgba(255, 127, 80, 0.479); */
   display: inline-block;
+}
+/* 列表中文字长条椭圆框 */
+.list_item view{
+  width: 100%;
+  height: 70%;
+  margin: 15rpx 0;
+  border-radius: 20rpx;
 }
 /* 列表中文字样式 */
 .list_item text{
   width: 100%;
   height: 100%;
-  font-size: 32rpx;
+  /* line-height: 100%; */
+  font-size: 36rpx;
   font-weight: bold;
   font-family:'Courier New', Courier, monospace;
 }
@@ -84,12 +93,11 @@
   width: 140rpx;
   height: 140rpx;
   margin: 20rpx 20rpx;
-  border-radius: 10rpx;
 }
 .store_img_box image{
   width: 140rpx;
   height: 140rpx;
-  border-radius: 10rpx;
+  border-radius: 20rpx;
 }
 .store_text_box{
   height: 140rpx;

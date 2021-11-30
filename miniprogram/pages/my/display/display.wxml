@@ -11,7 +11,9 @@
 <!-- 区域列表 -->
 <view class="list_box mid">
   <view class="list_item" wx:for="{{area_info}}" wx:key="key" bindtap="clickAreaItem" data-index="{{index}}">
-    <text class="mid" style="color: {{item.font_color}};">{{item.area}}</text>
+    <view class="mid" style="background-color: {{item.bgk_color}};">
+      <text class="mid" style="color: {{item.font_color}};">{{item.area}}</text>
+    </view>
   </view>
 </view>
 <!-- 分割线 -->
