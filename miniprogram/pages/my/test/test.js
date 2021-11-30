@@ -5,14 +5,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    imgSrc: 'cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test_img/俊鑫单张图.jpg'
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    // wx.cloud.downloadFile({
+    //   fileID: 'cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test_img/俊鑫单张图.jpg', // 文件 ID
+    //   success: res => {
+    //     // 返回临时文件路径
+    //     console.log(res.tempFilePath)
+    //     this.setData({
+    //       imgSrc: res.tempFilePath
+    //     })
+    //   },
+    //   fail: console.error
+    // })
   },
 
   /**

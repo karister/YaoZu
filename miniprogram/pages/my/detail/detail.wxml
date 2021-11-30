@@ -1,0 +1,6 @@
+<!--pages/my/detail/detail.wxml-->
+<swiper class="swiperBox" indicator-dots autoplay interval="2000" circular> 
+    <!-- <swiper-item wx:for="{{imgUrls}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
+        <image src="{{item}}"></image>
+    </swiper-item> -->
+</swiper>

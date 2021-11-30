@@ -1,0 +1,11 @@
+.img_box{
+  height: 500rpx;
+  width: 100%;
+  margin: 0 auto;
+  /* border: 2px solid rgb(168, 169, 172); */
+  border-radius: 10px;
+}
+.img_box image{
+  height: 500rpx;
+  width: 100%;
+}

@@ -1,29 +1,18 @@
-// pages/my/index/index.js
+// pages/my/detail/detail.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-      imgUrls: ['/images/consult.png','/images/feedback.png','/images/user2.png','/images/user2.png'],
-      pagePaths: ['/pages/h1/h1','/pages/h2/h2','/pages/h3/h3','/pages/h4/h4']
-  },
 
-  imgClick: function (e) {
-      var index = e.currentTarget.dataset.index;
-      console.log(index);
-      wx.navigateTo({
-          // url: this.data.pagePaths[index]
-          url: '/pages/my/display/display?index=' + index
-        })
   },
-
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      
+
   },
 
   /**

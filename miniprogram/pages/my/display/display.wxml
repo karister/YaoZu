@@ -21,25 +21,20 @@
   <!-- 商家列表 -->
   <view class="store_box">
     <!-- 门店图片 -->
-    <view class="store_img_box ">
-      <image src="/images/consult.png" style="height: 140rpx;width: 140rpx;">
+    <view class="store_img_box">
+      <image src="{{item.imgSrc}}">
       </image>
     </view>
     <!-- 信息 -->
     <view class="store_text_box">
-      <text>{{item.brand}}</text>
-      <text style="margin: 7rpx 0;">{{item.address}}</text>
-      <text>{{item.phone}}</text>
+      <text class="text_brand">{{item.brand}}</text>
+      <text class="text_address" style="margin: 7rpx 0;">{{item.address}}</text>
+      <text class="text_phone">{{item.phone}}</text>
     </view>
   </view>
   <view class="stroe_divLine"></view>
 </view>
 
-
-
-
-
-<text>\r\n\r\n</text>
 
 
 

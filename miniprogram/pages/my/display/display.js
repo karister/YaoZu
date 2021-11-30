@@ -5,7 +5,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // areas: ['中心市场','博览中心','家私城','光明家具城'],
     area_info: [
       {
         area: '中心市场',
@@ -27,33 +26,26 @@ Page({
     display_index: 0,
     color_current_item: '#e06c0d',
     color_other_item: '',
-    stores_data: [
-      {
-        brand: 'asdad'
-      }
-    ]
+    data_length: 1,
+    stores_data: []
   },
 
   /**
-   * 点击区域列表
+   * 读加载store集合中的数据，设置对应index区域的渲染数据
    */
-  clickAreaItem: function (e) {
+  loadStoresData(index) {
     var that = this;
-    // 点击的区域index
-    var index = e.currentTarget.dataset.index;
     // 获取数据库引用
     const db = wx.cloud.database()
 
-    console.log(index);
-
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!
     // 设置data中数组对象的方法
-    const area_info = this.data.area_info;
+    const area_info = that.data.area_info;
     for(let i = 0;i < 4; i ++) {
-      area_info[i].font_color = this.data.color_other_item;
+      area_info[i].font_color = that.data.color_other_item;
       // 为当前点击的index
-      if(i === index) {
-        area_info[index].font_color = this.data.color_current_item;
+      if(i == index) {
+        area_info[index].font_color = that.data.color_current_item;
         db.collection('stores').where({
           area: {
             // 模糊查询 '.*'相当于mysql的like
@@ -70,61 +62,80 @@ Page({
             // console.log('res.length:' + res.data.length);
             //存储匹配结果
             const stores_data = that.data.stores_data;
-            // console.log(stores_data)
             for(let i = 0;i < res.data.length; i++) {
               stores_data[i] = res.data[i];
+              console.log(stores_data[i]);
             }
+            console.error('next load');
             // 设置展示结果数据
             that.setData({
+              data_length: res.data.length,
               stores_data
             });
           }
         })
       }
     }
-    this.setData ({
+    that.setData ({
       display_index: index,
       area_info 
     })
-
   },
 
+  /**
+   * 加载图片地址
+   */
+  loadImgSrcData: function () {
+    var length = this.data.data_length;
+    var stores_data = this.data.stores_data;
+    const db = wx.cloud.database();
+    // if(stores_data != undefined) {
+    //   for(let i = 0;i < length; i++) {
+    //     let store_id = stores_data[i]._id;
+    //     console.log(i + ':' + store_id);
+    //     db.collection('img_src').where({
+    //       brandID: store_id
+    //     })
+    //     .get({
+    //       success:res=> {
+    //         var img_src = res.data[0].imgUrl;
+    //         stores_data[i].imgSrc = img_src;
+    //         console.log(stores_data[i]);
+    //       },
+    //       fail: console.error
+    //     })
+    //   }
+    //   this.setData({
+    //     stores_data
+    //   })
+    // } else {
+    //   console.log('no data!');
+    // }
+  },
 
+  /**
+   * 点击区域列表
+   */
+  clickAreaItem: function (e) {
+    console.error('点击区域列表');
+    this.loadStoresData(e.currentTarget.dataset.index);
+    
+    // this.loadImgSrcData();
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    // 1. 获取数据库引用
-    const db = wx.cloud.database()
-    // 2. 构造查询语句
-    db.collection('stores').where({
-      area: {
-        // 模糊查询 '.*'相当于mysql的like
-        $regex: '.*' + '中心市场' + '.*',
-        // 不区分大小写
-        $options: 'i'
-      }
-    })
-    .get({ 
-      success: function(res) {
-        //打印调试信息
-        // console.log('success');
-        // console.log('res.data:' + res.data);
-        // console.log('res.length:' + res.data.length);
-        //存储匹配结果
-        const stores_data = that.data.stores_data;
-        // console.log(stores_data)
-        for(let i = 0;i < res.data.length; i++) {
-          stores_data[i] = res.data[i];
-        }
-        // 设置展示结果数据
-        that.setData({
-          stores_data
-        });
-      }
-    })
+    console.error('页面初始加载');
+    console.log(this.data.data_length);
+    this.loadStoresData(options.index);
+    while(this.data.data_length != 0) {
+      console.log(this.data.stores_data);
+      console.log(this.data.data_length);
+    }
+    console.error('!!!!!!!!!!!!!!!!!!');
+    // this.loadImgSrcData();
   },
 
   /**
