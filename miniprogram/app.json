@@ -1,10 +1,13 @@
 {
   "pages": [
+    
+    "pages/my/detail/detail",
     "pages/my/index/index",
+    
     "pages/my/display/display",
     "pages/my/test/test",
     "pages/my/search/search",
-    "pages/my/detail/detail",
+    
     
     
     
@@ -47,7 +50,7 @@
         "text": "搜索门店"
       },
       {
-        "pagePath": "pages/my/test/test",
+        "pagePath": "pages/my/detail/detail",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
         "text": "测试页面"
@@ -56,5 +59,8 @@
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "usingComponents":{
+    "iconfont":"/iconfont/iconfont"
+  }
 }

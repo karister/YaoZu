@@ -7,6 +7,14 @@ Page({
   data: {
 
   },
+  /**
+   * 调起系统拨打电话
+   */
+  callPhone: function () {
+    wx.makePhoneCall({
+      phoneNumber: '1340000' //仅为示例，并非真实的电话号码
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载

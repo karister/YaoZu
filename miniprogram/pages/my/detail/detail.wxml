@@ -1,6 +1,50 @@
 <!--pages/my/detail/detail.wxml-->
-<swiper class="swiperBox" indicator-dots autoplay interval="2000" circular> 
-    <!-- <swiper-item wx:for="{{imgUrls}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
+<!-- <swiper class="swiperBox" indicator-dots autoplay interval="2000" circular> 
+    <swiper-item wx:for="{{imgUrls}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
         <image src="{{item}}"></image>
-    </swiper-item> -->
-</swiper>
+    </swiper-item>
+</swiper>  -->
+<view class="info_box">
+    <view class="basic_info_box">
+        <view class="basic_info_image_box mid">
+            <image class="mid">
+            </image>
+        </view>
+        <view class="basic_info_text_box">
+            <view class="basic_info_brand_box">
+                <iconfont name="brand"></iconfont>
+                <view class="basic_info_brand_text">企业名称</view>
+            </view>
+            
+            <text class="basic_info_text_label">欧式沙发餐厅桌椅</text>
+            <text class="basic_info_text_browse">浏览: 2095</text>
+        </view>
+    </view>
+    <view class="other_info_box">
+        <view class="other_info_auth_icon">
+            <iconfont name="unauth"></iconfont>
+            <text>企业未认证</text>
+        </view>
+        <view class="other_info_address_box">
+            <iconfont name="address"></iconfont>
+            <text>博览中心翻斗大街108号</text>
+        </view>
+        <view class="other_info_phone_box">
+            <iconfont name="phone"></iconfont>
+            <text>15896315864</text>
+        </view>
+    </view>
+</view>
+<view class="div_line"></view>
+<view class="store_introduce"> 
+</view>
+
+
+
+<view class="call_phone_test mid"  bindtap="callPhone">
+    <view class="mid">
+        <iconfont name="phone"></iconfont>
+        <text>立即拨打</text>
+    </view>
+    
+</view>

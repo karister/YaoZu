@@ -29,9 +29,19 @@
     </view>
     <!-- 信息 -->
     <view class="store_text_box">
-      <text class="text_brand">{{item.brand}}</text>
-      <text class="text_address" style="margin: 7rpx 0;">{{item.address}}</text>
-      <text class="text_phone">{{item.phone}}</text>
+      <view>
+        <iconfont name="brand"></iconfont>
+        <text class="text_brand">{{item.brand}}</text>
+      </view>
+      <view style="margin: 7rpx 30rpx;">
+        <iconfont name="address"></iconfont>
+        <text class="text_address">{{item.address}}</text>
+      </view>
+      <view>
+        <iconfont name="phone"></iconfont>
+        <text class="text_phone">{{item.phone}}</text>
+      </view>
+      
     </view>
   </view>
   <view class="stroe_divLine"></view>
