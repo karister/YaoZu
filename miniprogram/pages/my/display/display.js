@@ -32,6 +32,16 @@ Page({
     stores_data: [],
     all_img_src: []
   },
+  /**
+   * 跳转到商家详细界面
+   */
+  clickToDetail: function (e) {
+    var id = e.currentTarget.dataset.id;
+    console.log(id);
+    wx.navigateTo({
+        url: '/pages/my/detail/detail?id=' + id
+    })
+  },
 
   /**
    * 加载store集合中的数据，设置对应index区域的渲染数据
@@ -39,7 +49,7 @@ Page({
   loadStoresData(index) {
     var that = this;
     // 获取数据库引用
-    const db = wx.cloud.database()
+    const db = wx.cloud.database();
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!
     // 设置data中数组对象的方法

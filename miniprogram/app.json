@@ -1,9 +1,9 @@
 {
   "pages": [
     
-    "pages/my/detail/detail",
-    "pages/my/index/index",
     
+    "pages/my/index/index",
+    "pages/my/detail/detail",
     "pages/my/display/display",
     "pages/my/test/test",
     "pages/my/search/search",
@@ -50,7 +50,7 @@
         "text": "搜索门店"
       },
       {
-        "pagePath": "pages/my/detail/detail",
+        "pagePath": "pages/my/test/test",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
         "text": "测试页面"
@@ -62,5 +62,10 @@
   "lazyCodeLoading": "requiredComponents",
   "usingComponents":{
     "iconfont":"/iconfont/iconfont"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
   }
 }

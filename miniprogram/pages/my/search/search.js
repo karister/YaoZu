@@ -2,7 +2,7 @@ Page({
   // 页面的初始数据
   data: {
     inputShowed: false,  //初始文本框不显示内容
-    info: []
+    info: [],
   },
 
   /**
@@ -25,7 +25,16 @@ Page({
   },
 
 
-
+  /**
+   * 跳转到商家详细界面
+   */
+  clickToDetail: function (e) {
+    var id = e.currentTarget.dataset.id;
+    console.log(id);
+    wx.navigateTo({
+        url: '/pages/my/detail/detail?id=' + id
+    })
+  },
 
   // 搜索门店数据
   searchData: function (e) {
@@ -50,24 +59,32 @@ Page({
         success: function(res) {
           //打印调试信息
           console.log('success');
-          console.log('res.data:' + res.data);
+          console.log(res.data);
           console.log('res.length:' + res.data.length);
-          console.log('input.data:' + inputData)
-          //存储匹配结果
-          for(let i = 0;i < res.data.length; i++) {
-            info_data[i] = res.data[i].brand + '(' + res.data[i].area + '-' + res.data[i].address +')';
+          //无搜素结果
+          if(res.data.length === 0) {
+            info_data[0].display = '暂无该门店信息';
+          } else {
+            //存储匹配结果
+            for(let i = 0;i < res.data.length; i++) {
+              console.log(i)
+              let obj = {};
+              obj.display = res.data[i].brand + '(' + res.data[i].area + '-' + res.data[i].address +')';
+              obj.store_id = res.data[i]._id;
+              console.log(obj)
+              info_data.push(obj);
+              // info_data[i].display = res.data[i].brand + '(' + res.data[i].area + '-' + res.data[i].address +')';
+              // info_data[i].store_id = res.data[i]._id;
+              // console.log(info_data[i].display);
+              // console.log(info_data[i].res.data[i]._id);
+            }
           }
+          console.log(info_data)
           //设置展示结果数据
           that.setData({
             info: info_data
           });
-          //无搜素结果
-          if(res.data.length === 0) {
-            info_data[0] = '暂无该门店信息';
-            that.setData({
-              info: info_data
-            });
-          }
+          
           
         }
       })

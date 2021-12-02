@@ -22,9 +22,9 @@
     <!-- 搜索列表 -->
     <view class="weui-cell__bd" wx:for="{{info}}" wx:key="key">
         <!-- 列表名称 -->
-        <view class='list_name'>
+        <view class='list_name' bindtap="clickToDetail" data-id="{{item.store_id}}">
             <!-- 昵称 -->
-            <label class='lab_name'>{{item}}</label>
+            <label class='lab_name'>{{item.display}}</label>
         </view>
     </view>
 </view>

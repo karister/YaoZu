@@ -85,26 +85,68 @@
   height: 50%;
   /* border: 1rpx solid red; */
 }
-.other_info_box view{
+.other_info_text{
   margin: 0 10rpx;
-  display: flex;
-  flex-direction: row;
+  font-size: 28rpx;
 }
 .other_info_auth_icon{
   width: 100%;
   height: 30%;
+  margin: 0 10rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   /* border: 1rpx solid red; */
 }
 .other_info_address_box{
   width: 100%;
   height: 30%;
-  margin: 10rpx 0;
+  margin: 10rpx 10rpx;
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
   /* border: 1rpx solid red; */
+}
+.other_info_address_text{
+  width: 68%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* border: 1rpx solid red; */
+}
+.other_info_address_location{
+  width: 30%;
+  height: 56rpx;
+  margin: 2rpx 0;
+  border: 2rpx solid #0f6931;
+  background-color: rgb(97, 223, 104);
+  border-radius: 20rpx;
+  /* box-shadow: 0rpx 10rpx 50rpx 10rpx rgba(85,85,85,0.20); */
 }
 .other_info_phone_box{
   width: 100%;
   height: 30%;
+  margin: 0 10rpx;
+  display: flex;
+  flex-direction: row;
   /* border: 1rpx solid red; */
+}
+.other_info_phone_number{
+  width: 68%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* border: 1rpx solid red; */
+}
+.other_info_phone_call{
+  width: 30%;
+  height: 56rpx;
+  margin: 2rpx 0;
+  border: 2rpx solid #0f6931;
+  background-color: rgb(94, 128, 221);
+  border-radius: 20rpx;
 }
 
 .div_line{

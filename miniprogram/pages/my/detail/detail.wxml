@@ -7,13 +7,12 @@
 <view class="info_box">
     <view class="basic_info_box">
         <view class="basic_info_image_box mid">
-            <image class="mid">
-            </image>
+            <image class="mid" src="{{store_info.imgSrc}}"></image>
         </view>
         <view class="basic_info_text_box">
             <view class="basic_info_brand_box">
                 <iconfont name="brand"></iconfont>
-                <view class="basic_info_brand_text">企业名称</view>
+                <view class="basic_info_brand_text">{{store_info.brand}}</view>
             </view>
             
             <text class="basic_info_text_label">欧式沙发餐厅桌椅</text>
@@ -21,17 +20,41 @@
         </view>
     </view>
     <view class="other_info_box">
+        <!-- 企业认证 -->
         <view class="other_info_auth_icon">
             <iconfont name="unauth"></iconfont>
-            <text>企业未认证</text>
+            <text class="other_info_text">企业未认证</text>
         </view>
+        <!-- 地址信息 -->
         <view class="other_info_address_box">
-            <iconfont name="address"></iconfont>
-            <text>博览中心翻斗大街108号</text>
+            <!-- 地址文本 -->
+            <view class="other_info_address_text">
+                <iconfont name="address"></iconfont>
+                <text class="other_info_text">{{area_info[display_index].address}}</text>
+            </view>
+            <!-- 查看定位 -->
+            <view class="other_info_address_location mid"  bindtap="onLocation">
+                <iconfont name="address"></iconfont>
+                <text>去这里</text>
+            </view>
+            <!-- 空隙占位 -->
+            <view style="width: 2%;height: 100%;"></view>
+            
         </view>
+        <!-- 联系电话 -->
         <view class="other_info_phone_box">
-            <iconfont name="phone"></iconfont>
-            <text>15896315864</text>
+            <!-- 电话号码 -->
+            <view class="other_info_phone_number ">
+                <iconfont name="phone"></iconfont>
+                <text style="margin: 0 10rpx;">{{store_info.phone}}</text>
+            </view>
+            <!-- 拨打电话呼起 -->
+            <view class="other_info_phone_call mid" bindtap="callPhone">
+                <iconfont name="phone"></iconfont>
+                <text>立即拨打</text>
+            </view>
+            <!-- 空隙占位 -->
+            <view style="width: 2%;height: 100%;"></view>
         </view>
     </view>
 </view>
@@ -40,11 +63,3 @@
 </view>
 
 
-
-<view class="call_phone_test mid"  bindtap="callPhone">
-    <view class="mid">
-        <iconfont name="phone"></iconfont>
-        <text>立即拨打</text>
-    </view>
-    
-</view>
