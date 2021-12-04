@@ -37,9 +37,11 @@ Page({
    */
   clickToDetail: function (e) {
     var id = e.currentTarget.dataset.id;
+    var area = e.currentTarget.dataset.area;
     console.log(id);
+    console.log(area);
     wx.navigateTo({
-        url: '/pages/my/detail/detail?id=' + id
+        url: '/pages/my/detail/detail?info=' + id + '|' + area
     })
   },
 

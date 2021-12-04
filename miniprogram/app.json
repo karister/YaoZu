@@ -1,12 +1,12 @@
 {
   "pages": [
     
-    
+    "pages/my/search/search",
     "pages/my/index/index",
     "pages/my/detail/detail",
     "pages/my/display/display",
     "pages/my/test/test",
-    "pages/my/search/search",
+    
     
     
     
@@ -58,7 +58,7 @@
     ]
   },
   "sitemapLocation": "sitemap.json",
-  "style": "v2",
+  
   "lazyCodeLoading": "requiredComponents",
   "usingComponents":{
     "iconfont":"/iconfont/iconfont"

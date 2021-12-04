@@ -30,9 +30,11 @@ Page({
    */
   clickToDetail: function (e) {
     var id = e.currentTarget.dataset.id;
+    var area = e.currentTarget.dataset.area;
     console.log(id);
+    console.log(area);
     wx.navigateTo({
-        url: '/pages/my/detail/detail?id=' + id
+        url: '/pages/my/detail/detail?info=' + id + '|' + area
     })
   },
 
@@ -71,6 +73,7 @@ Page({
               let obj = {};
               obj.display = res.data[i].brand + '(' + res.data[i].area + '-' + res.data[i].address +')';
               obj.store_id = res.data[i]._id;
+              obj.area = res.data[i].area;
               console.log(obj)
               info_data.push(obj);
               // info_data[i].display = res.data[i].brand + '(' + res.data[i].area + '-' + res.data[i].address +')';

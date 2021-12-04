@@ -32,16 +32,25 @@ Page({
         longitude: 114.785399
       }
     ],
-    display_index: 0,
-    store_info: {}
+    display_info: {
+      brandName: '',
+      brandImgSrc: '',
+      labelText: '',
+      browseNum: 0,
+      authState: '',
+      authText: '',
+      address: '',
+      phoneNumber:''
+    },
+    display_index: 0
   },
   /**
    * 调起系统拨打电话
    */
   callPhone: function () {
-    var obj_store = this.data.store_info;
+    var obj_store = this.data.display_info;
     wx.makePhoneCall({
-      phoneNumber: obj_store.phone//仅为示例，并非真实的电话号码
+      phoneNumber: obj_store.phoneNumber//仅为示例，并非真实的电话号码
     })
   },
   /**
@@ -78,38 +87,53 @@ Page({
    */
   onLoad: function (options) {
     /**
-     * 查询display界面点击送过来的store_id去stores数据库查询对应数据
+     * 接收跳转过来携带的info数据。info中包含_id,area
      */
-    const id = options.id;
+    const str = options.info;
+    const strData = str.split('|');
+    const id = strData[0];
+    const area = strData[1];
     console.log(id);
+    console.log(area);
     const that = this;
     const db = wx.cloud.database();
+    // 设置区域信息
+    for(let i = 0; i < 4; i++) {
+      if(that.data.area_info[i].area == area) {
+        that.setData({
+          display_index: i
+        })
+      }
+    }
     db.collection('stores').where({
       _id: id
     })
     .get({ 
       success: function(res) {
-        console.log(res.data[0]);
-        var store_info = that.data.store_info;
-        store_info = res.data[0];
+        var res_data = res.data[0];
+        console.log(res_data);
+        //设置展示数据
+        var display_info = that.data.display_info;   
+        display_info.brandName = res_data.brand;//品牌名
+        display_info.brandImgSrc = res_data.imgSrc;//品牌头像地址
+        var labelList = res_data.label;//标签信息
+        for(let i = 0; i < labelList.length; i++) {
+          display_info.labelText += labelList[i];
+          if(i != (labelList.length-1)) {
+            display_info.labelText += '|';
+          }
+        }
+        display_info.browseNum = res_data.browseNum;//浏览量
+        display_info.authState = (res_data.authState == 1) ?'authed' :'unauth';//认证状态
+        display_info.authText = (res_data.authState == 1) ?'企业已认证' :'企业未认证';//认证展示文本
+        display_info.address = res_data.address + '[' + area + ']';//店面地址
+        display_info.phoneNumber = res_data.phone;//商家手机号
+        console.log(display_info)
         that.setData({
-          store_info
+          display_info
         })
       }
     })
-    // 延时会儿等待读出数据
-    setTimeout(() => {
-      console.log('going to timer');
-       // 设置区域信息
-      for(let i = 0; i < 4; i++) {
-        if(that.data.area_info[i].area == that.data.store_info.area) {
-          console.log(that.data.area_info[i].area);
-          that.setData({
-            display_index: i
-          })
-        }
-      }
-    }, 500);
     
   },
 

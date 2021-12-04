@@ -7,30 +7,30 @@
 <view class="info_box">
     <view class="basic_info_box">
         <view class="basic_info_image_box mid">
-            <image class="mid" src="{{store_info.imgSrc}}"></image>
+            <image class="mid" src="{{display_info.brandImgSrc}}"></image>
         </view>
         <view class="basic_info_text_box">
             <view class="basic_info_brand_box">
                 <iconfont name="brand"></iconfont>
-                <view class="basic_info_brand_text">{{store_info.brand}}</view>
+                <view class="basic_info_brand_text">{{display_info.brandName}}</view>
             </view>
             
-            <text class="basic_info_text_label">欧式沙发餐厅桌椅</text>
-            <text class="basic_info_text_browse">浏览: 2095</text>
+            <text class="basic_info_text_label" user-select>{{display_info.labelText}}</text>
+            <text class="basic_info_text_browse">浏览量:{{display_info.browseNum}}</text>
         </view>
     </view>
     <view class="other_info_box">
         <!-- 企业认证 -->
         <view class="other_info_auth_icon">
-            <iconfont name="unauth"></iconfont>
-            <text class="other_info_text">企业未认证</text>
+            <iconfont name="{{display_info.authState}}"></iconfont>
+            <text class="other_info_text">{{display_info.authText}}</text>
         </view>
         <!-- 地址信息 -->
         <view class="other_info_address_box">
             <!-- 地址文本 -->
             <view class="other_info_address_text">
                 <iconfont name="address"></iconfont>
-                <text class="other_info_text">{{area_info[display_index].address}}</text>
+                <text class="other_info_text" user-select>{{display_info.address}}</text>
             </view>
             <!-- 查看定位 -->
             <view class="other_info_address_location mid"  bindtap="onLocation">
@@ -46,7 +46,7 @@
             <!-- 电话号码 -->
             <view class="other_info_phone_number ">
                 <iconfont name="phone"></iconfont>
-                <text style="margin: 0 10rpx;">{{store_info.phone}}</text>
+                <text style="margin: 0 10rpx;" user-select>{{display_info.phoneNumber}}</text>
             </view>
             <!-- 拨打电话呼起 -->
             <view class="other_info_phone_call mid" bindtap="callPhone">
