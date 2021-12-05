@@ -8,18 +8,14 @@
   </view>
 </view>
 <view class="admin_function_box">
-  <view class="admin_function_item_box">
+  <view  wx:for="{{admin_info}}" wx:key="key">
+    <view class="admin_function_item_box">
+      <iconfont name="{{item.iconStr}}"></iconfont>
+      <text>{{item.text}}</text>
+      <view style="width: 60%;"></view>
+      <iconfont name="click" style="display: flex;align-items: center;"></iconfont>
+    </view>
   </view>
-  <view class="divLine"></view>
-  <view class="admin_function_item_box">
-  </view>
-  <view class="divLine"></view>
-  <view class="admin_function_item_box">
-  </view>
-  <view class="divLine"></view>
-  <view class="admin_function_item_box">
-  </view>
-  <view class="divLine"></view>
-  <view class="admin_function_item_box">
-  </view>
+  
+  
 </view>

@@ -5,7 +5,28 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    admin_info: [
+      {
+        iconStr: 'testA',
+        text: '我的发布'
+      },
+      {
+        iconStr: 'testB',
+        text: '点赞评论'
+      },
+      {
+        iconStr: 'testC',
+        text: '收藏的店'
+      },
+      {
+        iconStr: 'testD',
+        text: '收藏商品'
+      },
+      {
+        iconStr: 'testE',
+        text: '优惠人口'
+      }
+    ]
   },
 
   /**
