@@ -5,24 +5,59 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imgSrc: 'cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test_img/俊鑫单张图.jpg'
+    
+  },
+
+  login: function(){
+    var that = this;
+    wx.showModal({//用户授权弹窗
+      title: '温馨提示',
+      content: '提示',
+      success(res) {
+        console.log(res)
+        //如果用户点击了确定按钮
+        if (res.confirm) {
+          wx.getUserProfile({
+            desc: '获取你的昵称、头像、地区及性别',
+            success: res => {
+              console.log(res.userInfo)//控制台输出结果
+              console.log("获取成功");
+            },
+            fail: res => {
+              console.log(res)
+              //拒绝授权
+              wx.showToast({
+                title: '登录失败',
+                icon: 'error',
+                duration: 2000
+              });
+              return;
+            }
+          });
+        } else if (res.cancel) {
+          //如果用户点击了取消按钮
+          console.log(3);
+          wx.showToast({
+            title: '登录失败',
+            icon: 'error',
+            duration: 2000
+          });
+          return;
+        }
+      }
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // wx.cloud.downloadFile({
-    //   fileID: 'cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test_img/俊鑫单张图.jpg', // 文件 ID
-    //   success: res => {
-    //     // 返回临时文件路径
-    //     console.log(res.tempFilePath)
-    //     this.setData({
-    //       imgSrc: res.tempFilePath
-    //     })
-    //   },
-    //   fail: console.error
-    // })
+    wx.cloud.callFunction({
+      name: 'loginTest',
+      complete: res => {
+        console.log('callFunction test result: ', res.result)
+      }
+    })
   },
 
   /**

@@ -1,11 +1,12 @@
 {
   "pages": [
+    "pages/my/admin/admin",
+    "pages/my/test/test",
     "pages/my/index/index",
     "pages/my/search/search",
-    
     "pages/my/detail/detail",
-    "pages/my/display/display",
-    "pages/my/test/test"
+    "pages/my/display/display"
+    
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -33,10 +34,10 @@
         "text": "测试页面"
       },
       {
-        "pagePath": "pages/my/test/test",
+        "pagePath": "pages/my/admin/admin",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
-        "text": "测试页面"
+        "text": "我的"
       }
     ]
   },

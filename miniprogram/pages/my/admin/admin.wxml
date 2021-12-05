@@ -1,0 +1,25 @@
+<!--pages/my/admin/admin.wxml-->
+
+<view class="userinfo_box">
+  <open-data type="userAvatarUrl" class="user_avatar_box"></open-data>
+  <view class="user_text_box">
+    <open-data type="userNickName" class="user_text_nickname"></open-data>
+    <text class="user_text_phone">186xxxx0170</text>
+  </view>
+</view>
+<view class="admin_function_box">
+  <view class="admin_function_item_box">
+  </view>
+  <view class="divLine"></view>
+  <view class="admin_function_item_box">
+  </view>
+  <view class="divLine"></view>
+  <view class="admin_function_item_box">
+  </view>
+  <view class="divLine"></view>
+  <view class="admin_function_item_box">
+  </view>
+  <view class="divLine"></view>
+  <view class="admin_function_item_box">
+  </view>
+</view>
