@@ -1,10 +1,7 @@
 /* pages/my/index/index.wxss */
 .swiperBox{
-  height: 400rpx;
-  width: 600rpx;
-  margin: 0 auto;
-  border: 2px solid rgb(168, 169, 172);
-  border-radius: 10px;
+  height: 300rpx;
+  width: 100%;
 }
 .swiperBox image{
   height: 100%;
@@ -19,12 +16,59 @@
   border-radius: 20rpx;
 }
 .areaBigBox{
-  margin: 100rpx auto;
+  margin: 0 auto;
   height: 500rpx;
   width: 600rpx; 
-  /* border: 2px solid rgb(61, 90, 177); */
+  /* border: 1px solid rgb(61, 90, 177); */
 }
 .areaImgHover{
   border: 1rpx solid rgb(126, 152, 165);
 }
 
+page{
+  background-color: white;
+}
+.mid{
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  text-align: center；
+}
+
+.labels_box{
+  width: 90%;
+  height: 300rpx;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.label_item_box{
+  height: 100%;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  /* border: 1rpx solid red; */
+}
+.label_item_box image{
+  width: 80rpx;
+  height: 80rpx;
+  margin: 0 auto;
+  border-radius: 10rpx;
+  /* background-color: rosybrown; */
+}
+.label_item_box text{
+  font-size: 26rpx;
+  color: rgb(81, 87, 87);
+  margin: 5rpx auto;
+}
+.search_box{
+  width: 80%;
+  height: 80rpx;
+  margin: 0 auto;
+  border-radius: 40rpx;
+  background-color: #f7f8fa;
+}
+.search_box text{
+  color: rgb(81, 87, 87);
+  font-size: 38rpx;
+}

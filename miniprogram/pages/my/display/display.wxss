@@ -118,10 +118,6 @@
   margin: 0 30rpx;
   /* border: 1rpx solid red; */
 }
-.store_text_box text{
-  
-}
-
 .text_brand{
   font-weight: 700;
 }

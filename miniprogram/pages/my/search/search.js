@@ -3,6 +3,7 @@ Page({
   data: {
     inputShowed: false,  //初始文本框不显示内容
     info: [],
+    value: ''
   },
 
   /**
@@ -41,8 +42,15 @@ Page({
   // 搜索门店数据
   searchData: function (e) {
     var that = this;
-    var inputData = e.detail.value;
+    var inputData = e.detail;
     var info_data = [];
+    // if(inputData == '') {
+    //   console.log('no input')
+    //   that.setData({
+    //     info: info_data
+    //   });
+    // }
+    
     console.log(inputData);
     //搜索框无字符时不读取数据库
     if(inputData != '') {
@@ -60,38 +68,37 @@ Page({
       .get({ 
         success: function(res) {
           //打印调试信息
-          console.log('success');
-          console.log(res.data);
-          console.log('res.length:' + res.data.length);
+          // console.log('success');
+          // console.log(res.data);
+          // console.log('res.length:' + res.data.length);
           //无搜素结果
-          if(res.data.length === 0) {
-            info_data[0].display = '暂无该门店信息';
+          if(res.data.length == 0) {
+            let obj = {};
+            obj.display = '暂无该门店信息';
+            info_data.push(obj);
           } else {
             //存储匹配结果
             for(let i = 0;i < res.data.length; i++) {
-              console.log(i)
+              // console.log(i)
               let obj = {};
               obj.display = res.data[i].brand + '(' + res.data[i].area + '-' + res.data[i].address +')';
               obj.store_id = res.data[i]._id;
               obj.area = res.data[i].area;
-              console.log(obj)
+              // console.log(obj)
               info_data.push(obj);
-              // info_data[i].display = res.data[i].brand + '(' + res.data[i].area + '-' + res.data[i].address +')';
-              // info_data[i].store_id = res.data[i]._id;
-              // console.log(info_data[i].display);
-              // console.log(info_data[i].res.data[i]._id);
             }
           }
-          console.log(info_data)
           //设置展示结果数据
           that.setData({
             info: info_data
           });
-          
-          
         }
       })
     }
+    //空输入时空白显示
+    that.setData({
+      info: info_data
+    });
   },
   // 使文本框进入可编辑状态
   showInput: function () {

@@ -1,5 +1,8 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "van-button": "/miniprogram_npm/@vant/weapp/button/index",
+    "van-search": "@vant/weapp/search/index"
+  },
   "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",

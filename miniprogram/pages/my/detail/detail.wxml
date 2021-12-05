@@ -59,7 +59,24 @@
     </view>
 </view>
 <view class="div_line"></view>
-<view class="store_introduce"> 
+<view class="auth_img_box"> 
+    <view style="width: 10%;height: 100%;"></view>
+
+    <image class="auth_img_box_auth" src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test_img/19.jpg" wx:if="{{display_info.authState == 'authed'}}"></image>
+    <text wx:if="{{display_info.authState == 'unauth'}}">未上传门面图片</text>
+
+    <view style="width: 10%;height: 100%;"></view>
+
+    <image class="auth_img_box_auth" src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test_img/30.jpg" wx:if="{{display_info.authState == 'authed'}}"></image>
+    <text wx:if="{{display_info.authState == 'unauth'}}">未上传营业执照</text>
+
+    <view style="width: 10%;height: 100%;"></view>
 </view>
+<view class="div_line"></view>
+<van-tabs swipeable sticky>
+  <van-tab title="{{item}}" wx:for="{{display_info.labelList}}" wx:key="key">
+    <image class="product_img_box" src="{{display_info.brandImgSrc}}" wx:for="{{9}}" wx:key="key"></image>
+  </van-tab>
+</van-tabs>
 
 

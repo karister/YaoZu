@@ -35,6 +35,7 @@ Page({
     display_info: {
       brandName: '',
       brandImgSrc: '',
+      labelList: [],
       labelText: '',
       browseNum: 0,
       authState: '',
@@ -116,10 +117,11 @@ Page({
         var display_info = that.data.display_info;   
         display_info.brandName = res_data.brand;//品牌名
         display_info.brandImgSrc = res_data.imgSrc;//品牌头像地址
-        var labelList = res_data.label;//标签信息
-        for(let i = 0; i < labelList.length; i++) {
-          display_info.labelText += labelList[i];
-          if(i != (labelList.length-1)) {
+        var labels = res_data.label;//标签信息
+        for(let i = 0; i < labels.length; i++) {
+          display_info.labelList[i] = labels[i];
+          display_info.labelText += labels[i];
+          if(i != (labels.length-1)) {
             display_info.labelText += '|';
           }
         }

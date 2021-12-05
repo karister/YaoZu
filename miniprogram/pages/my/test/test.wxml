@@ -1,4 +1,2 @@
 <!--pages/my/test/test.wxml-->
-<view class="img_box"> 
-  <image src="{{imgSrc}}"></image>
-</view>
+<text>test page</text>>

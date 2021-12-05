@@ -9,7 +9,7 @@ Page({
       {
         area: '中心市场',
         font_color: 'white',
-        bgk_color: '#f05b04'
+        bgk_color: '#4692B9'//'#f05b04'
       },
       {
         area: '博览中心',
@@ -61,7 +61,7 @@ Page({
       area_info[i].font_color = 'black';
       // 为当前点击的index
       if(i == index) {
-        area_info[index].bgk_color = '#f05b04';
+        area_info[index].bgk_color = '#4692B9';
         area_info[i].font_color = 'white';
         db.collection('stores').where({
           area: area_info[index].area

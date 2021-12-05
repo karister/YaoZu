@@ -17,6 +17,11 @@ Page({
           url: '/pages/my/display/display?index=' + index
         })
   },
+  clickToSearch: function () {
+    wx.navigateTo({
+      url: '/pages/my/search/search'
+    })
+  },
 
 
   /**
