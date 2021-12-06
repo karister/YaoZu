@@ -8,6 +8,8 @@ Page({
   data: {
     infoBoxHeight: 600,
     brandImgSrc: '',
+    brandName: '',
+
     isIpload: false,
     isSelected: false,
     isClick: true,
@@ -21,14 +23,22 @@ Page({
       
     ]
   },
+  submitForm: function (event) {
+    console.log(event)
+  },
 
+  /**
+   * 添加标签
+   */
   addLabel: function () {
     var labelList = this.data.labelList;
+    // 最多不能超过4个标签
     if(labelList.length < 4) {
       labelList.push({
         label: '分类标签',
         labelName: ''
       })
+      // 增加标签后，增加相对应的盒子高度
       var infoBoxHeight = this.data.infoBoxHeight + 80;
       this.setData({
         labelList,
@@ -36,15 +46,45 @@ Page({
       })
     }
   },
+  /**
+   * 删除标签
+   * @param {删除的索引} event 
+   */
+  deleteLabel: function (event) {
+    var index = event.currentTarget.dataset.index;
+    var labelList = this.data.labelList;
+    // 最少要有一个标签
+    if(labelList.length > 1) {
+      // 删除对应索引的标签
+      labelList.splice(index, 1);
+      // 删除标签后，减小相对应的盒子高度
+      var infoBoxHeight = this.data.infoBoxHeight - 80;
+      this.setData({
+        labelList,
+        infoBoxHeight
+      })
+    }
+  },
+  /**
+   * 滑动选择区域
+   * @param {滑动改变的索引} event 
+   */
   onChange: function (event) {
     const { picker, value, index } = event.detail;
-    Toast(`当前值：${value}, 当前索引：${index}`);
+    // Toast(`当前值：${value}, 当前索引：${index}`);
   },
-  cacelSelect: function (event) {
+  /**
+   * 取消选择
+   */
+  cacelSelect: function () {
     this.setData({
       isSelected: false
     })
   },
+  /**
+   * 确认选择
+   * @param {选中的索引和值} event 
+   */
   confirmSelect: function (event) {
     var {value, index} = event.detail;
     console.log(value)
@@ -54,6 +94,9 @@ Page({
       area: value
     })
   },
+  /**
+   * 点击选取门店区域
+   */
   clickSelectArea: function () {
     this.setData({
       isSelected: true

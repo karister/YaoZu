@@ -1,6 +1,6 @@
 Component({
   properties: {
-    // add | arrow1 | zizhi2 | zizhi1 | zizhi | shenhe3 | shenhe | info | info1 | shenhe1 | shenhe2 | arrow | unconfirm | confirm | testE | testD | testC | testB | testA | click | authed | unauth | phone | address | brand
+    // delete | add | arrow1 | zizhi2 | zizhi1 | zizhi | shenhe3 | shenhe | info | info1 | shenhe1 | shenhe2 | arrow | unconfirm | confirm | testE | testD | testC | testB | testA | click | authed | unauth | phone | address | brand
     name: {
       type: String,
     },

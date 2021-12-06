@@ -38,16 +38,22 @@
     <van-button wx:if="{{isIpload}}" bind:click="uploadImg" type="primary" size="small" round color="">更换图片</van-button>
     <!-- <van-uploader max-count="1" file-list="{{ fileList }}" bind:after-read="vantUploadImg" bind:delete="vantDeleteImg"/> -->
   </view>
-  <view class="brand_name_text">
-    <text>品牌名称</text>
-    <van-cell-group>
-      <van-field
-        model:value="{{ brandName }}"
-        placeholder="例：X X 家具"
-        clearable
-      />
-    </van-cell-group>
-  </view>
+  <form bindsubmit="submitForm">
+    <view class="brand_normal_text">
+      <text>品牌名称</text>
+      <van-cell-group>
+        <van-field
+          name="brandName"
+          model:value="{{ brandName }}"
+          placeholder="例：X X家具"
+          clearable
+          bind:blur="setInputText"
+          data-valueName="brandName"
+        />
+      </van-cell-group>
+    </view>
+  </form>
+  
   
   <van-picker 
     show-toolbar 
@@ -88,10 +94,11 @@
       <van-field
         model:value="{{ item.labelName }}"
         placeholder="例：欧式沙发"
-        clearable
       />
     </van-cell-group>
     <iconfont name="add" bindtap="addLabel"></iconfont>
+    <view style="width: 40rpx;"></view>
+    <iconfont name="delete" bindtap="deleteLabel" data-index="{{index}}"></iconfont>
   </view>
   
 </view>
