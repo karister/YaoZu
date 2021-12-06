@@ -1,7 +1,9 @@
 {
   "pages": [
-    "pages/my/admin/admin",
+    
+    "pages/my/join/brandJion/brandJion",
     "pages/my/test/test",
+    "pages/my/admin/admin",
     "pages/my/index/index",
     "pages/my/search/search",
     "pages/my/detail/detail",
@@ -28,7 +30,7 @@
         "text": "门店区域"
       },
       {
-        "pagePath": "pages/my/test/test",
+        "pagePath": "pages/my/join/brandJion/brandJion",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
         "text": "测试页面"

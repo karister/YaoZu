@@ -5,9 +5,104 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+    fileList: [],
   },
 
+  // 上传图片
+uploadToCloud() {
+  wx.cloud.init();
+  const { fileList } = this.data;
+  if (!fileList.length) {
+    wx.showToast({ title: '请选择图片', icon: 'none' });
+  } else {
+    const uploadTasks = fileList.map((file, index) => this.uploadFilePromise(`my-photo${index}.png`, file));
+    Promise.all(uploadTasks)
+      .then(data => {
+        wx.showToast({ title: '上传成功', icon: 'none' });
+        const newFileList = data.map(item => ({ url: item.fileID }));
+        this.setData({ cloudPath: data, fileList: newFileList });
+      })
+      .catch(e => {
+        wx.showToast({ title: '上传失败', icon: 'none' });
+        console.log(e);
+      });
+  }
+},
+
+uploadFilePromise(fileName, chooseResult) {
+  return wx.cloud.uploadFile({
+    cloudPath: fileName,
+    filePath: chooseResult.url
+  });
+},
+  /**
+   * vantui上传文件组件读取文件后的动作函数
+   * @param {errMsg.detail.file: 当前读取的文件} e 
+   */
+  vantUploadImg: function (e) {
+    var res = e.detail.file;
+    var fileList = this.data.fileList;
+    for(let i = 0; i < res.length; i++) {
+      fileList.push({
+        url: res[i].url,
+      });
+      console.log('uploadUrl:' + res[i].url)
+    }
+    this.setData({
+      fileList
+    })
+  },
+  /**
+   * wx原生API点击上传按钮的动作函数
+   */
+  uploadImg: function () {
+    var that = this;
+    wx.chooseMedia({
+      count: 9,
+      mediaType: ['image','video'],
+      sourceType: ['album', 'camera'],
+      maxDuration: 30,
+      camera: 'back',
+      success(res) {
+        var fileList = that.data.fileList;
+        for(let i = 0; i < res.tempFiles.length; i++) {
+          fileList.push({
+            url: res.tempFiles[i].tempFilePath,
+          });
+          console.log('uploadUrl:' + res.tempFiles[i].tempFilePath);
+        }
+        that.setData({
+          fileList
+        })
+      },
+      fail: console.error
+    }) 
+  },
+  /**
+   * vantui上传文件组件点击删除文件后的动作函数
+   * @param {event.detail.index: 删除图片的序号值} e 
+   */
+  vantDeleteImg: function (e) {
+    var index = e.detail.index;
+    var fileList = this.data.fileList;
+    console.log('deleteUrl:' + fileList[index].url);
+    fileList.splice(index, 1);
+    this.setData({
+      fileList
+    })
+  },
+
+
+  getPhoneNumber (e) {
+    wx.login({
+      success (res) {
+        console.log(res)
+      }
+    })
+    console.log(e.detail.errMsg)
+    console.log(e.detail.iv)
+    console.log(e.detail.encryptedData)
+  },
   login: function(){
     var that = this;
     wx.showModal({//用户授权弹窗
@@ -52,12 +147,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.cloud.callFunction({
-      name: 'loginTest',
-      complete: res => {
-        console.log('callFunction test result: ', res.result)
-      }
-    })
+    
+    // wx.cloud.callFunction({
+    //   name: 'loginTest',
+    //   complete: res => {
+    //     console.log('callFunction test result: ', res.result)
+    //   }
+    // })
   },
 
   /**

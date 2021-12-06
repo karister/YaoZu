@@ -1,0 +1,97 @@
+<!--pages/my/join/brandJion/brandJion.wxml-->
+<view class="join_step_box">
+  <view class="join_step_text">
+    <van-divider
+      contentPosition="center"
+      customStyle="color: #000000; border-color: #000000; font-size: 16px;"
+    >
+      入驻流程
+    </van-divider>
+  </view>
+  <view class="join_step_item">
+    <view class="join_step_item_box mid">
+      <iconfont name="info1"></iconfont>
+      <text>填写门店信息</text>
+    </view>
+    <view class="step_arrow_box mid">
+      <iconfont name="arrow1"></iconfont>
+    </view>
+    <view class="join_step_item_box mid">
+      <iconfont name="zizhi1"></iconfont>
+      <text>认证信息</text>
+    </view>
+    <view class="step_arrow_box mid">
+      <iconfont name="arrow1"></iconfont>
+    </view>
+    <view class="join_step_item_box mid">
+      <iconfont name="shenhe3"></iconfont>
+      <text>等待审核</text>
+    </view>
+  </view>
+</view>
+
+<view class="info_box" style="height: {{infoBoxHeight}}rpx;"> 
+  <view class="brand_img_box">
+    <text>品牌头像</text>
+    <van-button wx:if="{{!isIpload}}" bind:click="uploadImg" type="primary" size="small" round hairline color="">上传图片</van-button>
+    <image wx:if="{{isIpload}}" src="{{brandImgSrc}}"></image>
+    <van-button wx:if="{{isIpload}}" bind:click="uploadImg" type="primary" size="small" round color="">更换图片</van-button>
+    <!-- <van-uploader max-count="1" file-list="{{ fileList }}" bind:after-read="vantUploadImg" bind:delete="vantDeleteImg"/> -->
+  </view>
+  <view class="brand_name_text">
+    <text>品牌名称</text>
+    <van-cell-group>
+      <van-field
+        model:value="{{ brandName }}"
+        placeholder="例：X X 家具"
+        clearable
+      />
+    </van-cell-group>
+  </view>
+  
+  <van-picker 
+    show-toolbar 
+    wx:if="{{isSelected}}" 
+    columns="{{ columns }}" 
+    bind:change="onChange" 
+    bind:cancel="cacelSelect"
+    bind:confirm="confirmSelect"
+    visible-item-count="3"
+  />
+  <view class="brand_normal_text" wx:if="{{!isSelected}}">
+    <text>门市区域</text>
+    <van-cell-group  wx:if="{{!isClick}}">
+      <van-field
+        model:value="{{ area }}"
+        readonly
+        is-link
+        bind:click-input="clickSelectArea"
+      />
+    </van-cell-group>
+    <van-button wx:if="{{isClick}}" bind:click="clickSelectArea" type="primary" size="small" round hairline color="">选择门市区域</van-button>
+  </view>
+  
+  <view class="brand_normal_text"  wx:if="{{!isSelected}}">
+    <text>门市地址</text>
+    <van-cell-group>
+      <van-field
+        model:value="{{ address }}"
+        placeholder="例：1区2栋301"
+        clearable
+      />
+    </van-cell-group>
+  </view>
+
+  <view class="brand_normal_text"  wx:if="{{!isSelected}}" wx:for="{{labelList}}" wx:key="key">
+    <text >{{item.label}}</text>
+    <van-cell-group>
+      <van-field
+        model:value="{{ item.labelName }}"
+        placeholder="例：欧式沙发"
+        clearable
+      />
+    </van-cell-group>
+    <iconfont name="add" bindtap="addLabel"></iconfont>
+  </view>
+  
+</view>
