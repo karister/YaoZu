@@ -36,7 +36,7 @@
         "text": "测试页面"
       },
       {
-        "pagePath": "pages/my/admin/admin",
+        "pagePath": "pages/my/test/test",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
         "text": "我的"

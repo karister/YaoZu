@@ -58,9 +58,19 @@
 .info_box text{
   font-size: 28rpx;
   margin-left: 20rpx;
-  margin-right: 50rpx;
+  margin-right: 30rpx;
   display: flex;
   align-items: center;
+}
+.step_info_box{
+  width: 40%;
+  height: 80rpx;
+  margin: 18rpx auto;
+  border-radius: 20rpx;
+  /* border: 2rpx solid rgb(100, 96, 96); */
+  box-shadow: 10rpx 10rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);
+  display: flex;
+  flex-direction: column;
 }
 .brand_img_box{
   width: 100%;
@@ -81,8 +91,29 @@
 }
 .brand_normal_text{
   width: 100%;
-  height: 80rpx;
+  height: 90rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
+  /* border: 1rpx solid red; */
+}
+
+
+
+.auth_img_box{
+  width: 100%;
+  height: 340rpx;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  /* border: 1rpx solid red; */
+}
+.auth_img_item{
+  height: 200rpx;
+  width: 100%;
+  margin: 20rpx 0;
+}
+.auth_buttn_box{
+  width: 100%;
+  height: 100rpx;
 }

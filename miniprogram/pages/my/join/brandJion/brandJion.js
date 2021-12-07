@@ -1,30 +1,200 @@
 // pages/my/join/brandJion/brandJion.js
 import Toast from '../../../../miniprogram_npm/@vant/weapp/toast/toast'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    infoBoxHeight: 600,
+    // 入驻流程的步骤数
+    joinStep: 0,
+    // step0_info_box的高度
+    step0InfoBoxHeight: 750,
+    // step1_info_box的高度
+    step1InfoBoxHeight: 520,
+    // step2_info_box的高度
+    step2InfoBoxHeight: 620,
+    /**
+     * Step0 Data
+     */
+    // 上传的头像地址
     brandImgSrc: '',
-    brandName: '',
-
-    isIpload: false,
+    // 上传头像的状态
+    isUpload: false,
+    // 选择区域的状态
     isSelected: false,
+    // 表单提交的地址信息
+    address: '',
+    // 表单提交的名称信息
+    brandName: '',
+    // 点击选择区域按钮的状态
     isClick: true,
+    // 选择器的值
     columns: ['中心市场', '博览中心', '家博城', '光明家具城'],
+    // 选定的区域值
     area: '',
+    // 分类列表
     labelList: [
       {
         label: '分类标签',
         labelName: ''
       }
       
-    ]
+    ],
+    /**
+     * Step1 Data
+     */
+    // 认证图片地址[门店照片，营业执照]
+    authImgUrl: [
+      {
+        url: '',
+        isUpload: false
+      },
+      {
+        url: '',
+        isUpload: false
+      }
+    ],
+    adminName: '',
+    phoneNumber: ''
   },
-  submitForm: function (event) {
-    console.log(event)
+  /**
+   * 跳转上一步
+   */
+  backStep: function () {
+    var joinStep = this.data.joinStep;
+    joinStep--;
+    this.setData({
+      joinStep
+    })
+  },
+  /**
+   * 跳转下一步，同时提交表单
+   * @param {提交的表单数据} event 
+   */
+  nextStep: function (event) {
+    // 基本值:data,提交数据value,step步骤数
+    var data = this.data;
+    var value = event.detail.value;
+    var step = data.joinStep;
+    console.log(value)
+
+    // 表单提交条件
+    var isInputFull;
+    // 不同step提交值的设值
+    if(step == 0) {
+      var address = data.address;
+      var brandName = data.brandName;
+      address = value.address;
+      brandName = value.brandName;
+      this.setData({
+        address,
+        brandName
+      })
+      // step0 提交条件
+      isInputFull = (brandName && address && data.brandImgSrc && data.area && data.labelList[0].labelName);
+    } else if(step == 1) {
+      var adminName = data.adminName;
+      var phoneNumber = data.phoneNumber;
+      adminName = value.adminName;
+      phoneNumber = value.phoneNumber;
+      this.setData({
+        adminName,
+        phoneNumber
+      })
+      // step1 提交条件
+      isInputFull = (adminName && phoneNumber && data.authImgUrl[0].isUpload && data.authImgUrl[1].isUpload);
+    }
+
+    isInputFull = true;
+   
+    
+    if(isInputFull) {
+      console.log(data)
+      var joinStep = this.data.joinStep;
+      joinStep++;
+      this.setData({
+        joinStep
+      })
+      Toast.success({
+        message: '填写成功',
+        duration: 1000
+      });
+    } else {
+      Toast.fail({
+        message: '请完整填写',
+        duration: 1000
+      });
+    } 
+  },
+  /**
+   * ************************Step1 Functiom************************
+   * ************************              ************************
+   */
+  deleteAction: function (event) {
+    var name = event.currentTarget.dataset.valuename;
+    console.log(name);
+  },
+  /**
+   * 
+   * @param {点击预览图片的索引} event 
+   */
+  previewImg: function (event) {
+    var index = event.currentTarget.dataset.index;
+    var imgUrls = this.data.authImgUrl;
+    wx.previewImage({
+      urls: [imgUrls[0].url,imgUrls[1].url],
+      current: imgUrls[index].url
+    })
+  },
+  /**
+   * wx原生API点击上传按钮的动作函数
+   * @param {图片索引} event
+   */
+  uploadAuthImg: function (event) {
+    var index = event.currentTarget.dataset.index;
+    var that = this;
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image','video'],
+      sourceType: ['album', 'camera'],
+      maxDuration: 30,
+      camera: 'back',
+      success(res) {
+        var url = res.tempFiles[0].tempFilePath;
+        console.log('uploadUrl:' + url);
+        var authImgUrl = that.data.authImgUrl;
+        authImgUrl[index].url = url;
+        authImgUrl[index].isUpload = true;
+        that.setData({
+          authImgUrl
+        })
+      },
+      fail: console.error
+    }) 
+  },
+  /**
+   * ************************Step0 Functiom************************
+   * ************************              ************************
+   */
+  /**
+   * 设置标签数据
+   * @param {当前输入值} event
+   */
+  setLabelData: function (event) {
+    // 实时的输入值
+    var value = event.detail;
+    // 传入的labelList index
+    var index = event.currentTarget.dataset.index;
+    var labelList = this.data.labelList;
+    console.log(value)
+    console.log(index)
+    labelList[index].labelName = value;
+    this.setData({
+      labelList
+    })
+    
   },
 
   /**
@@ -39,10 +209,10 @@ Page({
         labelName: ''
       })
       // 增加标签后，增加相对应的盒子高度
-      var infoBoxHeight = this.data.infoBoxHeight + 80;
+      var step0InfoBoxHeight = this.data.step0InfoBoxHeight + 90;
       this.setData({
         labelList,
-        infoBoxHeight
+        step0InfoBoxHeight
       })
     }
   },
@@ -58,10 +228,10 @@ Page({
       // 删除对应索引的标签
       labelList.splice(index, 1);
       // 删除标签后，减小相对应的盒子高度
-      var infoBoxHeight = this.data.infoBoxHeight - 80;
+      var step0InfoBoxHeight = this.data.step0InfoBoxHeight - 90;
       this.setData({
         labelList,
-        infoBoxHeight
+        step0InfoBoxHeight
       })
     }
   },
@@ -77,8 +247,10 @@ Page({
    * 取消选择
    */
   cacelSelect: function () {
+    var step0InfoBoxHeight = this.data.step0InfoBoxHeight - 74;
     this.setData({
-      isSelected: false
+      isSelected: false,
+      step0InfoBoxHeight
     })
   },
   /**
@@ -88,18 +260,22 @@ Page({
   confirmSelect: function (event) {
     var {value, index} = event.detail;
     console.log(value)
+    var step0InfoBoxHeight = this.data.step0InfoBoxHeight - 74;
     this.setData({
       isSelected: false,
       isClick: false,
-      area: value
+      area: value,
+      step0InfoBoxHeight
     })
   },
   /**
    * 点击选取门店区域
    */
   clickSelectArea: function () {
+    var step0InfoBoxHeight = this.data.step0InfoBoxHeight + 74;
     this.setData({
-      isSelected: true
+      isSelected: true,
+      step0InfoBoxHeight
     })
   },
 
@@ -119,7 +295,7 @@ Page({
         console.log('uploadUrl:' + url);
         that.setData({
           brandImgSrc: url,
-          isIpload: true,
+          isUpload: true,
         })
       },
       fail: console.error
