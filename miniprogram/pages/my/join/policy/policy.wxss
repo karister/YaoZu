@@ -1,0 +1,4 @@
+/* pages/my/join/policy/policy.wxss */
+page{
+  background-color: white;
+}

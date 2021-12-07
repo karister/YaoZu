@@ -127,7 +127,7 @@
   </view>
   <form bindsubmit="nextStep">
     <view class="brand_normal_text">
-      <text space="emsp" decode>负责人&emsp;</text>
+      <text space="emsp" decode>联系人&emsp;</text>
       <van-cell-group>
         <van-field
           name="adminName"
