@@ -6,7 +6,37 @@ Page({
    */
   data: {
     fileList: [],
+    avatarUrl: '',
+    nickName: '',
+    show: true,
   },
+  
+  getUserInfo: function (paams) {
+    const that = this;
+    wx.getUserProfile({
+      desc: '获取你的昵称、头像、地区及性别',
+      success: res => {
+        // console.log(res)
+        // 成功获取
+        that.setData({
+          avatarUrl: res.userInfo.avatarUrl,
+          nickName: res.userInfo.nickName
+        })
+        that.setData({ show: false });
+      },
+      fail: res => {
+        console.log(res)
+        //拒绝授权
+        wx.showToast({
+          title: '登录失败',
+          icon: 'error',
+          duration: 2000
+        });
+        return;
+      }
+    })
+  },
+
 
   // 上传图片
 uploadToCloud() {
@@ -93,15 +123,10 @@ uploadFilePromise(fileName, chooseResult) {
   },
 
 
-  getPhoneNumber (e) {
-    wx.login({
-      success (res) {
-        console.log(res)
-      }
-    })
-    console.log(e.detail.errMsg)
-    console.log(e.detail.iv)
-    console.log(e.detail.encryptedData)
+  getPhoneNumber: function (e) {
+   
+    console.log(e.detail)
+    
   },
   login: function(){
     var that = this;
@@ -147,13 +172,7 @@ uploadFilePromise(fileName, chooseResult) {
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
-    // wx.cloud.callFunction({
-    //   name: 'loginTest',
-    //   complete: res => {
-    //     console.log('callFunction test result: ', res.result)
-    //   }
-    // })
+    // this.setData({ show: true });
   },
 
   /**

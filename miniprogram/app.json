@@ -1,21 +1,23 @@
 {
   "pages": [
     
-    "pages/my/join/brandJion/brandJion",
-    "pages/my/join/policy/policy",
-    
-    "pages/my/test/test",
     "pages/my/admin/admin",
     "pages/my/index/index",
+    
+    "pages/my/test/test",
+    "pages/my/join/brandJion/brandJion",
+    "pages/my/join/policy/policy",
+    "pages/my/community/community",
+    
     "pages/my/search/search",
     "pages/my/detail/detail",
     "pages/my/display/display"
     
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
+    "backgroundColor": "#ffffff",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTitleText": "云开发 QuickStart",
     "navigationBarTextStyle": "black"
   },
@@ -35,10 +37,10 @@
         "pagePath": "pages/my/join/brandJion/brandJion",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
-        "text": "测试页面"
+        "text": "社区动态"
       },
       {
-        "pagePath": "pages/my/test/test",
+        "pagePath": "pages/my/admin/admin",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
         "text": "我的"

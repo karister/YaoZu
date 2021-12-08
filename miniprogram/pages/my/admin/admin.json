@@ -1,10 +1,12 @@
 {
   "usingComponents": {
-    "van-calendar": "@vant/weapp/calendar/index"
+    "van-calendar": "@vant/weapp/calendar/index",
+    "van-overlay": "@vant/weapp/overlay/index",
+    "van-button": "@vant/weapp/button/index"
   },
-  "backgroundColor": "#F6F6F6",
+  "backgroundColor": "#ffffff",
   "backgroundTextStyle": "light",
-  "navigationBarBackgroundColor": "#F6F6F6",
+  "navigationBarBackgroundColor": "#ffffff",
   "navigationBarTitleText": "我的",
   "navigationBarTextStyle": "black"
   }

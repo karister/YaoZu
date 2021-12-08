@@ -1,5 +1,16 @@
 // app.js
 App({
+  globalData: {
+    // openid
+    openid: '',
+    // 用户头像地址
+    avatarUrl: '',
+    // 用户微信昵称
+    nickName: '',
+    test: 'test'
+  },
+
+
   onLaunch: function () {
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力');
@@ -14,6 +25,15 @@ App({
       });
     }
 
-    this.globalData = {};
+    const that = this;
+    // 获取用户openid
+    wx.cloud.callFunction({
+      name: 'getOpenid',
+      success: function (res) {
+        // console.log(res.result.openid);
+        that.globalData.openid = res.result.openid;
+      },
+    })
+    // this.globalData = {};
   }
 });

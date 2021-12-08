@@ -1,4 +1,7 @@
 // pages/my/admin/admin.js
+const db = wx.cloud.database();
+const _ = db.command;
+const app = getApp();
 Page({
 
   /**
@@ -26,14 +29,80 @@ Page({
         iconStr: 'testE',
         text: '优惠人口'
       }
-    ]
+    ],
+    // 是否第一次使用小程序
+    isFirstLogin: false,
+    // 用户头像地址
+    avatarUrl: '',
+    // 用户微信昵称
+    nickName: '',
+    // 遮罩层状态
+    show: false,
   },
+
+  /**
+   * 检查用户是否授权
+   */
+  checkAuthed: function () {
+    if(this.data.avatarUrl == '') {
+      this.setData({show: true});
+    }
+  },
+
+  /**
+   * 点击获取授权
+   */
+  getUserInfo: function () {
+    const that = this;
+    wx.getUserProfile({
+      desc: '获取你的昵称、头像、地区及性别',
+      success: res => {
+        var avatarUrl = that.data.avatarUrl;
+        var nickName = that.data.nickName;
+        // console.log(res)
+        // 成功获取
+        avatarUrl = res.userInfo.avatarUrl;
+        nickName = res.userInfo.nickName;
+        // 写入globalData
+        app.globalData.avatarUrl = avatarUrl;
+        app.globalData.nickName = nickName;
+        // 关闭遮罩层，更新page data
+        that.setData({ 
+          show: false,
+          avatarUrl,
+          nickName
+        });
+      },
+      fail: res => {
+        // console.log(res)
+        //拒绝授权
+        that.setData({ show: false });
+      }
+    })
+  },
+
+
+  /** 
+   * 检查用户信息
+  */
+  checkUserInfo: function () {
+    const that = this;
+    const openid = app.globalData.openid;
+    console.log(app.globalData)
+    // 全局数据中头像地址是否为空
+    if(app.globalData.avatarUrl == '') {
+      // 开启遮罩层
+      that.setData({show:true});
+    }
+  },
+
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
 
+    
   },
 
   /**
@@ -47,7 +116,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    // this.checkUserInfo();
   },
 
   /**

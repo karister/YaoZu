@@ -1,13 +1,81 @@
 <!--pages/my/admin/admin.wxml-->
 
-<view class="userinfo_box">
-  <open-data type="userAvatarUrl" class="user_avatar_box"></open-data>
-  <view class="user_text_box">
-    <open-data type="userNickName" class="user_text_nickname"></open-data>
-    <text class="user_text_phone">186xxxx0170</text>
+<!-- 授权遮罩层 -->
+<van-overlay show="{{ show }}">
+  <view class="wrapper">
+    <view class="block">
+      <view style="height: 100rpx;" class="mid">
+        <text style="font-weight: 600;font-size: 34rpx;">需要授权您的头像等信息</text>
+      </view>
+      <view style="height: 50rpx;" class="mid">
+        <text style="font-size: 26rpx;color: rgb(75, 73, 75);">为了给您提供更好的服务</text>
+      </view>
+      <view style="height: 50rpx;" class="mid">
+        <text style="font-size: 26rpx;color: rgb(75, 73, 75);">请在稍后的提示框中点击“允许”</text>
+      </view>
+      <image 
+        src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/Snipaste_2021-12-08_21-32-27.png"
+        style="height: 400rpx;width: 500rpx;border-radius: 20rpx;margin: 25rpx auto;"
+        >
+      </image>
+      <view style="width: 300rpx;height: 100rpx; margin: 25rpx auto;">
+        <button type="primary" bindtap="getUserInfo">我知道了</button>
+      </view>
+    </view>
   </view>
+</van-overlay>
+
+
+
+<view class="basic_box" bindtap="checkAuthed">
+  <view class="userinfo_box">
+    <image class="user_avatar_box" src="{{avatarUrl}}"></image>
+    <view class="user_text_box">
+      <view class="user_text_nickname">
+        <!-- <iconfont name="brand"></iconfont> -->
+        <text style="margin-left: 10rpx;">{{nickName}}</text>
+      </view>
+      <view class="user_text_phone">
+        <!-- <iconfont name="phone"></iconfont> -->
+        <text style="margin-left: 10rpx;">186xxxx0170</text>
+      </view>
+    </view>
+    
+   <!-- <view class="join_button_box mid">
+      <text style="font-size: 30rpx; color: white;" >商家入驻</text>
+
+    </view> -->
+
+
+  </view>
+
+  <view class="userinfo_box">
+    <view class="function1 mid">
+      <text style="font-size: 28rpx;">最近浏览</text>
+    </view>
+    <view class="function2 mid">
+      <text style="font-size: 32rpx; color: white;">商家入驻</text>
+    </view>
+    <view class="function3 mid">
+      <text style="font-size: 28rpx;">我的收藏</text>
+    </view>
+  </view>
+
 </view>
-<view class="admin_function_box">
+
+
+<!-- <view class="user_function_box">
+  <view class="user_function_item mid">
+    <text>我的收藏</text>
+  </view>
+  <view style="width: 10%;"></view>
+  <view class="user_function_item mid">
+    <text>浏览历史</text>
+  </view>
+</view> -->
+
+
+<!-- <view class="admin_function_box">
   <view  wx:for="{{admin_info}}" wx:key="key">
     <view class="admin_function_item_box">
       <iconfont name="{{item.iconStr}}"></iconfont>
@@ -18,4 +86,4 @@
   </view>
   
   
-</view>
+</view> -->
