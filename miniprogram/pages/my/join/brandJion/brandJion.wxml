@@ -80,6 +80,8 @@
         />
       </van-cell-group>
       <van-button wx:if="{{isClick}}" bind:click="clickSelectArea" type="primary" size="small" round hairline color="">选择门市区域</van-button>
+      
+
     </view>
     
     <view class="brand_normal_text" wx:if="{{!isSelected}}">
@@ -88,10 +90,14 @@
         <van-field
           name="address"
           model:value="{{ address }}"
-          placeholder="例：1区2栋301"
+          placeholder="{{ placeholder }}"
           clearable
         />
       </van-cell-group>
+      <!-- 手动定位 -->
+      <view class="mid location_icon_box" bindtap="onLocation" wx:if="{{area == '其他区域'}}">
+        <iconfont name="address"></iconfont>
+      </view>
     </view>
 
     <view class="brand_normal_text" wx:if="{{!isSelected}}" wx:for="{{labelList}}" wx:key="key">
@@ -109,6 +115,22 @@
       <iconfont name="delete" bindtap="deleteLabel" data-index="{{index}}"></iconfont>
     </view>
 
+    <!-- 勾选平台用户协议 -->
+    <view class="policy_checkBox mid" wx:if="{{!isSelected}}">
+      <view style="font-size: 28rpx;">
+        <van-checkbox 
+          value="{{ checked }}"
+          checked-color="#07c160"
+          icon-size="14px" 
+          bind:change="checkChange"
+          >
+          我已知晓并同意
+        </van-checkbox>
+      </view>
+      <text bindtap="viewpolicy" style="font-size: 28rpx;line-height: 40rpx;color: rgb(110, 163, 224);">《小程序平台用户协议》</text>
+      
+    </view>
+
     <view class="mid" style="margin: 25rpx 0" wx:if="{{!isSelected}}">
       <van-button type="primary" round plain size="normal" icon="arrow" color="" form-type="submit">下一步</van-button>
     </view> 
@@ -116,6 +138,8 @@
 </view>
 <!-- 提交表单的轻提示 -->
 <van-toast id="van-toast"/>
+<!-- 弹窗通知 -->
+<van-dialog id="van-dialog" />
 <!---------------------------------------Step1 Page--------------------------------------->
 <!---------------------------------------          --------------------------------------->
 <view class="info_box" style="height: {{step1InfoBoxHeight}}rpx;" wx:if="{{joinStep == 1}}">
@@ -134,7 +158,6 @@
           model:value="{{ adminName }}"
           placeholder="例：林先生"
           clearable
-          bind:clear="deleteAction"
           data-valueName="adminName"
         />
       </van-cell-group>
@@ -147,7 +170,6 @@
           model:value="{{ phoneNumber }}"
           placeholder="例：12345678900"
           clearable
-          bind:clear="deleteAction"
           data-valuename="phoneNumber"
         />
       </van-cell-group>

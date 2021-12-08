@@ -1,9 +1,9 @@
 {
   "pages": [
     
-    
-    "pages/my/join/policy/policy",
     "pages/my/join/brandJion/brandJion",
+    "pages/my/join/policy/policy",
+    
     "pages/my/test/test",
     "pages/my/admin/admin",
     "pages/my/index/index",

@@ -6,6 +6,10 @@
     "van-field": "@vant/weapp/field/index",
     "van-picker": "@vant/weapp/picker/index",
     "van-toast": "@vant/weapp/toast/index",
-    "van-empty": "@vant/weapp/empty/index"
+    "van-empty": "@vant/weapp/empty/index",
+    "van-radio": "@vant/weapp/radio/index",
+    "van-checkbox": "@vant/weapp/checkbox/index",
+    "van-checkbox-group": "@vant/weapp/checkbox-group/index",
+    "van-dialog": "@vant/weapp/dialog/index"
   }
 }

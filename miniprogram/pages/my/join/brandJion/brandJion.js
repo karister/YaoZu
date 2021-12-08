@@ -1,5 +1,6 @@
 // pages/my/join/brandJion/brandJion.js
-import Toast from '../../../../miniprogram_npm/@vant/weapp/toast/toast'
+import Toast from '../../../../miniprogram_npm/@vant/weapp/toast/toast';
+import Dialog from '../../../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
 Page({
 
@@ -10,7 +11,7 @@ Page({
     // 入驻流程的步骤数
     joinStep: 0,
     // step0_info_box的高度
-    step0InfoBoxHeight: 750,
+    step0InfoBoxHeight: 850,
     // step1_info_box的高度
     step1InfoBoxHeight: 520,
     // step2_info_box的高度
@@ -26,12 +27,17 @@ Page({
     isSelected: false,
     // 表单提交的地址信息
     address: '',
+    // 定位经纬度
+    latitude: 0,
+    longitude: 0,
+    // 地址文本框的文字提示
+    placeholder: '例：1区2栋301',
     // 表单提交的名称信息
     brandName: '',
     // 点击选择区域按钮的状态
     isClick: true,
-    // 选择器的值
-    columns: ['中心市场', '博览中心', '家博城', '光明家具城'],
+    // 选择器的值(许多地方使用了area,尽量不要修改，增加不影响)
+    columns: ['中心市场', '博览中心', '家博城', '光明家具城','其他区域'],
     // 选定的区域值
     area: '',
     // 分类列表
@@ -57,7 +63,8 @@ Page({
       }
     ],
     adminName: '',
-    phoneNumber: ''
+    phoneNumber: '',
+    checked: true,
   },
   /**
    * 跳转上一步
@@ -93,7 +100,7 @@ Page({
         brandName
       })
       // step0 提交条件
-      isInputFull = (brandName && address && data.brandImgSrc && data.area && data.labelList[0].labelName);
+      isInputFull = (brandName && address && data.brandImgSrc && data.area && data.labelList[0].labelName && data.checked);
     } else if(step == 1) {
       var adminName = data.adminName;
       var phoneNumber = data.phoneNumber;
@@ -107,7 +114,7 @@ Page({
       isInputFull = (adminName && phoneNumber && data.authImgUrl[0].isUpload && data.authImgUrl[1].isUpload);
     }
 
-    isInputFull = true;
+    // isInputFull = true;
    
     
     if(isInputFull) {
@@ -122,6 +129,13 @@ Page({
         duration: 1000
       });
     } else {
+      if(step == 0 && !data.checked) {
+        Toast.fail({
+          message: '请完整填写并勾选下方服务协议',
+          duration: 1000
+        });
+        return ;
+      }
       Toast.fail({
         message: '请完整填写',
         duration: 1000
@@ -131,10 +145,52 @@ Page({
   /**
    * ************************Step1 Functiom************************
    * ************************              ************************
+  */
+  onLocation: function () {
+    var that = this;
+    wx.showLoading({
+      title: '加载中',
+    })
+    wx.choosePoi({
+      success: function (res) {
+        that.setData({
+          address: res.address,
+          latitude: res.latitude,
+          longitude: res.latitude
+        })
+      }
+    });
+    // wx.getLocation({
+    //   type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+    //   success (res) {
+    //     const latitude = res.latitude
+    //     const longitude = res.longitude
+    //     wx.openLocation({
+    //       latitude,
+    //       longitude,
+    //       scale: 18
+    //     })
+    //   }
+    // })
+    wx.hideLoading()
+  },
+
+  /**
+   * 点击勾选服务协议框动作
+   * @param {勾选状态} event 
+   */ 
+  checkChange: function (event) {
+    this.setData({
+      checked: event.detail,
+    });
+  },
+  /**
+   * 点击查看服务协议
    */
-  deleteAction: function (event) {
-    var name = event.currentTarget.dataset.valuename;
-    console.log(name);
+  viewpolicy: function () {
+    wx.navigateTo({
+      url: '/pages/my/join/policy/policy'
+    })
   },
   /**
    * 
@@ -241,6 +297,7 @@ Page({
    */
   onChange: function (event) {
     const { picker, value, index } = event.detail;
+
     // Toast(`当前值：${value}, 当前索引：${index}`);
   },
   /**
@@ -259,14 +316,31 @@ Page({
    */
   confirmSelect: function (event) {
     var {value, index} = event.detail;
-    console.log(value)
+    var placeholder = this.data.placeholder;
+    if(value == '其他区域') {
+      placeholder = '例：迎宾东大道xxx号';
+      // Toast({
+      //   message: '若您的门市区域为其他区域，请完整填写门市地址，可点击右边定位按钮手动定位',
+      //   duration: 3000
+      // });
+      Dialog.alert({
+        message: '若您的门市区域为其他区域，请完整填写门市地址，可点击右边定位按钮手动定位',
+        confirmButtonText: '知道了'
+      }).then(() => {
+        // on close
+      });
+    } else {
+      placeholder = '例：1区2栋301';
+    }
     var step0InfoBoxHeight = this.data.step0InfoBoxHeight - 74;
     this.setData({
       isSelected: false,
       isClick: false,
       area: value,
-      step0InfoBoxHeight
+      step0InfoBoxHeight,
+      placeholder
     })
+    
   },
   /**
    * 点击选取门店区域
