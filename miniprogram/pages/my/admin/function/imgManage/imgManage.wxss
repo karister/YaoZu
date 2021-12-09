@@ -1,0 +1,13 @@
+/* pages/my/admin/function/imgManage/imgManage.wxss */
+.product_img_box{
+  width: 100%;
+  height: 400rpx;
+  /* border: 1rpx solid red; */
+}
+
+.mid{
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  text-align: center；
+}

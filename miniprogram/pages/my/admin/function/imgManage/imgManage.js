@@ -1,7 +1,8 @@
-// pages/my/test/test.js
+// pages/my/admin/function/imgManage/imgManage.js
 
-const app = getApp();
 const db = wx.cloud.database();
+const _ = db.command;
+const app = getApp();
 
 Page({
 
@@ -10,7 +11,9 @@ Page({
    */
   data: {
     fileList: [],
-    
+    label_img: [],
+    // 侧边栏选中项
+    activeKey: 0,
   },
   
 
@@ -32,18 +35,18 @@ Page({
       fileList
     })
 
-    for(let i = 0; i< fileList.length; i++) {
-      console.log(fileList[i].url)
-      wx.cloud.uploadFile({
-        cloudPath: 'test/' + i + 'example.png', // 上传至云端的路径
-        filePath: fileList[i].url, // 小程序临时文件路径
-        success: res => {
-          // 返回文件 ID
-          console.log(res.fileID)
-        },
-        fail: console.error
-      })
-    }
+    // for(let i = 0; i< fileList.length; i++) {
+    //   console.log(fileList[i].url)
+    //   wx.cloud.uploadFile({
+    //     cloudPath: 'test/' + i + 'example.png', // 上传至云端的路径
+    //     filePath: fileList[i].url, // 小程序临时文件路径
+    //     success: res => {
+    //       // 返回文件 ID
+    //       console.log(res.fileID)
+    //     },
+    //     fail: console.error
+    //   })
+    // }
   },
   /**
    * wx原生API点击上传按钮的动作函数
@@ -85,18 +88,32 @@ Page({
     })  
   },
 
-
-  getPhoneNumber: function (e) {
-   
-    console.log(e.detail)
-    
-  },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    const that = this;
+    setTimeout(function () {
+      // 得到商家的标签分类
+      db.collection('stores').where({
+        _openid: app.globalData.openid
+      })
+      .get({
+        success: function (res) {
+          var labelData = res.data[0].label;
+          var label_img = that.data.label_img;
+          console.log(labelData)
+          for(let i = 0; i < labelData.length; i++) {
+            label_img.push({
+              name: labelData[i],
+              imgUrl:['cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test/4example.png','cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test/1example.png']
+            })
+          }
+          console.log(label_img)
+          that.setData({label_img});
+        }
+      })
+    },1000)
     
   },
 
@@ -111,8 +128,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
-    
+
   },
 
   /**

@@ -63,7 +63,8 @@ Page({
           $regex: '.*' + inputData + '.*',
           // 不区分大小写
           $options: 'i'
-        }
+        },
+        viewState: 1
       })
       .get({ 
         success: function(res) {

@@ -24,7 +24,7 @@
   <view class="store_box">
     <!-- 门店图片 -->
     <view class="store_img_box">
-      <image src="{{item.imgSrc}}">
+      <image src="{{item.brandImgSrc}}">
       </image>
     </view>
     <!-- 信息 -->

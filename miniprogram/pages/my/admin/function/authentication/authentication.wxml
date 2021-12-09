@@ -1,0 +1,94 @@
+<!--pages/my/admin/function/function.wxml-->
+
+<view class="info_box" style="height: 520rpx;" >
+  <view style="width: 100%;height: 120rpx;">
+    <view class="step_info_box mid">
+      <iconfont name="zizhi"></iconfont>
+      <text>认证信息</text>
+    </view>
+  </view>
+  <form bindsubmit="nextStep">
+    <view class="brand_normal_text">
+      <text space="emsp" decode>联系人&emsp;</text>
+      <van-cell-group>
+        <van-field
+          name="adminName"
+          model:value="{{ adminName }}"
+          placeholder="例：林先生"
+          clearable
+          data-valueName="adminName"
+        />
+      </van-cell-group>
+    </view>
+    <view class="brand_normal_text">
+      <text>联系电话</text>
+      <van-cell-group>
+        <van-field
+          name="phoneNumber"
+          model:value="{{ phone }}"
+          placeholder="例：12345678900"
+          clearable
+          data-valuename="phoneNumber"
+        />
+      </van-cell-group>
+    </view>
+
+    <view class="auth_img_box"> 
+      <view style="width: 6%;height: 100%;"></view>
+      <view style="width: 41%;height: 100%;display: flex;flex-direction: column;">
+        <image class="auth_img_item" src="{{authImgUrl[0]}}" bindtap="previewImg" data-index="0"></image>
+        <view class="auth_buttn_box mid">
+          <van-button 
+            bind:click="uploadAuthImg" 
+            data-index="0"
+            size="small" 
+            type="info"
+            round
+            >
+            上传门店图片
+          </van-button>
+        </view>
+      </view>
+      <view style="width: 6%;height: 100%;"></view>
+      <view style="width: 41%;height: 100%;display: flex;flex-direction: column;">
+        <image class="auth_img_item" src="{{authImgUrl[1]}}" bindtap="previewImg" data-index="1" ></image>
+        <view class="auth_buttn_box mid">
+          <van-button 
+            bind:click="uploadAuthImg" 
+            data-index="1"
+            size="small" 
+            type="info"
+            round
+            >
+            上传营业执照
+          </van-button>
+        </view>
+      </view>
+      <view style="width: 6%;height: 100%;"></view>
+    </view>
+
+    <!-- <view style="display: flex;flex-direction: row;">
+      <view class="mid" style="margin: 25rpx 0;width: 50%;">
+        <van-button 
+          type="info"  
+          size="normal" 
+          icon="arrow-left" 
+          bindtap="backStep"
+          round plain
+          >上一步
+        </van-button>
+      </view> 
+      <view class="mid" style="margin: 25rpx 0;width: 50%;">
+        <van-button 
+          type="info"  
+          size="normal" 
+          icon="arrow" 
+          form-type="submit"
+          round plain
+          >下一步
+        </van-button>
+      </view>
+    </view> -->
+    
+  </form>
+</view>

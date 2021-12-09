@@ -26,13 +26,39 @@ App({
     }
 
     const that = this;
+    const db = wx.cloud.database();
     // 获取用户openid
     wx.cloud.callFunction({
       name: 'getOpenid',
       success: function (res) {
-        // console.log(res.result.openid);
+        console.log('openid: ' + res.result.openid);
         that.globalData.openid = res.result.openid;
       },
+      complete: function () {
+        // 读取用户表查询用户是否存在
+        db.collection('user').where({
+          _openid: that.globalData.openid
+        })
+        .get({
+          success: function (res) {
+            // 用户不存在
+            if(res.data.length == 0) {
+              // 写入用户
+              db.collection('user').add({
+                data: {
+                  name: 'normal',
+                  identity: 'user'
+                },
+                success: function(res) {
+                  // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
+                  console.log(res)
+                }
+              })
+            }
+              
+          }
+        })
+      }
     })
     // this.globalData = {};
   }

@@ -26,7 +26,7 @@
             <text class="other_info_text">{{display_info.authText}}</text>
         </view>
         <!-- 地址信息 -->
-        <view class="other_info_address_box">
+        <view class="other_info_address_box" style="height: {{address_box_height}}rpx;">
             <!-- 地址文本 -->
             <view class="other_info_address_text">
                 <iconfont name="address"></iconfont>
@@ -38,15 +38,14 @@
                 <text>去这里</text>
             </view>
             <!-- 空隙占位 -->
-            <view style="width: 2%;height: 100%;"></view>
-            
+            <view style="width: 2%;height: 100%;"></view>   
         </view>
         <!-- 联系电话 -->
         <view class="other_info_phone_box">
             <!-- 电话号码 -->
             <view class="other_info_phone_number ">
                 <iconfont name="phone"></iconfont>
-                <text style="margin: 0 10rpx;" user-select>{{display_info.phoneNumber}}</text>
+                <text class="other_info_text" user-select>{{display_info.phoneNumber}}</text>
             </view>
             <!-- 拨打电话呼起 -->
             <view class="other_info_phone_call mid" bindtap="callPhone">
@@ -62,12 +61,12 @@
 <view class="auth_img_box"> 
     <view style="width: 10%;height: 100%;"></view>
 
-    <image class="auth_img_box_auth" src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test_img/19.jpg" wx:if="{{display_info.authState == 'authed'}}"></image>
+    <image class="auth_img_box_auth" src="{{display_info.authImgUrl[0]}}" wx:if="{{display_info.authState == 'authed'}}"></image>
     <text wx:if="{{display_info.authState == 'unauth'}}">未上传门面图片</text>
 
     <view style="width: 10%;height: 100%;"></view>
 
-    <image class="auth_img_box_auth" src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test_img/30.jpg" wx:if="{{display_info.authState == 'authed'}}"></image>
+    <image class="auth_img_box_auth" src="{{display_info.authImgUrl[1]}}" wx:if="{{display_info.authState == 'authed'}}"></image>
     <text wx:if="{{display_info.authState == 'unauth'}}">未上传营业执照</text>
 
     <view style="width: 10%;height: 100%;"></view>

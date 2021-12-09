@@ -1,0 +1,136 @@
+/* pages/my/admin/function/function.wxss */
+/* pages/my/join/brandJion/brandJion.wxss */
+.join_step_box{
+  width: 90%;
+  height: 250rpx;
+  margin: 0 auto;
+  border-radius: 20rpx;
+  background-color: white;
+  box-shadow: 10rpx 10rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+.join_step_text{
+  width: 40%;
+  margin: 0 auto;
+  /* border: 1rpx solid red; */
+}
+.join_step_item{
+  width: 100%;
+  height: 50%;
+  /* border: 1rpx solid red; */
+  display: flex;
+  flex-direction: row;
+}
+.join_step_item_box{
+  width: 28%;
+  height: 100%;
+  /* background-color: rgb(90, 6, 6); */
+  /* border: 1rpx solid red; */
+  display: flex;
+  flex-direction: column;
+}
+.join_step_item_box text{
+  font-size: 26rpx;
+  margin-top: 10rpx;
+}
+.step_arrow_box{
+  width: 8%;
+  height: 100%;
+  /* background-color: rosybrown; */
+}
+.mid{
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  text-align: center；
+}
+
+.info_box{
+  width: 90%;
+  /* height: 600rpx; */
+  margin: 50rpx auto;
+  border-radius: 20rpx;
+  background-color: white;
+  box-shadow: 10rpx 10rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+.info_box text{
+  font-size: 28rpx;
+  margin-left: 20rpx;
+  margin-right: 30rpx;
+  display: flex;
+  align-items: center;
+}
+.step_info_box{
+  width: 40%;
+  height: 80rpx;
+  margin: 18rpx auto;
+  border-radius: 20rpx;
+  /* border: 2rpx solid rgb(100, 96, 96); */
+  box-shadow: 10rpx 10rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+.brand_img_box{
+  width: 100%;
+  height: 140rpx;
+  border-radius: 20rpx;
+  /* background-color: rosybrown; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.brand_img_box image{
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 10rpx;
+  margin: 10rpx 0;
+  margin-right: 40rpx;
+  
+}
+.brand_normal_text{
+  width: 100%;
+  height: 90rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* border: 1rpx solid red; */
+}
+.location_icon_box{
+  height: 50rpx;
+  width: 105rpx;
+  border-radius: 25rpx;
+  border: 1rpx solid #a59c9c;
+  /* background-color :#07c16121; */
+  box-shadow: 5rpx 5rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);
+}
+.policy_checkBox{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  flex-direction: row;
+
+  /* border: 1rpx solid red; */
+}
+
+
+
+.auth_img_box{
+  width: 100%;
+  height: 340rpx;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  /* border: 1rpx solid red; */
+}
+.auth_img_item{
+  height: 200rpx;
+  width: 100%;
+  margin: 20rpx 0;
+}
+.auth_buttn_box{
+  width: 100%;
+  height: 100rpx;
+}

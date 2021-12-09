@@ -2,6 +2,9 @@
 import Toast from '../../../../miniprogram_npm/@vant/weapp/toast/toast';
 import Dialog from '../../../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
+const app = getApp();
+const db = wx.cloud.database();
+
 Page({
 
   /**
@@ -37,17 +40,39 @@ Page({
     // 点击选择区域按钮的状态
     isClick: true,
     // 选择器的值(许多地方使用了area,尽量不要修改，增加不影响)
-    columns: ['中心市场', '博览中心', '家博城', '光明家具城','其他区域'],
+    columns: ['中心市场', '博览中心', '家私城', '光明家具城','其他区域'],
+    // 暂时只用到了经纬度，在遍历时请使用值比较
+    area_info: [
+      {
+        area: '中心市场',
+        address: '赣州市南康区家具城工业大道亚琦城市壹号北80米[南康家具城中心市场]',
+        latitude: 25.688255,
+        longitude: 114.779696
+
+      },
+      {
+        area: '博览中心',
+        address: '赣州市南康区工业大道38-40号[南康家具城博览中心区]',
+        latitude: 25.685532,
+        longitude: 114.779386
+      },
+      {
+        area: '家私城',
+        address: '赣州市南康区迎宾大道与市场东路交汇处[居然之家盈海家博城]',
+        latitude: 25.691644,
+        longitude: 114.792854
+      },
+      {
+        area: '光明家具城',
+        address: '赣州市南康区迎宾东大道(仁济医院东北)[光明国际家具城]',
+        latitude: 25.685177,
+        longitude: 114.785399
+      }
+    ],
     // 选定的区域值
     area: '',
     // 分类列表
-    labelList: [
-      {
-        label: '分类标签',
-        labelName: ''
-      }
-      
-    ],
+    labelList: [''],
     /**
      * Step1 Data
      */
@@ -85,7 +110,7 @@ Page({
     var data = this.data;
     var value = event.detail.value;
     var step = data.joinStep;
-    console.log(value)
+    // console.log(value)
 
     // 表单提交条件
     var isInputFull;
@@ -100,7 +125,7 @@ Page({
         brandName
       })
       // step0 提交条件
-      isInputFull = (brandName && address && data.brandImgSrc && data.area && data.labelList[0].labelName && data.checked);
+      isInputFull = (brandName && address && data.brandImgSrc && data.area && data.labelList[0] && data.checked);
     } else if(step == 1) {
       var adminName = data.adminName;
       var phoneNumber = data.phoneNumber;
@@ -118,7 +143,6 @@ Page({
    
     
     if(isInputFull) {
-      console.log(data)
       var joinStep = this.data.joinStep;
       joinStep++;
       this.setData({
@@ -128,6 +152,36 @@ Page({
         message: '填写成功',
         duration: 1000
       });
+      
+
+      /**
+       * 全部数据填写提交完毕，写入stores 集合
+       */
+      if(joinStep == 2) {
+        db.collection('stores').add({
+          data: {
+            brandImgSrc: data.brandImgSrc,
+            brand: data.brandName,
+            name: data.adminName,
+            phone: data.phoneNumber,
+            area: data.area,
+            address: data.address,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            label: data.labelList,
+            browseNum: 100,
+            authState: 0,
+            authImgUrl:[data.authImgUrl[0].url,data.authImgUrl[1].url],
+            viewState: 0
+          },
+          success: function (res) {
+            console.log(res)
+          }
+        })
+      }
+      
+
+      // console.log(data);
     } else {
       if(step == 0 && !data.checked) {
         Toast.fail({
@@ -154,9 +208,9 @@ Page({
     wx.choosePoi({
       success: function (res) {
         that.setData({
-          address: res.address,
+          address: res.address.replace('江西省赣州市南康区',''),
           latitude: res.latitude,
-          longitude: res.latitude
+          longitude: res.longitude
         })
       }
     });
@@ -200,7 +254,7 @@ Page({
     var index = event.currentTarget.dataset.index;
     var imgUrls = this.data.authImgUrl;
     wx.previewImage({
-      urls: [imgUrls[0].url,imgUrls[1].url],
+      urls: [imgUrls[0],imgUrls[1]],
       current: imgUrls[index].url
     })
   },
@@ -220,14 +274,36 @@ Page({
       success(res) {
         var url = res.tempFiles[0].tempFilePath;
         console.log('uploadUrl:' + url);
-        var authImgUrl = that.data.authImgUrl;
-        authImgUrl[index].url = url;
-        authImgUrl[index].isUpload = true;
-        that.setData({
-          authImgUrl
-        })
+
+        wx.cloud.uploadFile({
+          cloudPath: 'auth_img/' + app.globalData.openid + '/' + index + '.png', // 上传至云端的路径
+          filePath: url, // 小程序临时文件路径
+          success: res => {
+            // 返回文件 ID
+            console.log(res.fileID)
+            var authImgUrl = that.data.authImgUrl;
+            authImgUrl[index].url = res.fileID;
+            authImgUrl[index].isUpload = true;
+            that.setData({
+              authImgUrl
+            })
+          },
+          fail: console.error
+        }) 
       },
-      fail: console.error
+      fail: console.error,
+      complete: function () {
+        // 这里未作是否上传成功的判断！！！！！！！！
+        // wx.cloud.uploadFile({
+        //   cloudPath: 'test/' + i + 'example.png', // 上传至云端的路径
+        //   filePath: fileList[i].url, // 小程序临时文件路径
+        //   success: res => {
+        //     // 返回文件 ID
+        //     console.log(res.fileID)
+        //   },
+        //   fail: console.error
+        // })
+      }
     }) 
   },
   /**
@@ -244,9 +320,9 @@ Page({
     // 传入的labelList index
     var index = event.currentTarget.dataset.index;
     var labelList = this.data.labelList;
-    console.log(value)
-    console.log(index)
-    labelList[index].labelName = value;
+    // console.log(value)
+    // console.log(index)
+    labelList[index] = value;
     this.setData({
       labelList
     })
@@ -260,10 +336,7 @@ Page({
     var labelList = this.data.labelList;
     // 最多不能超过4个标签
     if(labelList.length < 4) {
-      labelList.push({
-        label: '分类标签',
-        labelName: ''
-      })
+      labelList.push('')
       // 增加标签后，增加相对应的盒子高度
       var step0InfoBoxHeight = this.data.step0InfoBoxHeight + 90;
       this.setData({
@@ -333,12 +406,24 @@ Page({
       placeholder = '例：1区2栋301';
     }
     var step0InfoBoxHeight = this.data.step0InfoBoxHeight - 74;
+    // 设置区域定位
+    var area_info = this.data.area_info;
+    var latitude = this.data.latitude;
+    var longitude = this.data.longitude;
+    for(let i = 0; i < area_info.length; i++) {
+      if(value == area_info[i].area) {
+        latitude = area_info[i].latitude;
+        longitude = area_info[i].longitude;
+      }
+    }
     this.setData({
       isSelected: false,
       isClick: false,
       area: value,
       step0InfoBoxHeight,
-      placeholder
+      placeholder,
+      latitude,
+      longitude
     })
     
   },
@@ -367,9 +452,19 @@ Page({
       success(res) {
         var url = res.tempFiles[0].tempFilePath;
         console.log('uploadUrl:' + url);
-        that.setData({
-          brandImgSrc: url,
-          isUpload: true,
+
+        wx.cloud.uploadFile({
+          cloudPath: 'brand_img/' + app.globalData.openid + '.png', // 上传至云端的路径
+          filePath: url, // 小程序临时文件路径
+          success: res => {
+            // 返回文件 ID
+            console.log(res.fileID)
+            that.setData({
+              brandImgSrc: res.fileID,
+              isUpload: true,
+            })
+          },
+          fail: console.error
         })
       },
       fail: console.error
@@ -380,21 +475,38 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    const that = this;
+    db.collection('stores').where({
+      _openid: app.globalData.openid
+    })
+    .get({
+      success: function (res) {
+        // console.log(res.data);
+        // 已填写入驻信息入数据库
+        if(res.data.length != 0) {
+          // 未审核开放显示
+          if(res.data[0].viewState == 0) {
+            that.setData({
+              joinStep: 2
+            })
+          }
+        }
+      } 
+    })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**

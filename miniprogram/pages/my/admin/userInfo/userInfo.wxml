@@ -27,7 +27,7 @@
 
 
 
-<view class="basic_box" bindtap="checkAuthed">
+<view class="basic_box" catchtap="checkAuthed">
   <view class="userinfo_box">
     <image class="user_avatar_box" src="{{avatarUrl}}"></image>
     <view class="user_text_box">
@@ -40,28 +40,33 @@
         <text style="margin-left: 10rpx;">186xxxx0170</text>
       </view>
     </view>
-    
-   <!-- <view class="join_button_box mid">
-      <text style="font-size: 30rpx; color: white;" >商家入驻</text>
-
-    </view> -->
-
-
   </view>
 
   <view class="userinfo_box">
     <view class="function1 mid">
-      <text style="font-size: 28rpx;">最近浏览</text>
+      <iconfont name="browsed"></iconfont>
+      <text style="font-size: 26rpx;margin-top: 10rpx;">最近浏览</text>
     </view>
-    <view class="function2 mid">
-      <text style="font-size: 32rpx; color: white;">商家入驻</text>
+    <view class="function2 mid" catchtap="brandJoin" wx:if="{{identity == 'user'}}">
+      <iconfont name="join"></iconfont>
+      <text style="font-size: 32rpx;margin-top: 10rpx;">商家入驻</text>
+    </view>
+    <view class="function2 mid" catchtap="brandJoin" wx:if="{{identity == 'store'}}">
+      <iconfont name="join"></iconfont>
+      <text style="font-size: 32rpx;margin-top: 10rpx;">我的店铺</text>
     </view>
     <view class="function3 mid">
-      <text style="font-size: 28rpx;">我的收藏</text>
-    </view>
+      <iconfont name="collect"></iconfont>
+      <text style="font-size: 26rpx;margin-top: 10rpx;">我的收藏</text>
+    </view> 
   </view>
 
 </view>
+
+<view hidden="{{identity == 'store'}}">
+  <van-empty description="商家入驻解锁更多精彩！" />
+</view>
+
 
 
 <!-- <view class="user_function_box">
@@ -75,15 +80,18 @@
 </view> -->
 
 
-<!-- <view class="admin_function_box">
+<view class="admin_function_box">
   <view  wx:for="{{admin_info}}" wx:key="key">
-    <view class="admin_function_item_box">
-      <iconfont name="{{item.iconStr}}"></iconfont>
-      <text>{{item.text}}</text>
-      <view style="width: 60%;"></view>
-      <iconfont name="click" style="display: flex;align-items: center;"></iconfont>
+    <view class="admin_function_item_box" bindtap="actionFuntion" data-index="{{index}}">
+      <view style="width: 8%;">
+        <iconfont name="{{item.iconStr}}"></iconfont>
+      </view>
+      <text style="width: 82%;">{{item.text}}</text>
+      <view style="width: 10%;">
+        <iconfont name="click" style="display: flex;align-items: center;"></iconfont>
+      </view>
     </view>
   </view>
   
   
-</view> -->
+</view>

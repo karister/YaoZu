@@ -30,6 +30,11 @@ Page({
         address: '赣州市南康区迎宾东大道(仁济医院东北)[光明国际家具城]',
         latitude: 25.685177,
         longitude: 114.785399
+      },{
+        area: '其他区域',
+        address: '',
+        latitude: 0,
+        longitude: 0
       }
     ],
     display_info: {
@@ -41,9 +46,11 @@ Page({
       authState: '',
       authText: '',
       address: '',
+      authImgUrl: [],
       phoneNumber:''
     },
-    display_index: 0
+    display_index: 0,
+    address_box_height: 60
   },
   /**
    * 调起系统拨打电话
@@ -86,9 +93,10 @@ Page({
     console.log(area);
     const that = this;
     const db = wx.cloud.database();
+    var area_info = that.data.area_info;
     // 设置区域信息
-    for(let i = 0; i < 4; i++) {
-      if(that.data.area_info[i].area == area) {
+    for(let i = 0; i < area_info.length; i++) {
+      if(area_info[i].area == area) {
         that.setData({
           display_index: i
         })
@@ -104,7 +112,7 @@ Page({
         //设置展示数据
         var display_info = that.data.display_info;   
         display_info.brandName = res_data.brand;//品牌名
-        display_info.brandImgSrc = res_data.imgSrc;//品牌头像地址
+        display_info.brandImgSrc = res_data.brandImgSrc;//品牌头像地址
         var labels = res_data.label;//标签信息
         for(let i = 0; i < labels.length; i++) {
           display_info.labelList[i] = labels[i];
@@ -118,9 +126,18 @@ Page({
         display_info.authText = (res_data.authState == 1) ?'企业已认证' :'企业未认证';//认证展示文本
         display_info.address = res_data.address + '[' + area + ']';//店面地址
         display_info.phoneNumber = res_data.phone;//商家手机号
+        display_info.authImgUrl = res_data.authImgUrl;// 认证图片
+
+        for(let i = 0; i < area_info.length; i++) {
+          if(area_info[i].area == area) {
+            area_info[i].latitude = res_data.latitude;
+            area_info[i].longitude = res_data.longitude;
+          }
+        }
         console.log(display_info)
         that.setData({
-          display_info
+          display_info,
+          area_info
         })
       }
     })

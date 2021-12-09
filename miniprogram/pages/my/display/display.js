@@ -64,7 +64,8 @@ Page({
         area_info[index].bgk_color = '#4692B9';
         area_info[i].font_color = 'white';
         db.collection('stores').where({
-          area: area_info[index].area
+          area: area_info[index].area,
+          viewState: 1
         })
         .get({ 
           success: function(res) {

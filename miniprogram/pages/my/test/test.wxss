@@ -10,26 +10,3 @@
   width: 100%;
 }
 
-
-
-.wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.block {
-  width: 600rpx;
-  height: 800rpx;
-  border-radius: 20rpx;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-}
-.mid{
-  display: flex;
-  align-items: center;
-  justify-content: center;  
-  text-align: center；
-}

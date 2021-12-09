@@ -10,21 +10,21 @@
   </view>
   <view class="join_step_item">
     <view class="join_step_item_box mid">
-      <iconfont name="info1"></iconfont>
+      <iconfont name="info"></iconfont>
       <text>填写门店信息</text>
     </view>
     <view class="step_arrow_box mid">
-      <iconfont name="arrow1"></iconfont>
+      <iconfont name="arrow"></iconfont>
     </view>
     <view class="join_step_item_box mid">
-      <iconfont name="zizhi1"></iconfont>
+      <iconfont name="zizhi"></iconfont>
       <text>认证信息</text>
     </view>
     <view class="step_arrow_box mid">
-      <iconfont name="arrow1"></iconfont>
+      <iconfont name="arrow"></iconfont>
     </view>
     <view class="join_step_item_box mid">
-      <iconfont name="shenhe3"></iconfont>
+      <iconfont name="shenhe"></iconfont>
       <text>等待审核</text>
     </view>
   </view>
@@ -36,7 +36,7 @@
 
   <view style="width: 100%;height: 120rpx;">
     <view class="step_info_box mid">
-      <iconfont name="info1"></iconfont>
+      <iconfont name="info"></iconfont>
       <text>填写门店信息</text>
     </view>
   </view>
@@ -101,10 +101,10 @@
     </view>
 
     <view class="brand_normal_text" wx:if="{{!isSelected}}" wx:for="{{labelList}}" wx:key="key">
-      <text >{{item.label}}</text>
+      <text >分类标签</text>
       <van-cell-group>
         <van-field
-          model:value="{{ item.labelName }}"
+          model:value="{{ item }}"
           placeholder="例：欧式沙发"
           bind:change="setLabelData"
           data-index="{{index}}"
@@ -145,7 +145,7 @@
 <view class="info_box" style="height: {{step1InfoBoxHeight}}rpx;" wx:if="{{joinStep == 1}}">
   <view style="width: 100%;height: 120rpx;">
     <view class="step_info_box mid">
-      <iconfont name="zizhi1"></iconfont>
+      <iconfont name="zizhi"></iconfont>
       <text>认证信息</text>
     </view>
   </view>
@@ -244,7 +244,7 @@
 <view class="info_box" style="height: {{step2InfoBoxHeight}}rpx;" wx:if="{{joinStep == 2}}">
   <view style="width: 100%;height: 120rpx;">
     <view class="step_info_box mid">
-      <iconfont name="shenhe3"></iconfont>
+      <iconfont name="shenhe"></iconfont>
       <text>等待审核</text>
     </view>
   </view>

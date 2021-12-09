@@ -1,0 +1,24 @@
+<!--pages/my/admin/function/imgManage/imgManage.wxml-->
+
+<!-- <button type="primary" bindtap="uploadImg" >上传一张图片</button>
+<van-uploader file-list="{{ fileList }}" multiple bind:after-read="vantUploadImg" bind:delete="vantDeleteImg"/> -->
+
+
+<van-tabs swipeable sticky>
+  <view wx:for="{{label_img}}" wx:key="key" wx:for-item="label">
+    <van-tab title="{{label.name}}">
+      <view style="width: 100%;height: 480rpx;display: flex;flex-direction: column;" wx:for="{{label.imgUrl}}" wx:key="key" wx:for-item="img" >
+        <view style="width: 100%;height: 80rpx;display: flex;flex-direction: row;background-color: white;">
+          <view style="width: 50%;height: 80rpx;" class="mid">
+            <van-button type="primary" size="small" round>更换图片</van-button>
+          </view>
+          <view style="width: 50%;height: 80rpx;" class="mid">
+            <van-button type="danger" size="small" round>删除图片</van-button>
+          </view>
+        </view>
+        <image style="width: 100%;height: 400rpx;" src="{{img}}"></image>
+      </view>
+      
+    </van-tab>
+  </view>
+</van-tabs>
