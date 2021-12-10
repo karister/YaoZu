@@ -19,7 +19,7 @@
 <!-- 分割线 -->
 <view class="divLine"></view>
 
-<view wx:for="{{stores_data}}" wx:key="key" bindtap="clickToDetail" data-id="{{item._id}}" data-area="{{item.area}}">
+<view wx:for="{{stores_data}}" wx:key="key" bindtap="clickToDetail" data-openid="{{item._openid}}" >
   <!-- 商家列表 -->
   <view class="store_box">
     <!-- 门店图片 -->

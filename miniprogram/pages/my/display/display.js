@@ -36,12 +36,9 @@ Page({
    * 跳转到商家详细界面
    */
   clickToDetail: function (e) {
-    var id = e.currentTarget.dataset.id;
-    var area = e.currentTarget.dataset.area;
-    console.log(id);
-    console.log(area);
+    var storeOpenid = e.currentTarget.dataset.openid;
     wx.navigateTo({
-        url: '/pages/my/detail/detail?info=' + id + '|' + area
+      url: '/pages/my/detail/detail?openid=' + storeOpenid
     })
   },
 

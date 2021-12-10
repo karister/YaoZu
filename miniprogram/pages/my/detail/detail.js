@@ -72,6 +72,7 @@ Page({
    */
   onLocation: function () {
     var data = this.data;
+    // console.log(data.latitude + ':' + data.longitude)
     wx.showLoading({
       title: '加载中',
     })
