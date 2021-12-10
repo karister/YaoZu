@@ -73,6 +73,8 @@ Page({
     area: '',
     // 分类列表
     labelList: [''],
+    // 分类标签对象列表
+    labelObject: [{}],
     /**
      * Step1 Data
      */
@@ -110,6 +112,7 @@ Page({
     var data = this.data;
     var value = event.detail.value;
     var step = data.joinStep;
+    var that = this;
     // console.log(value)
 
     // 表单提交条件
@@ -158,26 +161,90 @@ Page({
        * 全部数据填写提交完毕，写入stores 集合
        */
       if(joinStep == 2) {
-        db.collection('stores').add({
+        // 上传头像图片
+        wx.cloud.uploadFile({
+          cloudPath: 'brand_img/' + data.brandName  + '/' + (new Date()).getTime() + '.png', // 上传至云端的路径
+          filePath: data.brandImgSrc, // 小程序临时文件路径
+          success: res => {
+            // 返回文件 ID
+            console.log(res.fileID)
+            // 修改临时文件路径为存储唯一ID
+            that.setData({brandImgSrc: res.fileID});
+          },
+          fail: console.error
+        })
+
+        var authImgUrl = data.authImgUrl;
+        // 上传认证图片1
+        wx.cloud.uploadFile({
+          cloudPath: 'auth_img/' + data.brandName + '/' + (new Date()).getTime() + '.0' + '.png', // 上传至云端的路径
+          filePath: authImgUrl[0].url, // 小程序临时文件路径
+          success: res => {
+            // 返回文件 ID
+            console.log(res.fileID)
+            authImgUrl[0].url = res.fileID;
+            that.setData({
+              authImgUrl
+            })
+          },
+          fail: console.error
+        })
+        // 上传认证图片1
+        wx.cloud.uploadFile({
+          cloudPath: 'auth_img/' + data.brandName + '/' + (new Date()).getTime() + '.1' + '.png', // 上传至云端的路径
+          filePath: authImgUrl[1].url, // 小程序临时文件路径
+          success: res => {
+            // 返回文件 ID
+            console.log(res.fileID)
+            authImgUrl[1].url = res.fileID;
+            that.setData({
+              authImgUrl
+            })
+          },
+          fail: console.error
+        })
+
+        wx.showLoading({
+          title: '信息提交中',
+        })
+        // 延时2000ms等待图片的上传
+        setTimeout( ()=> {
+          // 创建商家stores集合记录
+          db.collection('stores').add({
+            data: {
+              brandImgSrc: data.brandImgSrc,
+              brand: data.brandName,
+              name: data.adminName,
+              phone: data.phoneNumber,
+              area: data.area,
+              address: data.address,
+              latitude: data.latitude,
+              longitude: data.longitude,
+              label: data.labelList,
+              browseNum: 100,
+              authState: 0,
+              authImgUrl:[data.authImgUrl[0].url,data.authImgUrl[1].url],
+              viewState: 0
+            },
+            success: function (res) {
+              console.log(res)
+              wx.hideLoading();
+            }
+          })
+        },2000 ) 
+
+        
+        // 创建产品product集合记录
+        db.collection('product').add({
           data: {
-            brandImgSrc: data.brandImgSrc,
-            brand: data.brandName,
-            name: data.adminName,
-            phone: data.phoneNumber,
-            area: data.area,
-            address: data.address,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            label: data.labelList,
-            browseNum: 100,
-            authState: 0,
-            authImgUrl:[data.authImgUrl[0].url,data.authImgUrl[1].url],
-            viewState: 0
+            brandName: data.brandName,
+            labels: data.labelObject
           },
           success: function (res) {
-            console.log(res)
+            console.longitude(res);
           }
         })
+        
       }
       
 
@@ -214,18 +281,6 @@ Page({
         })
       }
     });
-    // wx.getLocation({
-    //   type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-    //   success (res) {
-    //     const latitude = res.latitude
-    //     const longitude = res.longitude
-    //     wx.openLocation({
-    //       latitude,
-    //       longitude,
-    //       scale: 18
-    //     })
-    //   }
-    // })
     wx.hideLoading()
   },
 
@@ -274,36 +329,15 @@ Page({
       success(res) {
         var url = res.tempFiles[0].tempFilePath;
         console.log('uploadUrl:' + url);
-
-        wx.cloud.uploadFile({
-          cloudPath: 'auth_img/' + app.globalData.openid + '/' + index + '.png', // 上传至云端的路径
-          filePath: url, // 小程序临时文件路径
-          success: res => {
-            // 返回文件 ID
-            console.log(res.fileID)
-            var authImgUrl = that.data.authImgUrl;
-            authImgUrl[index].url = res.fileID;
-            authImgUrl[index].isUpload = true;
-            that.setData({
-              authImgUrl
-            })
-          },
-          fail: console.error
-        }) 
+        var authImgUrl = that.data.authImgUrl;
+        authImgUrl[index].url = url;
+        authImgUrl[index].isUpload = true;
+        that.setData({
+          authImgUrl
+        })
+        
       },
-      fail: console.error,
-      complete: function () {
-        // 这里未作是否上传成功的判断！！！！！！！！
-        // wx.cloud.uploadFile({
-        //   cloudPath: 'test/' + i + 'example.png', // 上传至云端的路径
-        //   filePath: fileList[i].url, // 小程序临时文件路径
-        //   success: res => {
-        //     // 返回文件 ID
-        //     console.log(res.fileID)
-        //   },
-        //   fail: console.error
-        // })
-      }
+      fail: console.error
     }) 
   },
   /**
@@ -320,9 +354,12 @@ Page({
     // 传入的labelList index
     var index = event.currentTarget.dataset.index;
     var labelList = this.data.labelList;
+    var labelObject = this.data.labelObject;
     // console.log(value)
     // console.log(index)
     labelList[index] = value;
+    labelObject[index].labelName = value;
+    labelObject[index].imgUrls = [];
     this.setData({
       labelList
     })
@@ -334,9 +371,11 @@ Page({
    */
   addLabel: function () {
     var labelList = this.data.labelList;
+    var labelObject = this.data.labelObject;
     // 最多不能超过4个标签
     if(labelList.length < 4) {
-      labelList.push('')
+      labelList.push('');
+      labelObject.push({});
       // 增加标签后，增加相对应的盒子高度
       var step0InfoBoxHeight = this.data.step0InfoBoxHeight + 90;
       this.setData({
@@ -452,19 +491,10 @@ Page({
       success(res) {
         var url = res.tempFiles[0].tempFilePath;
         console.log('uploadUrl:' + url);
-
-        wx.cloud.uploadFile({
-          cloudPath: 'brand_img/' + app.globalData.openid + '.png', // 上传至云端的路径
-          filePath: url, // 小程序临时文件路径
-          success: res => {
-            // 返回文件 ID
-            console.log(res.fileID)
-            that.setData({
-              brandImgSrc: res.fileID,
-              isUpload: true,
-            })
-          },
-          fail: console.error
+        // 使用临时链接
+        that.setData({
+          brandImgSrc: url,
+          isUpload: true,
         })
       },
       fail: console.error

@@ -1,13 +1,13 @@
 <!--pages/my/admin/function/imgManage/imgManage.wxml-->
 
-<!-- <button type="primary" bindtap="uploadImg" >上传一张图片</button>
-<van-uploader file-list="{{ fileList }}" multiple bind:after-read="vantUploadImg" bind:delete="vantDeleteImg"/> -->
+<!-- <button type="primary" bindtap="uploadImg" >上传一张图片</button> -->
 
 
-<van-tabs swipeable sticky>
-  <view wx:for="{{label_img}}" wx:key="key" wx:for-item="label">
-    <van-tab title="{{label.name}}">
-      <view style="width: 100%;height: 480rpx;display: flex;flex-direction: column;" wx:for="{{label.imgUrl}}" wx:key="key" wx:for-item="img" >
+
+<!-- <van-tabs swipeable sticky>
+  <view wx:for="{{labelObject}}" wx:key="key" wx:for-item="label">
+    <van-tab title="{{label.labelName}}">
+      <view style="width: 100%;height: 480rpx;display: flex;flex-direction: column;" wx:for="{{label.imgUrls}}" wx:key="key" wx:for-item="img" >
         <view style="width: 100%;height: 80rpx;display: flex;flex-direction: row;background-color: white;">
           <view style="width: 50%;height: 80rpx;" class="mid">
             <van-button type="primary" size="small" round>更换图片</van-button>
@@ -21,4 +21,33 @@
       
     </van-tab>
   </view>
-</van-tabs>
+</van-tabs> -->
+
+<view class="label_item_box" wx:for="{{labelObject}}" wx:key="key" wx:for-item="label" wx:for-index="index">
+  <view style="width: 100%;height: 140rpx;display: flex;flex-direction: row;">
+    <view style="width: 70%;height: 100%;display: flex;flex-direction: column;">
+      <view class="label_text_box">
+        <iconfont name="label"></iconfont>
+        <text style="margin-left: 20rpx;">{{label.labelName}}</text>
+      </view>
+      <text class="detail_text_box">最多上传9张照片,点击图片可预览大图
+      选中后点击右边按钮立即发布到店铺</text>
+    </view>
+    <view class="update_button mid">
+      <iconfont name="update"></iconfont>
+      <text style="font-size: 26rpx;margin-top: 10rpx;">立即发布</text>
+    </view>
+  </view>
+  <view style="background-color: #e4e4e4;width: 100%;height: 2rpx;"></view>
+  <view style="width: 100%;height: 500rpx;margin-top: 30rpx;margin-left: 10rpx;">
+    <van-uploader 
+      file-list="{{ label.fileList }}" 
+      max-count="9" 
+      upload-text="点击上传图片" 
+      bind:after-read="vantUploadImg" 
+      data-index="{{index}}"
+      bind:delete="vantDeleteImg"
+      multiple 
+    />
+  </view>
+</view>

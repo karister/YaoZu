@@ -50,7 +50,7 @@ Page({
         console.log('uploadUrl:' + url);
         // 更新存储图片
         wx.cloud.uploadFile({
-          cloudPath: 'auth_img/' + app.globalData.openid + '/' + (new Date()).getTime() + '.png', // 上传至云端的路径
+          cloudPath: 'auth_img/' + that.data.brandName + '/' + (new Date()).getTime() + '.' + index + '.png', // 上传至云端的路径
           filePath: url, // 小程序临时文件路径
           success: res => {
             // 返回文件 ID
@@ -130,7 +130,8 @@ Page({
           phone: res.data[0].phone,
           adminName: res.data[0].name,
           authImgUrl: res.data[0].authImgUrl,
-          authState: res.data[0].authState
+          authState: res.data[0].authState,
+          brandName: res.data[0].brand
         })
         console.log(this.data)
       }

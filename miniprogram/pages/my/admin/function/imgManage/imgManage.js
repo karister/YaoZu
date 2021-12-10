@@ -10,8 +10,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    fileList: [],
-    label_img: [],
+    // fileList: [],
+    labelObject: [],
     // 侧边栏选中项
     activeKey: 0,
   },
@@ -20,20 +20,21 @@ Page({
 
   /**
    * vantui上传文件组件读取文件后的动作函数
-   * @param {errMsg.detail.file: 当前读取的文件} e 
+   * @param {event.detail.file: 当前读取的文件} event 
    */
-  vantUploadImg: function (e) {
-    var res = e.detail.file;
-    var fileList = this.data.fileList;
-    for(let i = 0; i < res.length; i++) {
-      fileList.push({
-        url: res[i].url,
-      });
-      console.log('uploadUrl:' + res[i].url)
-    }
-    this.setData({
-      fileList
+  vantUploadImg: function (event) {
+    var fileObject = event.detail.file;
+    var labelIndex = event.currentTarget.dataset.index;
+    var labelObject = this.data.labelObject;
+    // console.log(imgUrls)
+    // console.log(index)
+    fileObject.forEach( (item) => {
+      console.log(item.url);
+      labelObject[labelIndex].imgUrls.push(item.url);
+      labelObject[labelIndex].fileList.push({url: item.url});
     })
+    this.setData({labelObject});
+    console.log(this.data.labelObject);
 
     // for(let i = 0; i< fileList.length; i++) {
     //   console.log(fileList[i].url)
@@ -47,32 +48,6 @@ Page({
     //     fail: console.error
     //   })
     // }
-  },
-  /**
-   * wx原生API点击上传按钮的动作函数
-   */
-  uploadImg: function () {
-    var that = this;
-    wx.chooseMedia({
-      count: 9,
-      mediaType: ['image','video'],
-      sourceType: ['album', 'camera'],
-      maxDuration: 30,
-      camera: 'back',
-      success(res) {
-        var fileList = that.data.fileList;
-        for(let i = 0; i < res.tempFiles.length; i++) {
-          fileList.push({
-            url: res.tempFiles[i].tempFilePath,
-          });
-          console.log('uploadUrl:' + res.tempFiles[i].tempFilePath);
-        }
-        that.setData({
-          fileList
-        })
-      },
-      fail: console.error
-    }) 
   },
   /**
    * vantui上传文件组件点击删除文件后的动作函数
@@ -93,27 +68,26 @@ Page({
    */
   onLoad: function (options) {
     const that = this;
-    setTimeout(function () {
-      // 得到商家的标签分类
-      db.collection('stores').where({
-        _openid: app.globalData.openid
-      })
-      .get({
-        success: function (res) {
-          var labelData = res.data[0].label;
-          var label_img = that.data.label_img;
-          console.log(labelData)
-          for(let i = 0; i < labelData.length; i++) {
-            label_img.push({
-              name: labelData[i],
-              imgUrl:['cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test/4example.png','cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test/1example.png']
-            })
-          }
-          console.log(label_img)
-          that.setData({label_img});
+    // 得到商家的标签分类
+    db.collection('product').where({
+      _openid: app.globalData.openid
+    })
+    .get({
+      success: function (res) {
+        var labelData = res.data[0].labels;
+        var labelObject = that.data.labelObject;
+        // console.log(labelData)
+        for(let i = 0; i < labelData.length; i++) {
+          labelObject.push({
+            labelName: labelData[i].labelName,
+            imgUrls:labelData[i].imgUrls,
+            fileList: []
+          })
         }
-      })
-    },1000)
+        // console.log(label_img)
+        that.setData({labelObject});
+      }
+    })
     
   },
 

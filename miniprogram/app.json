@@ -1,15 +1,16 @@
 {
   "pages": [
-    "pages/my/index/index",
     "pages/my/admin/function/imgManage/imgManage",
+    "pages/my/index/index",
+    
     "pages/my/admin/function/storeInfo/storeInfo",
     
     "pages/my/admin/function/authentication/authentication",
     
     "pages/my/admin/userInfo/userInfo",
     "pages/my/admin/browse/browse",
-    "pages/my/test/test",
     
+    "pages/my/test/test",
     
     
     

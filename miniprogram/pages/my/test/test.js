@@ -32,18 +32,18 @@ Page({
       fileList
     })
 
-    for(let i = 0; i< fileList.length; i++) {
-      console.log(fileList[i].url)
-      wx.cloud.uploadFile({
-        cloudPath: 'test/' + i + 'example.png', // 上传至云端的路径
-        filePath: fileList[i].url, // 小程序临时文件路径
-        success: res => {
-          // 返回文件 ID
-          console.log(res.fileID)
-        },
-        fail: console.error
-      })
-    }
+    // for(let i = 0; i< fileList.length; i++) {
+    //   console.log(fileList[i].url)
+    //   wx.cloud.uploadFile({
+    //     cloudPath: 'test/' + i + 'example.png', // 上传至云端的路径
+    //     filePath: fileList[i].url, // 小程序临时文件路径
+    //     success: res => {
+    //       // 返回文件 ID
+    //       console.log(res.fileID)
+    //     },
+    //     fail: console.error
+    //   })
+    // }
   },
   /**
    * wx原生API点击上传按钮的动作函数
@@ -96,8 +96,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
-    
+
   },
 
   /**

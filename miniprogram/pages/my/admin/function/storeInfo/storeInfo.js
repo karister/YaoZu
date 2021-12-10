@@ -284,8 +284,7 @@ Page({
         var url = res.tempFiles[0].tempFilePath;
         console.log('uploadUrl:' + url);
         wx.cloud.uploadFile({
-          cloudPath: 'brand_img/' + that.data.brandName + (new Date()).getTime() + '.png', // 上传至云端的路径
-          // cloudPath: 'brand_img/' + app.globalData.openid + '.png', // 上传至云端的路径
+          cloudPath: 'brand_img/' + that.data.brandName + '/' + (new Date()).getTime() + '.png', // 上传至云端的路径
           filePath: url, // 小程序临时文件路径
           success: res => {
             // 返回文件 ID
