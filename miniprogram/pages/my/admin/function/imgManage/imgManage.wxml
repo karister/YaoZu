@@ -33,7 +33,7 @@
       <text class="detail_text_box">最多上传9张照片,点击图片可预览大图
       选中后点击右边按钮立即发布到店铺</text>
     </view>
-    <view class="update_button mid">
+    <view class="update_button mid" bindtap="onPublish" data-index="{{index}}">
       <iconfont name="update"></iconfont>
       <text style="font-size: 26rpx;margin-top: 10rpx;">立即发布</text>
     </view>
@@ -51,3 +51,4 @@
     />
   </view>
 </view>
+<van-toast id="van-toast"/>

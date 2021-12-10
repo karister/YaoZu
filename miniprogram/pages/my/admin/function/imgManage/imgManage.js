@@ -1,4 +1,5 @@
 // pages/my/admin/function/imgManage/imgManage.js
+import Toast from '../../../../../miniprogram_npm/@vant/weapp/toast/toast';
 
 const db = wx.cloud.database();
 const _ = db.command;
@@ -10,13 +11,35 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // fileList: [],
+    brandName: '',
     labelObject: [],
     // 侧边栏选中项
     activeKey: 0,
   },
   
 
+  /**
+   * 发布图片，把分类标签下上传的图片存储到云存储
+   * @param {event.currentTarget.dataset.index: 当前发布的标签索引} event 
+   */
+  onPublish: function (event) {
+    var data = this.data;
+    var labelIndex = event.currentTarget.dataset.index;
+    var labelObject = this.data.labelObject;
+    labelObject[labelIndex].imgUrls.forEach( (item,index) => {
+      wx.cloud.uploadFile({
+        cloudPath: 'product_img/' + data.brandName + '/' + data.labelObject[labelIndex].labelName + '/' + index + '.' + (new Date()).getTime() + '.png', // 上传至云端的路径
+        filePath: item, // 小程序临时文件路径
+        success: res => {
+          console.log(res.fileID);
+        }
+      })
+    })
+    Toast.success({
+      message: '发布成功',
+      duration: 1000
+    });
+  },
 
   /**
    * vantui上传文件组件读取文件后的动作函数
@@ -35,19 +58,6 @@ Page({
     })
     this.setData({labelObject});
     console.log(this.data.labelObject);
-
-    // for(let i = 0; i< fileList.length; i++) {
-    //   console.log(fileList[i].url)
-    //   wx.cloud.uploadFile({
-    //     cloudPath: 'test/' + i + 'example.png', // 上传至云端的路径
-    //     filePath: fileList[i].url, // 小程序临时文件路径
-    //     success: res => {
-    //       // 返回文件 ID
-    //       console.log(res.fileID)
-    //     },
-    //     fail: console.error
-    //   })
-    // }
   },
   /**
    * vantui上传文件组件点击删除文件后的动作函数
@@ -85,7 +95,10 @@ Page({
           })
         }
         // console.log(label_img)
-        that.setData({labelObject});
+        that.setData({
+          labelObject,
+          brandName: res.data[0].brandName
+        });
       }
     })
     
