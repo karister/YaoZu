@@ -1,13 +1,20 @@
 // pages/my/admin/function/storeInfo/storeInfo.js
+import Toast from '../../../../../miniprogram_npm/@vant/weapp/toast/toast';
+import Dialog from '../../../../../miniprogram_npm/@vant/weapp/dialog/dialog';
+
+const db = wx.cloud.database();
+const _ = db.command;
+const app = getApp();
+
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    /**
-     * Step0 Data
-     */
+    // step0_info_box的高度
+    step0InfoBoxHeight: 750,
     // 上传的头像地址
     brandImgSrc: '',
     // 上传头像的状态
@@ -62,17 +69,295 @@ Page({
   },
 
   /**
+   * 
+   * @param {提交的数据} event 
+   */
+  updateData: function (event) {
+    // 基本值:data,提交数据value
+    var data = this.data;
+    var value = event.detail.value;
+    // console.log(value)
+
+    // 表单提交条件
+    var isInputFull;
+    // 不同step提交值的设值
+    var address = data.address;
+    var brandName = data.brandName;
+    address = value.address;
+    brandName = value.brandName;
+    this.setData({
+      address,
+      brandName
+    })
+    isInputFull = (brandName && address && data.brandImgSrc && data.area && data.labelList[0]);
+    if(isInputFull) {
+      Toast.success({
+        message: '修改成功',
+        duration: 1000
+      });
+      /**
+       * 全部数据填写提交完毕，写入stores 集合
+       */
+      db.collection('stores').where({
+        _openid: app.globalData.openid
+      })
+      .update({
+        data: {
+          brandImgSrc: data.brandImgSrc,
+          brand: data.brandName,
+          name: data.adminName,
+          phone: data.phoneNumber,
+          area: data.area,
+          address: data.address,
+          latitude: data.latitude,
+          longitude: data.longitude,
+          label: data.labelList,
+        },
+        success: function (res) {
+          console.log(res)
+        }
+      })
+    } else {
+      Toast.fail({
+        message: '请完整填写',
+        duration: 1000
+      });
+    }
+  },
+
+  onLocation: function () {
+    var that = this;
+    wx.showLoading({
+      title: '加载中',
+    })
+    wx.choosePoi({
+      success: function (res) {
+        that.setData({
+          address: res.address.replace('江西省赣州市南康区',''),
+          latitude: res.latitude,
+          longitude: res.longitude
+        })
+      }
+    });
+    wx.hideLoading()
+  },
+
+  /**
+   * 设置标签数据
+   * @param {当前输入值} event
+   */
+  setLabelData: function (event) {
+    // 实时的输入值
+    var value = event.detail;
+    // 传入的labelList index
+    var index = event.currentTarget.dataset.index;
+    var labelList = this.data.labelList;
+    // console.log(value)
+    // console.log(index)
+    labelList[index] = value;
+    this.setData({
+      labelList
+    })
+    
+  },
+
+  /**
+   * 添加标签
+   */
+  addLabel: function () {
+    var labelList = this.data.labelList;
+    // 最多不能超过4个标签
+    if(labelList.length < 4) {
+      labelList.push('')
+      // 增加标签后，增加相对应的盒子高度
+      var step0InfoBoxHeight = this.data.step0InfoBoxHeight + 90;
+      this.setData({
+        labelList,
+        step0InfoBoxHeight
+      })
+    }
+  },
+  /**
+   * 删除标签
+   * @param {删除的索引} event 
+   */
+  deleteLabel: function (event) {
+    var index = event.currentTarget.dataset.index;
+    var labelList = this.data.labelList;
+    // 最少要有一个标签
+    if(labelList.length > 1) {
+      // 删除对应索引的标签
+      labelList.splice(index, 1);
+      // 删除标签后，减小相对应的盒子高度
+      var step0InfoBoxHeight = this.data.step0InfoBoxHeight - 90;
+      this.setData({
+        labelList,
+        step0InfoBoxHeight
+      })
+    }
+  },
+  /**
+   * 滑动选择区域
+   * @param {滑动改变的索引} event 
+   */
+  onChange: function (event) {
+    const { picker, value, index } = event.detail;
+
+    // Toast(`当前值：${value}, 当前索引：${index}`);
+  },
+  /**
+   * 取消选择
+   */
+  cacelSelect: function () {
+    var step0InfoBoxHeight = this.data.step0InfoBoxHeight - 74;
+    this.setData({
+      isSelected: false,
+      step0InfoBoxHeight
+    })
+  },
+  /**
+   * 确认选择
+   * @param {选中的索引和值} event 
+   */
+  confirmSelect: function (event) {
+    var {value, index} = event.detail;
+    var placeholder = this.data.placeholder;
+    if(value == '其他区域') {
+      placeholder = '例：迎宾东大道xxx号';
+      // Toast({
+      //   message: '若您的门市区域为其他区域，请完整填写门市地址，可点击右边定位按钮手动定位',
+      //   duration: 3000
+      // });
+      Dialog.alert({
+        message: '若您的门市区域为其他区域，请完整填写门市地址，可点击右边定位按钮手动定位',
+        confirmButtonText: '知道了'
+      }).then(() => {
+        // on close
+      });
+    } else {
+      placeholder = '例：1区2栋301';
+    }
+    var step0InfoBoxHeight = this.data.step0InfoBoxHeight - 74;
+    // 设置区域定位
+    var area_info = this.data.area_info;
+    var latitude = this.data.latitude;
+    var longitude = this.data.longitude;
+    for(let i = 0; i < area_info.length; i++) {
+      if(value == area_info[i].area) {
+        latitude = area_info[i].latitude;
+        longitude = area_info[i].longitude;
+      }
+    }
+    this.setData({
+      isSelected: false,
+      isClick: false,
+      area: value,
+      step0InfoBoxHeight,
+      placeholder,
+      latitude,
+      longitude
+    })
+    
+  },
+  /**
+   * 点击选取门店区域
+   */
+  clickSelectArea: function () {
+    var step0InfoBoxHeight = this.data.step0InfoBoxHeight + 74;
+    this.setData({
+      isSelected: true,
+      step0InfoBoxHeight
+    })
+  },
+  /**
+   * 点击传头像
+   */
+  uploadImg: function () {
+    var that = this;
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image','video'],
+      sourceType: ['album', 'camera'],
+      maxDuration: 30,
+      camera: 'back',
+      success(res) {
+        var url = res.tempFiles[0].tempFilePath;
+        console.log('uploadUrl:' + url);
+        wx.cloud.uploadFile({
+          cloudPath: 'brand_img/' + that.data.brandName + (new Date()).getTime() + '.png', // 上传至云端的路径
+          // cloudPath: 'brand_img/' + app.globalData.openid + '.png', // 上传至云端的路径
+          filePath: url, // 小程序临时文件路径
+          success: res => {
+            // 返回文件 ID
+            console.log(res.fileID)
+            that.setData({
+              brandImgSrc: res.fileID,
+              isUpload: true,
+            })
+          },
+          fail: console.error,
+          complete: function () {
+            // 更新stores中的认证图片路径
+            db.collection('stores').where({
+              _openid: app.globalData.openid
+            })
+            .update({
+              data: {
+                brandImgSrc: that.data.brandImgSrc
+              }
+            })
+          }
+        })
+      },
+      fail: console.error
+    }) 
+  },
+  
+  /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this;
+    
+    
+    // 读取入驻时填写的信息
+    db.collection('stores').where({
+      _openid: app.globalData.openid
+    })
+    .get({
+      success: function (res) {
+        var data = res.data[0];
+        console.log(res.data[0])
+        that.setData({
+          brandImgSrc: data.brandImgSrc,
+          isUpload: true,
+          brandName: data.brand,
+          area: data.area,
+          isSelected: false,
+          isClick: false,
+          address: data.address,
+          latitude: data.latitude,
+          longitude: data.longitude,
+          labelList: data.label
+        })
 
+        var length = that.data.labelList.length -1;
+        var step0InfoBoxHeight = that.data.step0InfoBoxHeight;
+        step0InfoBoxHeight += length*90;
+        that.setData({
+          step0InfoBoxHeight
+        })
+      },
+    })
+    
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
+      
   },
 
   /**

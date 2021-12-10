@@ -14,7 +14,7 @@
         <text style="font-size: 26rpx;color: rgb(75, 73, 75);">请在稍后的提示框中点击“允许”</text>
       </view>
       <image 
-        src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/Snipaste_2021-12-08_21-32-27.png"
+        src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/other/authToast.png"
         style="height: 400rpx;width: 500rpx;border-radius: 20rpx;margin: 25rpx auto;"
         >
       </image>
@@ -67,20 +67,7 @@
   <van-empty description="商家入驻解锁更多精彩！" />
 </view>
 
-
-
-<!-- <view class="user_function_box">
-  <view class="user_function_item mid">
-    <text>我的收藏</text>
-  </view>
-  <view style="width: 10%;"></view>
-  <view class="user_function_item mid">
-    <text>浏览历史</text>
-  </view>
-</view> -->
-
-
-<view class="admin_function_box">
+<view class="admin_function_box" hidden="{{identity == 'user'}}">
   <view  wx:for="{{admin_info}}" wx:key="key">
     <view class="admin_function_item_box" bindtap="actionFuntion" data-index="{{index}}">
       <view style="width: 8%;">

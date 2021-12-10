@@ -12,7 +12,9 @@ Page({
   data: {
     phone: '',
     adminName: '',
-    authImgUrl: ''
+    // 认证图片地址[门店照片，营业执照]
+    authImgUrl: ['',''],
+    authState: ''
   },
 
 
@@ -43,10 +45,12 @@ Page({
       maxDuration: 30,
       camera: 'back',
       success(res) {
+        // 临时文件路径
         var url = res.tempFiles[0].tempFilePath;
         console.log('uploadUrl:' + url);
+        // 更新存储图片
         wx.cloud.uploadFile({
-          cloudPath: 'auth_img/' + app.globalData.openid + '/' + index + '.png', // 上传至云端的路径
+          cloudPath: 'auth_img/' + app.globalData.openid + '/' + (new Date()).getTime() + '.png', // 上传至云端的路径
           filePath: url, // 小程序临时文件路径
           success: res => {
             // 返回文件 ID
@@ -56,42 +60,79 @@ Page({
             that.setData({
               authImgUrl
             })
+            console.log(that.data.authImgUrl)
           },
-          fail: console.error
+          fail: console.error,
+          complete: function () {
+            // 更新stores中的认证图片路径
+            db.collection('stores').where({
+              _openid: app.globalData.openid
+            })
+            .update({
+              data: {
+                authImgUrl: that.data.authImgUrl,
+                authState: 0
+              }
+            })
+          }
         })  
       },
-      fail: console.error,
-      complete: function () {
-        // 这里未作是否上传成功的判断！！！！！！！！
-        // wx.cloud.uploadFile({
-        //   cloudPath: 'test/' + i + 'example.png', // 上传至云端的路径
-        //   filePath: fileList[i].url, // 小程序临时文件路径
-        //   success: res => {
-        //     // 返回文件 ID
-        //     console.log(res.fileID)
-        //   },
-        //   fail: console.error
-        // })
-      }
+      fail: console.error
+      
     }) 
   },
 
+  /**
+   * 更新修改到数据库
+   */
+  upDateData: function () {
+    var that = this;
+    db.collection('stores').where({
+      _openid: app.globalData.openid
+    })
+    .update({
+      data: {
+        name: that.data.adminName,
+        phone: that.data.phone,
+      }
+    })
+  },
+
+  /**
+   * 实时修改page data的数据
+   * @param {实时输入值；输入值的名称} event 
+   */
+  modifyData: function (event) {
+    var input = event.detail;
+    var valueName = event.currentTarget.dataset.valuename;
+    // console.log(valueName + ':' + input)
+    this.setData({
+      valueName: input
+    })
+    // console.log(this.data)
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this;
+
+    // 查询认证基本信息 
     db.collection('stores').where({
       _openid: app.globalData.openid
     })
     .get({
       success: res => {
-        console.log(res.data[0])
+        // console.log(res.data[0])
+        // 读取到authImgUrl的云端存储id
         this.setData({
           phone: res.data[0].phone,
           adminName: res.data[0].name,
-          authImgUrl: res.data[0].authImgUrl
+          authImgUrl: res.data[0].authImgUrl,
+          authState: res.data[0].authState
         })
+        console.log(this.data)
       }
     })
   },
@@ -107,7 +148,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**
