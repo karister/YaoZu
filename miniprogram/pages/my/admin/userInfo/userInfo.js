@@ -101,7 +101,7 @@ Page({
         success: function (res) {
           console.log(res.data[0])
           wx.navigateTo({
-            url: '/pages/my/detail/detail?info=' + res.data[0]._id + '|' + res.data[0].area
+            url: '/pages/my/detail/detail?openid=' + app.globalData.openid
           })
         }
       })
