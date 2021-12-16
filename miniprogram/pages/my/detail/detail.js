@@ -58,6 +58,29 @@ Page({
     latitude: '',
     longitude: ''
   },
+
+  /**
+   * 点击图片预览大图
+   * @param {index: 当前点击的图片索引;name: 标签的名称} event   
+   */
+  viewImage: function (event) {
+    var index = event.currentTarget.dataset.index;
+    var name = event.currentTarget.dataset.name;
+    var display_info = this.data.display_info;
+    // console.log(index)
+    display_info.labelList.forEach(element => {
+      if(element.labelName == name) {
+        if(element.imgUrls[index] != '') {
+          // console.log(index + ':' + element.imgUrls[index])
+          wx.previewImage({
+            current: element.imgUrls[index], // 当前显示图片的http链接
+            urls: element.imgUrls // 需要预览的图片http链接列表
+          })
+        }
+      }
+    });
+  },
+
   /**
    * 调起系统拨打电话
    */

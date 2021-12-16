@@ -223,38 +223,39 @@ Page({
     var imgUrls = this.data.imgUrls;
     imgUrls[labelIndex].forEach( (item,index) => {
       var now = new Date();
-      var time = now.getFullYear().toString() + now.getMonth().toString() + now.getDate().toString() + now.getDay().toString() + now.getHours().toString() + now.getMinutes().toString();
+      var time = now.getFullYear().toString() + (now.getMonth()+1).toString() + now.getDate().toString() + now.getDay().toString() + now.getHours().toString() + now.getMinutes().toString();
       // console.log(time);
       // 上传到云存储
       wx.cloud.uploadFile({
-        cloudPath: 'product_img/' + data.brandName + '/' + data.labelObject[labelIndex].labelName + '/' + index + '.' + time + '.png', // 上传至云端的路径
+        cloudPath: 'product_img/' + data.brandName + '/' + data.labelObject[labelIndex].labelName + '/' + time + '/' + index + '.png', // 上传至云端的路径
         filePath: item, // 小程序临时文件路径
         success: res => {
-          console.log(res.fileID);
+          // console.log(res.fileID);
+          imgUrls[labelIndex][index] = res.fileID;
         }
       })
-      // 更新图片地址到数据库
-      // 构建空列表（同数据库中product-labels列表结构一致）
-      var dbLabelObbject = [];
-      imgUrls.forEach( (element,index) => {
-        // 此处将图片链接为空的也写入了product-labels-imgUrls
-        dbLabelObbject.push({
-          imgUrls: element,
-          labelName: labelObject[index].labelName
-        })
-      } )
-      db.collection('product').where({
-        _openid: app.globalData.openid
+    })
+    // 更新图片地址到数据库(!!!!未更新fileID至page data中的imgUrls)
+    // 构建空列表（同数据库中product-labels列表结构一致）
+    var dbLabelObbject = [];
+    imgUrls.forEach( (element,index) => {
+      // 此处将图片链接为空的也写入了product-labels-imgUrls
+      dbLabelObbject.push({
+        imgUrls: element,
+        labelName: labelObject[index].labelName
       })
-      .update({
-        data:{
-          labels: dbLabelObbject
-        },
-        success: function (res) {
-          // console.log(res); 
-        },
-        fail: console.error
-      })
+    } )
+    db.collection('product').where({
+      _openid: app.globalData.openid
+    })
+    .update({
+      data:{
+        labels: dbLabelObbject
+      },
+      success: function (res) {
+        // console.log(res); 
+      },
+      fail: console.error
     })
     Toast.success({
       message: '发布成功',
