@@ -73,8 +73,8 @@
 </view>
 <view class="div_line"></view>
 <van-tabs swipeable sticky>
-  <van-tab title="{{item}}" wx:for="{{display_info.labelList}}" wx:key="key">
-    <image class="product_img_box" src="{{display_info.brandImgSrc}}" wx:for="{{9}}" wx:key="key"></image>
+  <van-tab title="{{label.labelName}}" wx:for="{{display_info.labelList}}" wx:key="key" wx:for-item="label">
+    <image class="product_img_box" src="{{url}}" wx:for="{{label.imgUrls}}" wx:key="key" wx:for-item="url"></image>
   </van-tab>
 </van-tabs>
 

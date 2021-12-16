@@ -216,16 +216,44 @@ Page({
    * @param {event.currentTarget.dataset.index: 当前发布的标签索引} event 
    */
   onPublish: function (event) {
+    var that = this;
     var data = this.data;
     var labelIndex = event.currentTarget.dataset.index;
-    var labelObject = this.data.labelObject;
-    labelObject[labelIndex].imgUrls.forEach( (item,index) => {
+    var labelObject = data.labelObject;
+    var imgUrls = this.data.imgUrls;
+    imgUrls[labelIndex].forEach( (item,index) => {
+      var now = new Date();
+      var time = now.getFullYear().toString() + now.getMonth().toString() + now.getDate().toString() + now.getDay().toString() + now.getHours().toString() + now.getMinutes().toString();
+      // console.log(time);
+      // 上传到云存储
       wx.cloud.uploadFile({
-        cloudPath: 'product_img/' + data.brandName + '/' + data.labelObject[labelIndex].labelName + '/' + index + '.' + (new Date()).getTime() + '.png', // 上传至云端的路径
+        cloudPath: 'product_img/' + data.brandName + '/' + data.labelObject[labelIndex].labelName + '/' + index + '.' + time + '.png', // 上传至云端的路径
         filePath: item, // 小程序临时文件路径
         success: res => {
           console.log(res.fileID);
         }
+      })
+      // 更新图片地址到数据库
+      // 构建空列表（同数据库中product-labels列表结构一致）
+      var dbLabelObbject = [];
+      imgUrls.forEach( (element,index) => {
+        // 此处将图片链接为空的也写入了product-labels-imgUrls
+        dbLabelObbject.push({
+          imgUrls: element,
+          labelName: labelObject[index].labelName
+        })
+      } )
+      db.collection('product').where({
+        _openid: app.globalData.openid
+      })
+      .update({
+        data:{
+          labels: dbLabelObbject
+        },
+        success: function (res) {
+          // console.log(res); 
+        },
+        fail: console.error
       })
     })
     Toast.success({

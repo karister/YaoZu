@@ -94,6 +94,8 @@ Page({
      */
     const storeOpenid = options.openid;
     const that = this;
+    var display_info = that.data.display_info;
+    // 读取stores集合中商家的所有需要被展示的信息
     db.collection('stores').where({
       _openid: storeOpenid
     })
@@ -101,12 +103,10 @@ Page({
       success: function (res) {
         var res_data = res.data[0];
         console.log(res_data);
-        var display_info = that.data.display_info;
         display_info.brandName = res_data.brand;//品牌名
         display_info.brandImgSrc = res_data.brandImgSrc;//品牌头像地址
         var labels = res_data.label;//标签信息
         for(let i = 0; i < labels.length; i++) {
-          display_info.labelList[i] = labels[i];
           display_info.labelText += labels[i];
           if(i != (labels.length-1)) {
             display_info.labelText += '|';
@@ -126,64 +126,25 @@ Page({
         })
       }
     })
-
-    // const str = options.info;
-    // const strData = str.split('|');
-    // const id = strData[0];
-    // const area = strData[1];
-    // console.log(id);
-    // console.log(area);
-    // const that = this;
-    // const db = wx.cloud.database();
-    // var area_info = that.data.area_info;
-    // // 设置区域信息
-    // for(let i = 0; i < area_info.length; i++) {
-    //   if(area_info[i].area == area) {
-    //     that.setData({
-    //       display_index: i
-    //     })
-    //   }
-    // }
-    // db.collection('stores').where({
-    //   _id: id
-    // })
-    // .get({ 
-    //   success: function(res) {
-    //     var res_data = res.data[0];
-    //     console.log(res_data);
-    //     //设置展示数据
-    //     var display_info = that.data.display_info;   
-    //     display_info.brandName = res_data.brand;//品牌名
-    //     display_info.brandImgSrc = res_data.brandImgSrc;//品牌头像地址
-    //     var labels = res_data.label;//标签信息
-    //     for(let i = 0; i < labels.length; i++) {
-    //       display_info.labelList[i] = labels[i];
-    //       display_info.labelText += labels[i];
-    //       if(i != (labels.length-1)) {
-    //         display_info.labelText += '|';
-    //       }
-    //     }
-    //     display_info.browseNum = res_data.browseNum;//浏览量
-    //     display_info.authState = (res_data.authState == 1) ?'authed' :'unauth';//认证状态
-    //     display_info.authText = (res_data.authState == 1) ?'企业已认证' :'企业未认证';//认证展示文本
-    //     display_info.address = res_data.address + '[' + area + ']';//店面地址
-    //     display_info.phoneNumber = res_data.phone;//商家手机号
-    //     display_info.authImgUrl = res_data.authImgUrl;// 认证图片
-
-    //     for(let i = 0; i < area_info.length; i++) {
-    //       if(area_info[i].area == area) {
-    //         area_info[i].latitude = res_data.latitude;
-    //         area_info[i].longitude = res_data.longitude;
-    //       }
-    //     }
-    //     console.log(display_info)
-    //     that.setData({
-    //       display_info,
-    //       area_info
-    //     })
-    //   }
-    // })
-    
+    // 读取product中的产品图片
+    db.collection('product').where({
+      _openid: storeOpenid
+    })
+    .get({
+      success: function (res) {
+        var res_data = res.data[0];
+        var labels = res_data.labels;
+        labels.forEach(element => {
+          display_info.labelList.push({
+            labelName: element.labelName,
+            imgUrls: element.imgUrls
+          })
+        });
+        that.setData({
+          display_info
+        })
+      }
+    })
   },
 
   /**
