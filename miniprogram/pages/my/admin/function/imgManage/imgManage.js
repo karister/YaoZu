@@ -12,11 +12,204 @@ Page({
    */
   data: {
     brandName: '',
+    /*
+    labelObject: {
+      //标签名
+      labelName: 
+      //图片
+      imgUrls:
+      //是否空链接
+      urlsEmpty: 
+    }
+    */
     labelObject: [],
-    // 侧边栏选中项
-    activeKey: 0,
+    // 纯图片链接集合(二维数组)
+    imgUrls: [],
+    // 选中后的图片框颜色
+    selectedColor: 'red',
+    // 正常的图片框颜色
+    normalColor: '#e4e4e4'
+    
+
   },
   
+  /**
+   * 全部清空上传的图片
+   * @param {labelindex: 标签的索引} event 
+   */
+  allClear(event) {
+    var labelIndex = event.currentTarget.dataset.labelindex;
+    var labelObject = this.data.labelObject;
+    var imgUrls = this.data.imgUrls;
+    // console.log(labelIndex);
+    labelObject[labelIndex].images = [];
+    labelObject[labelIndex].urlsEmpty = true;
+    imgUrls[labelIndex] = [];
+    this.setData({
+      labelObject,
+      imgUrls
+    })
+    // console.log(labelObject[labelIndex]);
+  },
+
+  /**
+   * 删除选中的图片
+   * @param {imageindex: 当前点击的图片索引;labelindex: 标签的索引} event   
+   */
+  deleteImage(event) {
+    var labelIndex = event.currentTarget.dataset.labelindex;
+    var labelObject = this.data.labelObject;
+    var imgUrls = this.data.imgUrls;
+    var imageIndex = labelObject[labelIndex].selectIndex;
+    // 删除纯图片链接集合中对应索引的图片
+    imgUrls[labelIndex].splice(imageIndex,1);
+    // 删除图片对象集合中对应索引的图片
+    labelObject[labelIndex].images.splice(imageIndex,1);
+    // 增加集合元素
+    labelObject[labelIndex].images.push({
+      url: '',
+      borderColor: this.data.normalColor
+    })
+    // 增加集合元素
+    imgUrls[labelIndex].push('');
+    // 禁用编辑按钮
+    labelObject[labelIndex].disable = true;
+    this.setData({
+      labelObject,
+      imgUrls
+    })
+  },
+  /**
+   * 更改单张图片
+   * @param {labelindex: 标签的索引} event 
+   */
+  changeImage(event) {
+    const that = this;
+    var labelIndex = event.currentTarget.dataset.labelindex;
+    var labelObject = this.data.labelObject;
+    var imgUrls = this.data.imgUrls;
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image','video'],
+      sourceType: ['album', 'camera'],
+      maxDuration: 30,
+      camera: 'back',
+      success(res) {
+        labelObject[labelIndex].images[labelObject[labelIndex].selectIndex].url = res.tempFiles[0].tempFilePath;
+        imgUrls[labelIndex][labelObject[labelIndex]] = res.tempFiles[0].tempFilePath;
+        // 更新普通边框颜色
+        labelObject[labelIndex].images[labelObject[labelIndex].selectIndex].borderColor = that.data.normalColor;
+        // 禁用编辑按钮
+        labelObject[labelIndex].disable = true;
+        that.setData({
+          labelObject,
+          imgUrls
+        })
+      },
+      fail: console.error
+    })
+  },
+
+  /**
+   * 取消选中的图片
+   * @param {labelindex: 标签的索引} event 
+   */
+  cancelSelect(event) {
+    var labelIndex = event.currentTarget.dataset.labelindex;
+    var labelObject = this.data.labelObject;
+    labelObject[labelIndex].images[labelObject[labelIndex].selectIndex].borderColor = this.data.normalColor;
+    // 禁用编辑按钮
+    labelObject[labelIndex].disable = true;
+    this.setData({
+      labelObject
+    })
+  },
+
+  /**
+   * 长按图片进行编辑
+   * @param {imageindex: 当前点击的图片索引;labelindex: 标签的索引} event   
+   */
+  editImage(event) {
+    var imageIndex = event.currentTarget.dataset.imageindex;
+    var labelIndex = event.currentTarget.dataset.labelindex;
+    var labelObject = this.data.labelObject;
+    // console.log(imageIndex + ':' + labelIndex)
+    if(labelObject[labelIndex].disable) {
+      labelObject[labelIndex].images[imageIndex].borderColor = this.data.selectedColor;
+      // 启用编辑按钮
+      labelObject[labelIndex].disable = false;
+      // 更新标签中选中的图片索引
+      labelObject[labelIndex].selectIndex = imageIndex;
+      this.setData({
+        labelObject
+      })
+    }
+  },
+
+
+  /**
+   * 点击图片预览大图
+   * @param {imageindex: 当前点击的图片索引;labelindex: 标签的索引} event   
+   */
+  viewImage: function (event) {
+    var imageIndex = event.currentTarget.dataset.imageindex;
+    var labelIndex = event.currentTarget.dataset.labelindex;
+    var imgUrls = this.data.imgUrls;
+    var labelObject = this.data.labelObject;
+    // console.log(imageIndex + ':' + labelIndex)
+    // 禁用编辑按钮
+    labelObject[labelIndex].disable = true;
+    // 改变选中图片边框颜色
+    labelObject[labelIndex].images[labelObject[labelIndex].selectIndex].borderColor = this.data.normalColor;
+    this.setData({labelObject});
+    if(imgUrls[labelIndex][imageIndex] != '') {
+      wx.previewImage({
+        current: imgUrls[labelIndex][imageIndex], // 当前显示图片的http链接
+        urls: imgUrls[labelIndex] // 需要预览的图片http链接列表
+      })
+    }
+  },
+
+  /**
+   * 空状态的上传图片，即第一次上传
+   * @param {event.currentTarget.dataset.index: 当前上传的标签索引} event  
+   */
+  firstUpload: function (event) {
+    const that = this;
+    var labelIndex = event.currentTarget.dataset.index;
+    var labelObject = this.data.labelObject;
+    wx.chooseMedia({
+      count: 9,
+      mediaType: ['image','video'],
+      sourceType: ['album', 'camera'],
+      maxDuration: 30,
+      camera: 'back',
+      success(res) {
+        var imgUrls = that.data.imgUrls;
+        for(let i = 0; i < 9; i++) {
+          if(i < res.tempFiles.length) {// 上传的图片直接赋值url显示
+            labelObject[labelIndex].images.push({
+              url: res.tempFiles[i].tempFilePath,
+              borderColor: that.data.normalColor
+            });
+            imgUrls[labelIndex].push(res.tempFiles[i].tempFilePath);
+          } else {// 不足9张的部分显示空图片
+            labelObject[labelIndex].images.push({
+              url: '',
+              borderColor: that.data.normalColor
+            });
+            imgUrls[labelIndex].push('');
+          }
+        }
+        labelObject[labelIndex].urlsEmpty = false;
+        that.setData({
+          labelObject,
+          imgUrls
+        })
+      },
+      fail: console.error
+    })
+  },
 
   /**
    * 发布图片，把分类标签下上传的图片存储到云存储
@@ -42,38 +235,6 @@ Page({
   },
 
   /**
-   * vantui上传文件组件读取文件后的动作函数
-   * @param {event.detail.file: 当前读取的文件} event 
-   */
-  vantUploadImg: function (event) {
-    var fileObject = event.detail.file;
-    var labelIndex = event.currentTarget.dataset.index;
-    var labelObject = this.data.labelObject;
-    // console.log(imgUrls)
-    // console.log(index)
-    fileObject.forEach( (item) => {
-      console.log(item.url);
-      labelObject[labelIndex].imgUrls.push(item.url);
-      labelObject[labelIndex].fileList.push({url: item.url});
-    })
-    this.setData({labelObject});
-    console.log(this.data.labelObject);
-  },
-  /**
-   * vantui上传文件组件点击删除文件后的动作函数
-   * @param {event.detail.index: 删除图片的序号值} e 
-   */
-  vantDeleteImg: function (e) {
-    var index = e.detail.index;
-    var fileList = this.data.fileList;
-    console.log('deleteUrl:' + fileList[index].url);
-    fileList.splice(index, 1);
-    this.setData({
-      fileList
-    })  
-  },
-
-  /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
@@ -86,17 +247,43 @@ Page({
       success: function (res) {
         var labelData = res.data[0].labels;
         var labelObject = that.data.labelObject;
+        var imageObject = that.data.imageObject;
+        var imgUrls = that.data.imgUrls;
         // console.log(labelData)
         for(let i = 0; i < labelData.length; i++) {
-          labelObject.push({
-            labelName: labelData[i].labelName,
-            imgUrls:labelData[i].imgUrls,
-            fileList: []
+          imgUrls.push(labelData[i].imgUrls)
+          that.setData({
+            imgUrls
           })
+          if(labelData[i].imgUrls.length == 0) {
+            labelObject.push({
+              labelName: labelData[i].labelName,
+              images:[],
+              disable: true,
+              selectIndex: 0,
+              urlsEmpty: true//显示空状态
+            })
+          } else {
+            var imagesBuffer = [];
+            labelData[i].imgUrls.forEach( url => {
+              imagesBuffer.push({
+                url: url,
+                borderColor: that.data.normalColor
+              })
+            } )
+            labelObject.push({
+              labelName: labelData[i].labelName,
+              images: imagesBuffer,
+              disable: true,
+              selectIndex: 0,
+              urlsEmpty: false//不显示空状态
+            })
+          }
         }
-        // console.log(label_img)
+        // console.log(labelObject)
         that.setData({
           labelObject,
+          imageObject,
           brandName: res.data[0].brandName
         });
       }

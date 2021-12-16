@@ -158,7 +158,8 @@ Page({
           .update({
             data: {
               avatarUrl: that.data.avatarUrl,
-              nickName: that.data.nickName
+              nickName: that.data.nickName,
+              updateTime: (new Date())
             },
             success: function(res) {
               // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
@@ -218,7 +219,7 @@ Page({
    */
   onShow: function () {
     this.checkUserInfo();
-    console.log(this.data.identity)
+    // console.log(this.data.identity)
   },
 
   /**

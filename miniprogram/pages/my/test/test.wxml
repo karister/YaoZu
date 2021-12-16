@@ -1,5 +1,16 @@
 <!--pages/my/test/test.wxml-->
 <!-- <button type="primary" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信登录</button> -->
 
-<button type="primary" bindtap="uploadImg" >上传一张图片</button>
-<van-uploader file-list="{{ fileList }}" multiple bind:after-read="vantUploadImg" bind:delete="vantDeleteImg"/>
+<!-- <button type="primary" bindtap="uploadImg" >上传一张图片</button>
+<van-uploader file-list="{{ fileList }}" multiple bind:after-read="vantUploadImg" bind:delete="vantDeleteImg"/> -->
+
+<view style="width: 300rpx;height: 300rpx;margin: 100rpx 100rpx; background-color: white; position: relative;">
+  <image 
+    style="height: 200rpx;width: 200rpx;margin: 50rpx 50rpx;z-index: 0;position: absolute;"
+    src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test/0.example.png">
+</image>
+  <view 
+    style="width: 100rpx;height: 50rpx;margin: 50rpx 100rpx; background-color: blueviolet;z-index: 1;position: absolute;">
+      
+  </view>
+</view>

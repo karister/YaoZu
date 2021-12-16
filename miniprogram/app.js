@@ -47,7 +47,9 @@ App({
               db.collection('user').add({
                 data: {
                   name: 'normal',
-                  identity: 'user'
+                  identity: 'user',
+                  createTime: (new Date()),
+                  updateTime: (new Date())
                 },
                 success: function(res) {
                   // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
