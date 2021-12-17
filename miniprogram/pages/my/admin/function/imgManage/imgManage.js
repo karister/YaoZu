@@ -87,7 +87,9 @@ Page({
     const that = this;
     var labelIndex = event.currentTarget.dataset.labelindex;
     var labelObject = this.data.labelObject;
+    var selectIndex = labelObject[labelIndex].selectIndex;
     var imgUrls = this.data.imgUrls;
+    console.log(labelIndex + ':' + selectIndex)
     wx.chooseMedia({
       count: 1,
       mediaType: ['image','video'],
@@ -95,10 +97,10 @@ Page({
       maxDuration: 30,
       camera: 'back',
       success(res) {
-        labelObject[labelIndex].images[labelObject[labelIndex].selectIndex].url = res.tempFiles[0].tempFilePath;
-        imgUrls[labelIndex][labelObject[labelIndex]] = res.tempFiles[0].tempFilePath;
+        labelObject[labelIndex].images[selectIndex].url = res.tempFiles[0].tempFilePath;
+        imgUrls[labelIndex][selectIndex] = res.tempFiles[0].tempFilePath;
         // 更新普通边框颜色
-        labelObject[labelIndex].images[labelObject[labelIndex].selectIndex].borderColor = that.data.normalColor;
+        labelObject[labelIndex].images[selectIndex].borderColor = that.data.normalColor;
         // 禁用编辑按钮
         labelObject[labelIndex].disable = true;
         that.setData({
@@ -221,6 +223,8 @@ Page({
     var labelIndex = event.currentTarget.dataset.index;
     var labelObject = data.labelObject;
     var imgUrls = this.data.imgUrls;
+    console.log(imgUrls)
+    // 将上传图片得到的临时链接通过上传到云存储换取fileID
     imgUrls[labelIndex].forEach( (item,index) => {
       var now = new Date();
       var time = now.getFullYear().toString() + (now.getMonth()+1).toString() + now.getDate().toString() + now.getDay().toString() + now.getHours().toString() + now.getMinutes().toString();
@@ -228,14 +232,22 @@ Page({
       // 上传到云存储
       wx.cloud.uploadFile({
         cloudPath: 'product_img/' + data.brandName + '/' + data.labelObject[labelIndex].labelName + '/' + time + '/' + index + '.png', // 上传至云端的路径
-        filePath: item, // 小程序临时文件路径
+        filePath: item, // 临时文件路径
         success: res => {
-          // console.log(res.fileID);
+          console.log(res.fileID);
           imgUrls[labelIndex][index] = res.fileID;
+          // 换取到fileID更新到page data
+          that.setData({imgUrls});
         }
       })
     })
-    // 更新图片地址到数据库(!!!!未更新fileID至page data中的imgUrls)
+
+    wx.showLoading({
+      title: '图片发布中',
+    })
+    // 延时2000ms等待图片上传到云存储换取fileID
+    setTimeout( ()=> {
+    // 更新图片地址到数据库
     // 构建空列表（同数据库中product-labels列表结构一致）
     var dbLabelObbject = [];
     imgUrls.forEach( (element,index) => {
@@ -257,10 +269,12 @@ Page({
       },
       fail: console.error
     })
+    wx.hideLoading();
     Toast.success({
       message: '发布成功',
       duration: 1000
     });
+    },2000 ) 
   },
 
   /**
@@ -276,7 +290,6 @@ Page({
       success: function (res) {
         var labelData = res.data[0].labels;
         var labelObject = that.data.labelObject;
-        var imageObject = that.data.imageObject;
         var imgUrls = that.data.imgUrls;
         // console.log(labelData)
         for(let i = 0; i < labelData.length; i++) {
@@ -312,7 +325,6 @@ Page({
         // console.log(labelObject)
         that.setData({
           labelObject,
-          imageObject,
           brandName: res.data[0].brandName
         });
       }
