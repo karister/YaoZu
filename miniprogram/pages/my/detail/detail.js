@@ -112,6 +112,7 @@ Page({
    * @param {
    *    storeOpenid: 商家的openid
    *    brandName: 品牌名
+   *    brandImgUrl: 品牌头像
    *    labelText: 标签文本
    *    browseNum: 浏览量
    * } storeInfoObj 
@@ -133,14 +134,18 @@ Page({
          *          {
          *            storeOpenid: 
          *            brandName:
+         *            brandImgUrl:
          *            labelText:
          *            browseNum:
+         *            sameNum:
          *          },
          *          {
          *            storeOpenid: 
          *            brandName:
+         *            brandImgUrl:
          *            labelText:
          *            browseNum:
+         *            sameNum:
          *          }
          *      ]
          *    },
@@ -150,14 +155,18 @@ Page({
          *          {
          *            storeOpenid: 
          *            brandName:
+         *            brandImgUrl:
          *            labelText:
          *            browseNum:
+         *            sameNum:
          *          },
          *          {
          *            storeOpenid: 
          *            brandName:
+         *            brandImgUrl:
          *            labelText:
          *            browseNum:
+         *            sameNum:
          *          }
          *      ]
          *    }
@@ -176,8 +185,20 @@ Page({
           if(time == browseBuffer[i].date) {
             // 获取browse字段中storeInfo字段赋值缓冲区
             var storeInfoBuffer = browseBuffer[i].storeInfo;
+            // 查找storeInfo列表中是否存在当前浏览的商家，即当天已浏览过该商家，则需要更新在最后面，而不是push新记录
+            for(let j = 0; j < storeInfoBuffer.length; j++) {
+              // 当天已浏览过
+              if(storeInfoObj.brandName == storeInfoBuffer[j].brandName) {
+                // 先从列表中删除该记录，后续再push新记录
+                storeInfoBuffer.splice(j, 1);
+                // 增加当天浏览量
+                var sameNum = storeInfoObj.sameNum;
+                storeInfoObj.sameNum = sameNum + 1;
+                break;
+              }
+            }
             // 写入storeInfo字段缓冲区
-            storeInfoBuffer.push(storeInfoObj);
+            storeInfoBuffer.unshift(storeInfoObj);
             // 更新至browse字段缓冲区
             browseBuffer[i].storeInfo = storeInfoBuffer;
             break;
@@ -191,7 +212,7 @@ Page({
             storeInfo: [storeInfoObj]
           }
           // 更新至browse字段缓冲区
-          browseBuffer.push(dateObject);
+          browseBuffer.unshift(dateObject);
         }
         // 将browse字段缓冲区更新至browse数据库
         db.collection('browse').where({
@@ -251,8 +272,10 @@ Page({
         var storeInfoObj = {
           storeOpenid: storeOpenid,
           brandName: display_info.brandName,
+          brandImgUrl: display_info.brandImgSrc,
           labelText: display_info.labelText,
-          browseNum: display_info.browseNum
+          browseNum: display_info.browseNum,
+          sameNum: 1
         }
         that.updatebrowse(storeInfoObj);
       }

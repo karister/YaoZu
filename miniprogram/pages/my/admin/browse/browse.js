@@ -1,18 +1,34 @@
 // pages/my/admin/browse/browse.js
+const app = getApp();
+const db = wx.cloud.database();
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    // browse数据库中的browse字段
+    browse: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    const that = this;
+    db.collection('browse').where({
+      _openid: app.globalData.openid
+    })
+    .get({
+      success: function (res) {
+        var browse = res.data[0].browse;
+        console.log(browse)
+        that.setData({
+          browse
+        })
+      }
+    })
   },
 
   /**
