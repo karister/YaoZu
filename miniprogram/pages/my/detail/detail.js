@@ -112,13 +112,13 @@ Page({
    * @param {
    *    storeOpenid: 商家的openid
    *    brandName: 品牌名
+   *    area: 区域
    *    brandImgUrl: 品牌头像
    *    labelText: 标签文本
    *    browseNum: 浏览量
    * } storeInfoObj 
    */
   updatebrowse(storeInfoObj) {
-    
     db.collection('browse').where({
       _openid: app.globalData.openid
     })
@@ -203,6 +203,11 @@ Page({
         }
         // 当天没有产生浏览记录,需要新建当天记录
         if(!haveFlag) {
+          // 最多存储7天的记录
+          if(browseBuffer.length == 7) {
+            // 删除最后一天的记录
+            browseBuffer.pop()
+          }
           // 组建当天的浏览记录json对象
           var dateObject = {
             date: time,
