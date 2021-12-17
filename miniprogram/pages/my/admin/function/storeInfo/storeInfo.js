@@ -91,10 +91,6 @@ Page({
     })
     isInputFull = (brandName && address && data.brandImgSrc && data.area && data.labelList[0]);
     if(isInputFull) {
-      Toast.success({
-        message: '修改成功',
-        duration: 1000
-      });
       /**
        * 全部数据填写提交完毕，写入stores 集合
        */
@@ -117,6 +113,67 @@ Page({
           console.log(res)
         }
       })
+      /**
+       * 更新product集合中的标签数据
+       * 由于product-labels{imgUrls,labelName}的对象结构，所以只更新labelName需要把labels读取出来再更新
+       */
+
+      //  取product中的labels字段更新至labelsBuffer
+      var labelsBuffer = [];
+      db.collection('product').where({
+        _openid: app.globalData.openid
+      })
+      .get({
+        success: function (res) {
+          // 更新buffer以labelList即修改的标签列表为准
+          let updateFlag = false; //更新标志，即是否已存在的label
+          data.labelList.forEach(labelName => {
+            res.data[0].labels.forEach(label => {
+              // 如果已存在的label，则读取拼凑object写入buffer
+              if(label.labelName == labelName) {
+                updateFlag = true;
+                labelsBuffer.push({
+                  labelName: labelName,
+                  imgUrls: label.imgUrls
+                })
+              }
+            })
+            // 未更新，即新增的label，给imgUrls空列表写入buffer
+            if(!updateFlag) {
+              labelsBuffer.push({
+                labelName: labelName,
+                imgUrls: []
+              })
+            }
+            // 重置标志
+            updateFlag = false;
+          });
+          // console.log(data.labelList)
+          // console.log(labelsBuffer);
+        }
+      })
+      // 加载提示在保存信息，等待上方更新完labelsBuffer
+      wx.showLoading({
+        title: '保存中',
+      }) 
+      setTimeout(function () {
+        // 更新至product数据库中
+        db.collection('product').where({
+          _openid: app.globalData.openid
+        })
+        .update({
+          data: {
+            brandName: data.brandName,
+            labels: labelsBuffer
+          }
+        })
+        wx.hideLoading();
+        Toast.success({
+          message: '修改成功',
+          duration: 1000
+        });
+      },2000)
+      
     } else {
       Toast.fail({
         message: '请完整填写',
