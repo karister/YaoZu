@@ -10,20 +10,24 @@ Page({
   data: {
     admin_info: [
       {
-        iconStr: 'testA',
-        text: '我的认证'
+        iconStr: 'shenhe',
+        text: '我的认证',
+        class: 'van-hairline--bottom'
       },
       {
-        iconStr: 'testB',
-        text: '店铺信息'
+        iconStr: 'info',
+        text: '店铺信息',
+        class: 'van-hairline--bottom'
       },
       {
-        iconStr: 'testC',
-        text: '展图管理'
+        iconStr: 'tupian',
+        text: '展图管理',
+        class: 'van-hairline--bottom'
       },
       {
-        iconStr: 'testD',
-        text: '个性化修改'
+        iconStr: 'set',
+        text: '个性化修改',
+        class: ''
       }
     ],
     // 是否第一次使用小程序
@@ -67,46 +71,63 @@ Page({
    * @param {功能index} event 
    */
   actionFuntion: function (event) {
-    var index = event.currentTarget.dataset.index;
-    console.log('function: ' + index );
-    if(index == 0) {
-      this.myAuthFun();
-    } else if(index == 1) {
-      this.storeInfo();
-    } else if(index == 2) {
-      this.imgManage();
-    }  
+    // 是否已授权
+    if(this.data.avatarUrl == '') {
+      this.setData({show: true});
+    } else {
+      var index = event.currentTarget.dataset.index;
+      console.log('function: ' + index );
+      if(index == 0) {
+        this.myAuthFun();
+      } else if(index == 1) {
+        this.storeInfo();
+      } else if(index == 2) {
+        this.imgManage();
+      }  
+    }
   },
 
+  /**
+   * 点击我的浏览跳转浏览记录
+   */
+  browseFunction() {
+    // 是否已授权
+    if(this.data.avatarUrl == '') {
+      this.setData({show: true});
+    } else {
+      wx.navigateTo({
+        url: '/pages/my/admin/browse/browse'
+      })
+    }
+  },
 
   /**
    * 点击商家入驻跳转到入驻界面
    */
   brandJoin: function () {
-    // 不是商户
-    if(this.data.identity == 'user') {
-       // 是否已授权
-      if(this.data.avatarUrl == '') {
-        this.setData({show: true});
-      } else {
+     // 是否已授权
+     if(this.data.avatarUrl == '') {
+      this.setData({show: true});
+    } else {
+      // 不是商户
+      if(this.data.identity == 'user') {
         wx.navigateTo({
           url: '/pages/my/join/brandJion/brandJion'
         })
+      } else {
+        db.collection('stores').where({
+          _openid: app.globalData.openid
+        })
+        .get({
+          success: function (res) {
+            console.log(res.data[0])
+            wx.navigateTo({
+              url: '/pages/my/detail/detail?openid=' + app.globalData.openid
+            })
+          }
+        })
       }
-    } else {
-      db.collection('stores').where({
-        _openid: app.globalData.openid
-      })
-      .get({
-        success: function (res) {
-          console.log(res.data[0])
-          wx.navigateTo({
-            url: '/pages/my/detail/detail?openid=' + app.globalData.openid
-          })
-        }
-      })
     }
-   
   },
 
   /**
@@ -151,7 +172,7 @@ Page({
         // 授权成功
         if(that.data.avatarUrl != '') {
           // console.log(that.data.avatarUrl)
-          // 写入用户
+          // 更新用户头像和名称
           db.collection('user').where({
             _openid: app.globalData.openid
           })
@@ -164,6 +185,16 @@ Page({
             success: function(res) {
               // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
               console.log(res.errMsg);
+            }
+          })
+          // 更新浏览记录表中的头像和名称
+          db.collection('browse').where({
+            _openid: app.globalData.openid
+          })
+          .update({
+            data: {
+              avatarUrl: that.data.avatarUrl,
+              nickName: that.data.nickName,
             }
           })
         }

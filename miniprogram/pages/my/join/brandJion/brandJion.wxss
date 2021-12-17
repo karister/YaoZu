@@ -1,4 +1,5 @@
 /* pages/my/join/brandJion/brandJion.wxss */
+
 .join_step_box{
   width: 90%;
   height: 250rpx;

@@ -1,5 +1,6 @@
 <!--pages/my/admin/admin.wxml-->
 
+
 <!-- 授权遮罩层 -->
 <van-overlay show="{{ show }}">
   <view class="wrapper">
@@ -43,7 +44,7 @@
   </view>
 
   <view class="userinfo_box">
-    <view class="function1 mid">
+    <view class="function1 mid" catchtap="browseFunction">
       <iconfont name="browsed"></iconfont>
       <text style="font-size: 26rpx;margin-top: 10rpx;">最近浏览</text>
     </view>
@@ -68,12 +69,12 @@
 </view>
 
 <view class="admin_function_box" hidden="{{identity == 'user'}}">
-  <view  wx:for="{{admin_info}}" wx:key="key">
-    <view class="admin_function_item_box" bindtap="actionFuntion" data-index="{{index}}">
+  <view  wx:for="{{admin_info}}" class="{{item.class}}" wx:key="key">
+    <view class="admin_function_item_box " bindtap="actionFuntion" data-index="{{index}}">
       <view style="width: 8%;">
         <iconfont name="{{item.iconStr}}"></iconfont>
       </view>
-      <text style="width: 82%;">{{item.text}}</text>
+      <text style="width: 82%;" >{{item.text}}</text>
       <view style="width: 10%;">
         <iconfont name="click" style="display: flex;align-items: center;"></iconfont>
       </view>

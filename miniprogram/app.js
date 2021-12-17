@@ -56,6 +56,12 @@ App({
                   console.log(res)
                 }
               })
+              // 新建浏览记录browse用户
+              db.collection('browse').add({
+                data: {
+                  browse: []
+                }
+              })
             }
               
           }

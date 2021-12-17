@@ -107,6 +107,104 @@ Page({
     wx.hideLoading()
   },
   
+  /**
+   * 更新浏览记录列表的记录写入数据库browse
+   * @param {
+   *    storeOpenid: 商家的openid
+   *    brandName: 品牌名
+   *    labelText: 标签文本
+   *    browseNum: 浏览量
+   * } storeInfoObj 
+   */
+  updatebrowse(storeInfoObj) {
+    
+    db.collection('browse').where({
+      _openid: app.globalData.openid
+    })
+    .get({
+      success: function (res) {
+        // browse数据库中browse字段的json数据格式
+        /**
+         * browse: [ {}, {}, {} ]
+         * browse: [
+         *    {
+         *      date: 12月1日
+         *      storeInfo: [
+         *          {
+         *            storeOpenid: 
+         *            brandName:
+         *            labelText:
+         *            browseNum:
+         *          },
+         *          {
+         *            storeOpenid: 
+         *            brandName:
+         *            labelText:
+         *            browseNum:
+         *          }
+         *      ]
+         *    },
+         *    {
+         *      date: 12月2日
+         *      storeInfo: [
+         *          {
+         *            storeOpenid: 
+         *            brandName:
+         *            labelText:
+         *            browseNum:
+         *          },
+         *          {
+         *            storeOpenid: 
+         *            brandName:
+         *            labelText:
+         *            browseNum:
+         *          }
+         *      ]
+         *    }
+         * ]
+         */
+        // 获取browse数据库中browse字段赋值缓冲区
+        var browseBuffer = res.data[0].browse;
+        // 拼接当天日期字符串
+        var now = new Date();
+        var time = (now.getMonth() + 1).toString() + '月' + now.getDate().toString() + '日';
+        // 查找是否有当天的浏览记录
+        var haveFlag = false; // 是否找到标志
+        for(let i = 0; i < browseBuffer.length; i++) {
+          // 当天已产生浏览记录
+          haveFlag = true;
+          if(time == browseBuffer[i].date) {
+            // 获取browse字段中storeInfo字段赋值缓冲区
+            var storeInfoBuffer = browseBuffer[i].storeInfo;
+            // 写入storeInfo字段缓冲区
+            storeInfoBuffer.push(storeInfoObj);
+            // 更新至browse字段缓冲区
+            browseBuffer[i].storeInfo = storeInfoBuffer;
+            break;
+          }
+        }
+        // 当天没有产生浏览记录,需要新建当天记录
+        if(!haveFlag) {
+          // 组建当天的浏览记录json对象
+          var dateObject = {
+            date: time,
+            storeInfo: [storeInfoObj]
+          }
+          // 更新至browse字段缓冲区
+          browseBuffer.push(dateObject);
+        }
+        // 将browse字段缓冲区更新至browse数据库
+        db.collection('browse').where({
+          _openid: app.globalData.openid
+        })
+        .update({
+          data: {
+            browse: browseBuffer
+          }
+        })
+      }
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -147,6 +245,16 @@ Page({
           latitude: res_data.latitude,
           longitude: res_data.longitude
         })
+
+        // 更新浏览记录列表的记录写入数据库browse   
+        // 组建当前商家的浏览记录的json对象
+        var storeInfoObj = {
+          storeOpenid: storeOpenid,
+          brandName: display_info.brandName,
+          labelText: display_info.labelText,
+          browseNum: display_info.browseNum
+        }
+        that.updatebrowse(storeInfoObj);
       }
     })
     // 读取product中的产品图片

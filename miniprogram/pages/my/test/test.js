@@ -105,22 +105,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const that = this;
-    var fileList = that.data.fileList;
-    db.collection('test').get({
-      success: function (res) {
-        var data = res.data;
-        console.log(data)
-        data.forEach(element => {
-          // console.log(element)
-          fileList.push({
-            url: element.url
-          })
-        });
-        that.setData(fileList);
-        console.log(that.data.fileList)
-      }
-    })    
+    // const that = this;
+    // var fileList = that.data.fileList;
+    // db.collection('test').get({
+    //   success: function (res) {
+    //     var data = res.data;
+    //     console.log(data)
+    //     data.forEach(element => {
+    //       // console.log(element)
+    //       fileList.push({
+    //         url: element.url
+    //       })
+    //     });
+    //     that.setData(fileList);
+    //     console.log(that.data.fileList)
+    //   }
+    // })    
   },
 
   /**

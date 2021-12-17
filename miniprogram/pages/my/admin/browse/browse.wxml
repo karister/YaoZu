@@ -1,2 +1,42 @@
 <!--pages/my/admin/browse/browse.wxml-->
-<text>pages/my/admin/browse/browse.wxml</text>
+<view class="basic_info_box">
+  <image 
+    style="width: 160rpx;height: 160rpx;margin: 20rpx 20rpx; border-radius: 20rpx;"
+    src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test/0.example.png"
+  ></image>
+  <view style="width: 400rpx;height: 100%; display: flex;flex-direction: column;">
+    <view style="height: 50rpx;font-size: 32rpx;font-weight: 600; display: flex;align-items: center;">
+      玉清家具
+    </view>
+    <view style="height: 50rpx;font-size: 28rpx;color: rgb(77, 79, 80);;display: flex;align-items: center;">
+      欧式沙发|客厅家具|酒店系列
+    </view>
+    <view style="height: 50rpx;font-size: 28rpx;color: rgb(77, 79, 80);;display: flex;align-items: center;">
+      浏览量：1025
+    </view>
+    <view style="height: 50rpx;font-size: 28rpx;color: rgb(77, 79, 80);display: flex;align-items: center;">
+      上次浏览：12月24日
+    </view>
+  </view>
+</view>
+
+<view class="basic_info_box">
+  <image 
+    style="width: 160rpx;height: 160rpx;margin: 20rpx 20rpx; border-radius: 20rpx;"
+    src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/test/0.example.png"
+  ></image>
+  <view style="width: 400rpx;height: 100%; display: flex;flex-direction: column;">
+    <view style="height: 50rpx;font-size: 32rpx;font-weight: 600; display: flex;align-items: center;">
+      玉清家具
+    </view>
+    <view style="height: 50rpx;font-size: 28rpx;color: rgb(77, 79, 80);;display: flex;align-items: center;">
+      欧式沙发|客厅家具|酒店系列
+    </view>
+    <view style="height: 50rpx;font-size: 28rpx;color: rgb(77, 79, 80);;display: flex;align-items: center;">
+      浏览量：1025
+    </view>
+    <view style="height: 50rpx;font-size: 28rpx;color: rgb(77, 79, 80);display: flex;align-items: center;">
+      上次浏览：12月24日
+    </view>
+  </view>
+</view>
