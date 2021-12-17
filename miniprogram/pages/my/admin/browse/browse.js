@@ -9,7 +9,17 @@ Page({
    */
   data: {
     // browse数据库中的browse字段
-    browse: [],
+    browse: []
+  },
+
+  /**
+   * 跳转到商家详细界面
+   */
+  clickToDetail: function (event) {
+    var storeOpenid = event.currentTarget.dataset.openid;
+    wx.navigateTo({
+      url: '/pages/my/detail/detail?openid=' + storeOpenid
+    })
   },
 
   /**
@@ -22,10 +32,8 @@ Page({
     })
     .get({
       success: function (res) {
-        var browse = res.data[0].browse;
-        console.log(browse)
         that.setData({
-          browse
+          browse: res.data[0].browse
         })
       }
     })

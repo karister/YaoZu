@@ -72,9 +72,7 @@ Page({
    */
   actionFuntion: function (event) {
     // 是否已授权
-    if(this.data.avatarUrl == '') {
-      this.setData({show: true});
-    } else {
+    if(this.checkAuthed()) {
       var index = event.currentTarget.dataset.index;
       console.log('function: ' + index );
       if(index == 0) {
@@ -92,9 +90,7 @@ Page({
    */
   browseFunction() {
     // 是否已授权
-    if(this.data.avatarUrl == '') {
-      this.setData({show: true});
-    } else {
+    if(this.checkAuthed()) {
       wx.navigateTo({
         url: '/pages/my/admin/browse/browse'
       })
@@ -106,9 +102,7 @@ Page({
    */
   brandJoin: function () {
      // 是否已授权
-     if(this.data.avatarUrl == '') {
-      this.setData({show: true});
-    } else {
+     if(this.checkAuthed()) {
       // 不是商户
       if(this.data.identity == 'user') {
         wx.navigateTo({
@@ -134,8 +128,12 @@ Page({
    * 检查用户是否授权
    */
   checkAuthed: function () {
-    if(this.data.avatarUrl == '') {
+    // 未授权
+    if(app.globalData.avatarUrl == '') {
       this.setData({show: true});
+      return false;
+    } else {
+      return true;
     }
   },
 
@@ -147,20 +145,18 @@ Page({
     wx.getUserProfile({
       desc: '获取你的昵称、头像、地区及性别',
       success: res => {
-        var avatarUrl = that.data.avatarUrl;
-        var nickName = that.data.nickName;
         // console.log(res)
         // 成功获取
-        avatarUrl = res.userInfo.avatarUrl;
-        nickName = res.userInfo.nickName;
+        var avatarUrl = res.userInfo.avatarUrl;
+        var nickName = res.userInfo.nickName;
         // 写入globalData
         app.globalData.avatarUrl = avatarUrl;
         app.globalData.nickName = nickName;
         // 关闭遮罩层，更新page data
         that.setData({ 
           show: false,
-          avatarUrl,
-          nickName
+          avatarUrl: avatarUrl,
+          nickName: nickName
         });
       },
       fail: res => {
@@ -169,54 +165,35 @@ Page({
         that.setData({ show: false });
       },
       complete: function () {
-        // 授权成功
-        if(that.data.avatarUrl != '') {
-          // console.log(that.data.avatarUrl)
-          // 更新用户头像和名称
-          db.collection('user').where({
-            _openid: app.globalData.openid
-          })
-          .update({
-            data: {
-              avatarUrl: that.data.avatarUrl,
-              nickName: that.data.nickName,
-              updateTime: (new Date())
-            },
-            success: function(res) {
-              // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
-              console.log(res.errMsg);
-            }
-          })
-          // 更新浏览记录表中的头像和名称
-          db.collection('browse').where({
-            _openid: app.globalData.openid
-          })
-          .update({
-            data: {
-              avatarUrl: that.data.avatarUrl,
-              nickName: that.data.nickName,
-            }
-          })
-        }
-        
+        // console.log(that.data.avatarUrl)
+        // 更新用户头像和名称
+        db.collection('user').where({
+          _openid: app.globalData.openid
+        })
+        .update({
+          data: {
+            avatarUrl: app.globalData.avatarUrl,
+            nickName: app.globalData.nickName,
+            updateTime: (new Date())
+          },
+          success: function(res) {
+            // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
+            console.log(res.errMsg);
+          }
+        })
+        // 更新浏览记录表中的头像和名称
+        db.collection('browse').where({
+          _openid: app.globalData.openid
+        })
+        .update({
+          data: {
+            avatarUrl: app.globalData.avatarUrl,
+            nickName: app.globalData.nickName,
+          }
+        })
       }
     })
   },
-
-
-  /** 
-   * 检查用户信息
-  */
-  checkUserInfo: function () {
-    const that = this;
-    console.log(app.globalData)
-    // 全局数据中头像地址是否为空
-    if(app.globalData.avatarUrl == '') {
-      // 开启遮罩层
-      that.setData({show:true});
-    }
-  },
-
 
   /**
    * 生命周期函数--监听页面加载
@@ -229,13 +206,20 @@ Page({
     })
     .get({
       success: function (res) {
-        console.log(res);
+        // console.log(res);
         if(res.data[0].identity == 'store') {
           that.setData({identity: 'store'})
         }
       } 
     })
-    
+    // 已授权
+    if(app.globalData.avatarUrl != '') {
+      that.setData({
+        // 更新头像和名称至page data
+        avatarUrl: app.globalData.avatarUrl,
+        nickName: app.globalData.nickName
+      })
+    }
   },
 
   /**
@@ -249,8 +233,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.checkUserInfo();
-    // console.log(this.data.identity)
+    // 未授权
+    this.checkAuthed();
   },
 
   /**

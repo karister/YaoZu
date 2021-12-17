@@ -62,8 +62,12 @@ App({
                   browse: []
                 }
               })
+            } else {
+              // 用户存在则写入头像和名称至globalData
+              console.log('user has exist')
+              that.globalData.avatarUrl = res.data[0].avatarUrl;
+              that.globalData.nickName = res.data[0].nickName;
             }
-              
           }
         })
       }

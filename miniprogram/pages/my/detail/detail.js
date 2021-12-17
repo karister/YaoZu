@@ -137,7 +137,7 @@ Page({
          *            brandImgUrl:
          *            labelText:
          *            browseNum:
-         *            sameNum:
+         *            area:
          *          },
          *          {
          *            storeOpenid: 
@@ -145,7 +145,7 @@ Page({
          *            brandImgUrl:
          *            labelText:
          *            browseNum:
-         *            sameNum:
+         *            area:
          *          }
          *      ]
          *    },
@@ -158,7 +158,7 @@ Page({
          *            brandImgUrl:
          *            labelText:
          *            browseNum:
-         *            sameNum:
+         *            area:
          *          },
          *          {
          *            storeOpenid: 
@@ -166,7 +166,7 @@ Page({
          *            brandImgUrl:
          *            labelText:
          *            browseNum:
-         *            sameNum:
+         *            area:
          *          }
          *      ]
          *    }
@@ -180,9 +180,9 @@ Page({
         // 查找是否有当天的浏览记录
         var haveFlag = false; // 是否找到标志
         for(let i = 0; i < browseBuffer.length; i++) {
-          // 当天已产生浏览记录
-          haveFlag = true;
           if(time == browseBuffer[i].date) {
+            // 当天已产生浏览记录
+            haveFlag = true;
             // 获取browse字段中storeInfo字段赋值缓冲区
             var storeInfoBuffer = browseBuffer[i].storeInfo;
             // 查找storeInfo列表中是否存在当前浏览的商家，即当天已浏览过该商家，则需要更新在最后面，而不是push新记录
@@ -191,9 +191,6 @@ Page({
               if(storeInfoObj.brandName == storeInfoBuffer[j].brandName) {
                 // 先从列表中删除该记录，后续再push新记录
                 storeInfoBuffer.splice(j, 1);
-                // 增加当天浏览量
-                var sameNum = storeInfoObj.sameNum;
-                storeInfoObj.sameNum = sameNum + 1;
                 break;
               }
             }
@@ -275,7 +272,7 @@ Page({
           brandImgUrl: display_info.brandImgSrc,
           labelText: display_info.labelText,
           browseNum: display_info.browseNum,
-          sameNum: 1
+          area: res_data.area
         }
         that.updatebrowse(storeInfoObj);
       }
