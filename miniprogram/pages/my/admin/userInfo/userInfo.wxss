@@ -153,8 +153,8 @@
 
 .admin_function_box{
   width: 90%;
-  height: 500rpx;
-  margin: 0 auto;
+  height: 400rpx;
+  margin: 20rpx auto;
   background-color: white;
   border-radius: 20rpx;
 }

@@ -7,7 +7,7 @@
     </swiper-item>
 </swiper>
 
-<text></text>
+<!-- <text></text>
 <view class="labels_box">
     <view style="height: 50%;width: 100%;display: flex;flex-direction: row;" wx:for="{{2}}" wx:key="key">
         <view class="label_item_box" wx:for="{{4}}" wx:key="key" wx:for-index="index">
@@ -15,7 +15,7 @@
             <text>客厅家具</text>
         </view>
     </view>
-</view>
+</view> -->
 <!-- 地区图片 -->
 <view class="areaBigBox">
     <view class="areaImgBox"  hover-class="areaImgHover" wx:for="{{imgUrls}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">

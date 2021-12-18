@@ -16,7 +16,7 @@
   border-radius: 20rpx;
 }
 .areaBigBox{
-  margin: 0 auto;
+  margin: 100rpx auto;
   height: 500rpx;
   width: 600rpx; 
   /* border: 1px solid rgb(61, 90, 177); */
