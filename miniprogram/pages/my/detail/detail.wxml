@@ -1,9 +1,4 @@
 <!--pages/my/detail/detail.wxml-->
-<!-- <swiper class="swiperBox" indicator-dots autoplay interval="2000" circular> 
-    <swiper-item wx:for="{{imgUrls}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
-        <image src="{{item}}"></image>
-    </swiper-item>
-</swiper>  -->
 <view class="info_box">
     <view class="basic_info_box">
         <view class="basic_info_image_box mid">
@@ -13,8 +8,13 @@
             <view class="basic_info_brand_box">
                 <iconfont name="brand"></iconfont>
                 <view class="basic_info_brand_text">{{display_info.brandName}}</view>
+                <view style="width: 20%;"></view>
+                <view class="mid basic_info_collect" bindtap="collectStore">
+                    <iconfont name="collect" wx:if="{{collected}}"></iconfont>
+                    <iconfont name="uncollect" wx:if="{{!collected}}"></iconfont>
+                </view>
+                <van-toast id="van-toast" />
             </view>
-            
             <text class="basic_info_text_label" user-select>{{display_info.labelText}}</text>
             <text class="basic_info_text_browse">浏览量:{{display_info.browseNum}}</text>
         </view>

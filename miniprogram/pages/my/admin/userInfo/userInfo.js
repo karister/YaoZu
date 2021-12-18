@@ -81,18 +81,30 @@ Page({
         this.storeInfo();
       } else if(index == 2) {
         this.imgManage();
-      }  
+      }   
     }
   },
 
   /**
-   * 点击我的浏览跳转浏览记录
+   * 点击最近浏览跳转浏览记录
    */
   browseFunction() {
     // 是否已授权
     if(this.checkAuthed()) {
       wx.navigateTo({
         url: '/pages/my/admin/browse/browse'
+      })
+    }
+  },
+
+  /**
+   * 点击我的收藏跳转我的收藏
+   */
+  collectFunction() {
+    // 是否已授权
+    if(this.checkAuthed()) {
+      wx.navigateTo({
+        url: '/pages/my/admin/collect/collect'
       })
     }
   },

@@ -1,4 +1,6 @@
 // pages/my/detail/detail.js
+import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast';
+
 const app = getApp();
 const db = wx.cloud.database();
 
@@ -56,7 +58,88 @@ Page({
     address_box_height: 60,
     area: '',
     latitude: '',
-    longitude: ''
+    longitude: '',
+    storeOpenid: '',
+    collected: false,
+    collectStores: []
+  },
+
+  /**
+   * 检查本店铺是否已被收藏
+   */
+  checkCollected() {
+    const that = this;
+    db.collection('collect').where({
+      _openid: app.globalData.openid
+    })
+    .get({
+      success: function (res) {
+        var stores = res.data[0].stores;
+        for(let i = 0; i < stores.length; i++) {
+          if(that.data.storeOpenid == stores[i].storeOpenid) {
+            that.setData({
+              collected: true
+            })
+          }
+        }
+        that.setData({
+          collectStores: stores
+        })
+      }
+    })
+  },
+
+  /**
+   * 点击收藏店铺
+   */
+  collectStore() {
+    const that = this;
+    var display_info = that.data.display_info;
+    var storeOpenid = that.data.storeOpenid;
+    var stores = that.data.collectStores;
+    // 检查是否收藏
+    var collectFlag = false; // 是否收藏标志
+    for(let i = 0; i < stores.length; i++) {
+      // 已收藏,则需要取消收藏
+      if(that.data.storeOpenid == stores[i].storeOpenid) {
+        console.log('has collected')
+        collectFlag = true
+        stores.splice(i, 1);
+        that.setData({
+          collected: false
+        })
+        Toast('已取消收藏!');
+        break;
+      }
+    }
+    // 未收藏,则需要收藏
+    if(!collectFlag) {
+      console.log('no collect')
+      stores.unshift({
+        storeOpenid: storeOpenid,
+        brandImgUrl: display_info.brandImgSrc,
+        brandName: display_info.brandName,
+        area: that.data.area,
+        labelText: display_info.labelText,
+        browseNum: display_info.browseNum
+      });
+      that.setData({
+        collected: true
+      })
+      Toast.success('收藏成功！可在（我的-我的收藏）中查看');
+    }
+    // 更新数据库
+    db.collection('collect').where({
+      _openid: app.globalData.openid
+    })
+    .update({
+      data: {
+        stores: stores
+      },
+      success: function (res) {
+        // console.log(res);
+      }
+    })
   },
 
   /**
@@ -237,6 +320,9 @@ Page({
      * 接收跳转过来携带的openid数据，注意此openid为对应商家在stores集合中的的openid，并非打开此页面的用户的openid
      */
     const storeOpenid = options.openid;
+    this.setData({
+      storeOpenid: storeOpenid
+    });
     const that = this;
     var display_info = that.data.display_info;
     // 读取stores集合中商家的所有需要被展示的信息
@@ -301,6 +387,8 @@ Page({
         })
       }
     })
+    // 检查本店铺是否被收藏
+    that.checkCollected();
   },
 
   /**

@@ -1,6 +1,6 @@
 Component({
   properties: {
-    // set | tupian | update | label | collect | join | delete | add | arrow | zizhi | shenhe | browsed | info | click | authed | unauth | phone | address | brand
+    // uncollect | collect | set | tupian | update | label | join | delete | add | arrow | zizhi | shenhe | browsed | info | click | authed | unauth | phone | address | brand
     name: {
       type: String,
     },

@@ -2,7 +2,8 @@
   "usingComponents": {
     "van-image": "@vant/weapp/image/index",
     "van-tab": "@vant/weapp/tab/index",
-    "van-tabs": "@vant/weapp/tabs/index"
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-toast": "@vant/weapp/toast/index"
   },
   "backgroundColor": "#ffffff",
     "backgroundTextStyle": "light",
