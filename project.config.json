@@ -39,7 +39,7 @@
     "showES6CompileOption": false,
     "useCompilerPlugins": false
   },
-  "appid": "wx6321a09e4867a433",
+  "appid": "wx83ef593ac2e258c3",
   "projectname": "cloud-dev",
   "libVersion": "2.17.0",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate",

@@ -34,6 +34,7 @@ App({
         console.log('openid: ' + res.result.openid);
         that.globalData.openid = res.result.openid;
       },
+      fail: console.error,
       complete: function () {
         // 读取用户表查询用户是否存在
         db.collection('user').where({

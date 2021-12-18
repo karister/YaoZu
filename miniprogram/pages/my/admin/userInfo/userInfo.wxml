@@ -14,8 +14,10 @@
       <view style="height: 50rpx;" class="mid">
         <text style="font-size: 26rpx;color: rgb(75, 73, 75);">请在稍后的提示框中点击“允许”</text>
       </view>
+      <!-- cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/other/authToast.png" -->
+      <!-- cloud://cloud-env-9ggt1lz9119de7b5.636c-cloud-env-9ggt1lz9119de7b5-1308852391/other/authToast.png -->
       <image 
-        src="cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/other/authToast.png"
+        src="cloud://cloud-env-9ggt1lz9119de7b5.636c-cloud-env-9ggt1lz9119de7b5-1308852391/other/authToast.png"
         style="height: 400rpx;width: 500rpx;border-radius: 20rpx;margin: 25rpx auto;"
         >
       </image>

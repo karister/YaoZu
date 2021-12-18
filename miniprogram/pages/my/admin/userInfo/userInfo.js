@@ -213,6 +213,7 @@ Page({
   onLoad: function (options) {
     // 检查openid的身份,若为user，则开启商家入驻接口，若为store则改为我的店铺接口
     const that = this;
+    console.log(app.globalData)
     db.collection('user').where({
       _openid: app.globalData.openid
     })
