@@ -1,11 +1,14 @@
 {
   "pages": [
+    "pages/my/community/index/index",
+    "pages/my/community/publish/publish",
+    "pages/my/test/test",
     "pages/my/index/index",
     "pages/my/admin/collect/collect",
     "pages/my/admin/browse/browse",
     
     "pages/my/admin/function/imgManage/imgManage",
-    "pages/my/test/test",
+    
     
     
     "pages/my/admin/function/storeInfo/storeInfo",
@@ -22,7 +25,6 @@
     
     "pages/my/join/brandJion/brandJion",
     "pages/my/join/policy/policy",
-    "pages/my/community/community",
     
     "pages/my/search/search",
     "pages/my/detail/detail",

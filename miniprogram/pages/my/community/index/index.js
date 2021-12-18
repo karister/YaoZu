@@ -1,8 +1,4 @@
-// pages/my/test/test.js
-
-const app = getApp();
-const db = wx.cloud.database();
-
+// pages/my/community/index/index.js
 Page({
 
   /**
@@ -11,35 +7,20 @@ Page({
   data: {
 
   },
-  
 
-
-  
+  /**
+   * 跳转到发布信息填写界面
+   */
   clickToPublish() {
-    let openid = app.globalData.openid;
-    // 根据openid读取品牌名称和头像
-    db.collection('stores').where({
-      _openid: openid
+    wx.navigateTo({
+      url: '/pages/my/community/publish/publish',
     })
-    .get({
-      success: function (res) {
-        let brandName = res.data[0].brandName;
-        let brandImgSrc = res.data[0].brandImgSrc
-      }
-    })
-  },
-
-  getPhoneNumber: function (e) {
-   
-    console.log(e.detail)
-    
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
     let that = this;
     // 获取系统信息
     wx.getSystemInfo({
@@ -72,8 +53,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
-    
+
   },
 
   /**

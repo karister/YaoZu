@@ -1,0 +1,12 @@
+<!--pages/my/community/publish/publish.wxml-->
+<van-cell-group>
+  <van-field
+    value="{{ value }}"
+    placeholder="请输入用户名"
+    label="发布内容"
+    border="{{ false }}"
+    bind:change="onChange"
+    maxlength="50"
+    show-word-limit="true"
+  />
+</van-cell-group>

@@ -1,4 +1,4 @@
-@import '../../../miniprogram_npm/@vant/weapp/common/index.wxss';
+/* pages/my/community/index/index.wxss */
 .mid{
   display: flex;
   align-items: center;
