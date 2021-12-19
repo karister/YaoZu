@@ -142,12 +142,16 @@ Page({
    * 检查用户是否授权
    */
   checkAuthed: function () {
-    // 未授权
-    if(app.globalData.avatarUrl == '') {
+    // 已授权
+    if((app.globalData.avatarUrl != '') && (app.globalData.phoneNumber != '')) {
+      // console.log(app.globalData.avatarUrl);
+      // console.log(app.globalData.phoneNumber);
+      // console.log('已授权')
+      return true;
+    } else {
+      // console.log('未授权')
       this.setData({show: true});
       return false;
-    } else {
-      return true;
     }
   },
 
@@ -160,23 +164,34 @@ Page({
       name: 'getPhoneNumber',
       data: {
         weRunData: wx.cloud.CloudID(e.detail.cloudID),
-      }
-    }).then(res => {
-        console.log(res)
+      },
+      success: res => {
+        // console.log(res)
+        // 更新globalData以便后续检查是否授权
+        app.globalData.phoneNumber = res.result.phoneNumber;
+        // 更新Page Data complete后更新至数据库以便小程序登陆时读取数据库数据判断是否授权
         that.setData({
           phoneNumber: res.result.phoneNumber
         })
+      },
+      fail: err => {
+        // console.error(err);
+        app.globalData.phoneNumber = '';
+        that.setData({
+          phoneNumber: ''
+        })
+      },
+      complete: () => {
         db.collection('user').where({
           _openid: app.globalData.openid
         })
         .update({
           data: {
-            phoneNumber: res.result.phoneNumber
+            phoneNumber: that.data.phoneNumber
           }
         })
-    }).catch(err => {
-      console.error(err);
-    });
+      }
+    })
   },
 
   /**

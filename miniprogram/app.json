@@ -1,9 +1,9 @@
 {
   "pages": [
-    "pages/my/test/test",
+    
     "pages/my/community/index/index",
     "pages/my/community/publish/publish",
-    
+    "pages/my/test/test",
     "pages/my/index/index",
     "pages/my/admin/collect/collect",
     "pages/my/admin/browse/browse",

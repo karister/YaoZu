@@ -1,4 +1,5 @@
 <!--pages/my/detail/detail.wxml-->
+
 <view class="info_box">
     <view class="basic_info_box">
         <view class="basic_info_image_box mid">

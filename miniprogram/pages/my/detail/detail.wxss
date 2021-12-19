@@ -1,4 +1,6 @@
 /* pages/my/detail/detail.wxss */
+
+
 .swiperBox{
   height: 500rpx;
   width: 100%;

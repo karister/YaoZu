@@ -75,7 +75,7 @@ Page({
               stores_data[i] = res.data[i];
               // console.log(stores_data[i]);
             }
-            console.error('next load');
+            // console.error('next load');
             // 设置展示结果数据
             that.setData({
               data_length: res.data.length,
@@ -104,23 +104,23 @@ Page({
   
     var total =500;
     const batchTimes = Math.ceil(total / 20);
-    console.log(batchTimes);   //获取需要获取几次 
+    // console.log(batchTimes);   //获取需要获取几次 
     var arraypro=[];          // 定义空数据 用来存储之后的数据
     const db = wx.cloud.database()
     //初次循环获取云端数据库的分次数的promise数组
     for (let i = 0; i < batchTimes; i++) {
-      console.log(i)
+      // console.log(i)
       db.collection('img_src').skip(i*20).get({
         success: function (res) {
 
-          console.log(res.data)
+          // console.log(res.data)
           
           for (let j = 0; j < res.data.length; j++) {
             arraypro.push(res.data[j])
           }
           
           // console.log(arraypro);
-          console.log(arraypro.length);
+          // console.log(arraypro.length);
         
           if(arraypro.length==500) {
             this.setData({
@@ -138,12 +138,12 @@ Page({
   loadAllData: function () {
     var total =500;
     const batchTimes = Math.ceil(total / 20);
-    console.log(batchTimes);   //获取需要获取几次 
+    // console.log(batchTimes);   //获取需要获取几次 
     var arraypro=[];          // 定义空数据 用来存储之后的数据
     const db = wx.cloud.database()
     //初次循环获取云端数据库的分次数的promise数组
     for (let i = 0; i < batchTimes; i++) {
-      console.log(i)
+      // console.log(i)
       db.collection('img_src').skip(i*20).get({
         success: function (res) {
           console.log(res.data)       
@@ -151,7 +151,7 @@ Page({
             arraypro.push(res.data[j])
           }
           // console.log(arraypro);
-          console.log(arraypro.length);
+          // console.log(arraypro.length);
           if(arraypro.length==500) {
             this.setData({
               all_img_src: arraypro
@@ -167,7 +167,7 @@ Page({
    * 点击区域列表
    */
   clickAreaItem: function (e) {
-    console.error('点击区域列表');
+    // console.error('点击区域列表');
     this.loadStoresData(e.currentTarget.dataset.index);
   
   },
@@ -176,7 +176,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.error('页面加载');
+    // console.error('页面加载');
     this.loadStoresData(options.index);
 
     /**
@@ -189,21 +189,21 @@ Page({
       db.collection('stores').where({
         area: area_info[i].area
       }).count().then(res => {
-        console.log(area_info[i].area + ':' + res.total);
+        // console.log(area_info[i].area + ':' + res.total);
         area_info[i].data_total = res.total;
         that.setData({
           area_info
         })
       })
     }
-    console.log(area_info);
+    // console.log(area_info);
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    console.error('页面渲染');
+    // console.error('页面渲染');
     // this.loadImgSrcData();
   },
 

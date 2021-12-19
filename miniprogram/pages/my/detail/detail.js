@@ -65,6 +65,25 @@ Page({
   },
 
   /**
+   * 检查用户是否授权
+   */
+  checkAuthed: function () {
+    // 已授权
+    if((app.globalData.avatarUrl != '') && (app.globalData.phoneNumber != '')) {
+      // console.log(app.globalData.avatarUrl);
+      // console.log(app.globalData.phoneNumber);
+      // console.log('已授权')
+      return true;
+    } else {
+      // console.log('未授权')
+      wx.switchTab({
+        url: '/pages/my/admin/userInfo/userInfo'
+      })
+      return false;
+    }
+  },
+
+  /**
    * 检查本店铺是否已被收藏
    */
   checkCollected() {
@@ -316,79 +335,84 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    /**
-     * 接收跳转过来携带的openid数据，注意此openid为对应商家在stores集合中的的openid，并非打开此页面的用户的openid
-     */
-    const storeOpenid = options.openid;
-    this.setData({
-      storeOpenid: storeOpenid
-    });
-    const that = this;
-    var display_info = that.data.display_info;
-    // 读取stores集合中商家的所有需要被展示的信息
-    db.collection('stores').where({
-      _openid: storeOpenid
-    })
-    .get({
-      success: function (res) {
-        var res_data = res.data[0];
-        console.log(res_data);
-        display_info.brandName = res_data.brand;//品牌名
-        display_info.brandImgSrc = res_data.brandImgSrc;//品牌头像地址
-        var labels = res_data.label;//标签信息
-        for(let i = 0; i < labels.length; i++) {
-          display_info.labelText += labels[i];
-          if(i != (labels.length-1)) {
-            display_info.labelText += '|';
-          }
-        }
-        display_info.browseNum = res_data.browseNum;//浏览量
-        display_info.authState = (res_data.authState == 1) ?'authed' :'unauth';//认证状态
-        display_info.authText = (res_data.authState == 1) ?'企业已认证' :'企业未认证';//认证展示文本
-        display_info.address = res_data.address + '[' + res_data.area + ']';//店面地址
-        display_info.phoneNumber = res_data.phone;//商家手机号
-        display_info.authImgUrl = res_data.authImgUrl;// 认证图片
-        that.setData({
-          display_info,
-          area: res_data.area,
-          latitude: res_data.latitude,
-          longitude: res_data.longitude
-        })
 
-        // 更新浏览记录列表的记录写入数据库browse   
-        // 组建当前商家的浏览记录的json对象
-        var storeInfoObj = {
-          storeOpenid: storeOpenid,
-          brandName: display_info.brandName,
-          brandImgUrl: display_info.brandImgSrc,
-          labelText: display_info.labelText,
-          browseNum: display_info.browseNum,
-          area: res_data.area
-        }
-        that.updatebrowse(storeInfoObj);
-      }
-    })
-    // 读取product中的产品图片
-    db.collection('product').where({
-      _openid: storeOpenid
-    })
-    .get({
-      success: function (res) {
-        var res_data = res.data[0];
-        var labels = res_data.labels;
-        labels.forEach(element => {
-          display_info.labelList.push({
-            labelName: element.labelName,
-            imgUrls: element.imgUrls
+    // 已授权才可加载，否则开启遮罩层授权
+    if(this.checkAuthed()) {
+      /**
+       * 接收跳转过来携带的openid数据，注意此openid为对应商家在stores集合中的的openid，并非打开此页面的用户的openid
+       */
+      const storeOpenid = options.openid;
+      this.setData({
+        storeOpenid: storeOpenid
+      });
+      const that = this;
+      var display_info = that.data.display_info;
+      // 读取stores集合中商家的所有需要被展示的信息
+      db.collection('stores').where({
+        _openid: storeOpenid
+      })
+      .get({
+        success: function (res) {
+          var res_data = res.data[0];
+          console.log(res_data);
+          display_info.brandName = res_data.brand;//品牌名
+          display_info.brandImgSrc = res_data.brandImgSrc;//品牌头像地址
+          var labels = res_data.label;//标签信息
+          for(let i = 0; i < labels.length; i++) {
+            display_info.labelText += labels[i];
+            if(i != (labels.length-1)) {
+              display_info.labelText += '|';
+            }
+          }
+          display_info.browseNum = res_data.browseNum;//浏览量
+          display_info.authState = (res_data.authState == 1) ?'authed' :'unauth';//认证状态
+          display_info.authText = (res_data.authState == 1) ?'企业已认证' :'企业未认证';//认证展示文本
+          display_info.address = res_data.address + '[' + res_data.area + ']';//店面地址
+          display_info.phoneNumber = res_data.phone;//商家手机号
+          display_info.authImgUrl = res_data.authImgUrl;// 认证图片
+          that.setData({
+            display_info,
+            area: res_data.area,
+            latitude: res_data.latitude,
+            longitude: res_data.longitude
           })
-        });
-        that.setData({
-          display_info
-        })
-      }
-    })
-    // 检查本店铺是否被收藏
-    that.checkCollected();
+
+          // 更新浏览记录列表的记录写入数据库browse   
+          // 组建当前商家的浏览记录的json对象
+          var storeInfoObj = {
+            storeOpenid: storeOpenid,
+            brandName: display_info.brandName,
+            brandImgUrl: display_info.brandImgSrc,
+            labelText: display_info.labelText,
+            browseNum: display_info.browseNum,
+            area: res_data.area
+          }
+          that.updatebrowse(storeInfoObj);
+        }
+      })
+      // 读取product中的产品图片
+      db.collection('product').where({
+        _openid: storeOpenid
+      })
+      .get({
+        success: function (res) {
+          var res_data = res.data[0];
+          var labels = res_data.labels;
+          labels.forEach(element => {
+            display_info.labelList.push({
+              labelName: element.labelName,
+              imgUrls: element.imgUrls
+            })
+          });
+          that.setData({
+            display_info
+          })
+        }
+      })
+      // 检查本店铺是否被收藏
+      that.checkCollected();
+    }
+    
   },
 
   /**

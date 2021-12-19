@@ -7,6 +7,8 @@ App({
     avatarUrl: '',
     // 用户微信昵称
     nickName: '',
+    // 微信绑定手机号
+    phoneNumber: '',
     test: 'test'
   },
 
