@@ -9,30 +9,25 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    phoneNumber: ''
   },
   
 
-
-  
-  clickToPublish() {
-    let openid = app.globalData.openid;
-    // 根据openid读取品牌名称和头像
-    db.collection('stores').where({
-      _openid: openid
-    })
-    .get({
-      success: function (res) {
-        let brandName = res.data[0].brandName;
-        let brandImgSrc = res.data[0].brandImgSrc
+  getPhoneNumber(e) {
+    const that = this;
+    wx.cloud.callFunction({
+      name: 'getPhoneNumber',
+      data: {
+        weRunData: wx.cloud.CloudID(e.detail.cloudID),
       }
-    })
-  },
-
-  getPhoneNumber: function (e) {
-   
-    console.log(e.detail)
-    
+    }).then(res => {
+        // console.log(res)
+        that.setData({
+          phoneNumber: res.result.phoneNumber
+        })
+    }).catch(err => {
+      console.error(err);
+    });
   },
 
   /**
@@ -40,25 +35,7 @@ Page({
    */
   onLoad: function (options) {
 
-    let that = this;
-    // 获取系统信息
-    wx.getSystemInfo({
-      success: function (res) {
-        // 获取可使用窗口宽度
-        let clientHeight = res.windowHeight;
-        // 获取可使用窗口高度
-        let clientWidth = res.windowWidth;
-        // 算出比例
-        let ratio = 750 / clientWidth;
-        // 算出高度(单位rpx)
-        let height = clientHeight * ratio;
-        // 设置高度
-        that.setData({
-          height: height
-        });
-        console.log(height)
-      }
-    })
+  
   },
 
   /**

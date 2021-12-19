@@ -22,7 +22,7 @@
         >
       </image>
       <view style="width: 300rpx;height: 100rpx; margin: 25rpx auto;">
-        <button type="primary" bindtap="getUserInfo">我知道了</button>
+        <button type="primary" bindtap="getUserInfo" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">我知道了</button>
       </view>
     </view>
   </view>
@@ -40,7 +40,7 @@
       </view>
       <view class="user_text_phone">
         <!-- <iconfont name="phone"></iconfont> -->
-        <text style="margin-left: 10rpx;">186xxxx0170</text>
+        <text style="margin-left: 10rpx;">{{phoneNumber}}</text>
       </view>
     </view>
   </view>

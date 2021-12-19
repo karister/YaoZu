@@ -74,6 +74,7 @@ App({
               console.log('user has exist')
               that.globalData.avatarUrl = res.data[0].avatarUrl;
               that.globalData.nickName = res.data[0].nickName;
+              that.globalData.phoneNumber = res.data[0].phoneNumber;
             }
           }
         })

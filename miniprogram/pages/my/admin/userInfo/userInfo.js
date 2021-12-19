@@ -36,6 +36,8 @@ Page({
     avatarUrl: '',
     // 用户微信昵称
     nickName: '',
+    // 微信手机号
+    phoneNumber: '',
     // 遮罩层状态
     show: false,
     // 用户身份,决定入口功能
@@ -150,6 +152,34 @@ Page({
   },
 
   /**
+   * 获取手机号
+   */
+  getPhoneNumber(e) {
+    const that = this;
+    wx.cloud.callFunction({
+      name: 'getPhoneNumber',
+      data: {
+        weRunData: wx.cloud.CloudID(e.detail.cloudID),
+      }
+    }).then(res => {
+        console.log(res)
+        that.setData({
+          phoneNumber: res.result.phoneNumber
+        })
+        db.collection('user').where({
+          _openid: app.globalData.openid
+        })
+        .update({
+          data: {
+            phoneNumber: res.result.phoneNumber
+          }
+        })
+    }).catch(err => {
+      console.error(err);
+    });
+  },
+
+  /**
    * 点击获取授权
    */
   getUserInfo: function () {
@@ -230,7 +260,8 @@ Page({
       that.setData({
         // 更新头像和名称至page data
         avatarUrl: app.globalData.avatarUrl,
-        nickName: app.globalData.nickName
+        nickName: app.globalData.nickName,
+        phoneNumber: app.globalData.phoneNumber
       })
     }
   },
