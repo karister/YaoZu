@@ -5,7 +5,42 @@ Page({
    * 页面的初始数据
    */
   data: {
+    div_line: {
+      width: '',
+      color: ''
+    },
+    fileList: [],
+  },
 
+  vantImgUpload(event) {
+    let files = event.detail.file;
+    // console.log(event.detail.file)
+    let fileList = this.data.fileList;
+    files.forEach( (element,index) => {
+      fileList.push({
+        url: element.url,
+        name: index
+      })
+    });
+    this.setData({fileList})
+  },
+
+  inputFocus() {
+    this.setData({
+      div_line: {
+        width: '4',
+        color: 'rgb(0, 47, 167)'
+      }
+    })
+  },
+
+  inputBlur() {
+    this.setData({
+      div_line: {
+        width: '2',
+        color: 'rgb(44, 44, 44)'
+      }
+    })
   },
 
   /**

@@ -1,4 +1,7 @@
 /* pages/my/community/index/index.wxss */
+@import '../../../../miniprogram_npm/@vant/weapp/common/index.wxss';
+
+
 .mid{
   display: flex;
   align-items: center;

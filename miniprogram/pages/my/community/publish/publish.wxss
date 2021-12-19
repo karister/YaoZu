@@ -1,1 +1,12 @@
 /* pages/my/community/publish/publish.wxss */
+@import '../../../../miniprogram_npm/@vant/weapp/common/index.wxss';
+Page{
+  background-color: white;
+}
+
+.mid{
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  text-align: center；
+}

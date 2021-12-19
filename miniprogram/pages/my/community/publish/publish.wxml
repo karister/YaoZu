@@ -1,12 +1,20 @@
 <!--pages/my/community/publish/publish.wxml-->
-<van-cell-group>
-  <van-field
-    value="{{ value }}"
-    placeholder="请输入用户名"
-    label="发布内容"
-    border="{{ false }}"
-    bind:change="onChange"
-    maxlength="50"
-    show-word-limit="true"
+
+<input style="width: 90%; margin: 0 auto; margin-top: 50rpx;" focus bindfocus="inputFocus" 	bindblur="inputBlur" placeholder="请输入标题" placeholder-style="font-size: 40rpx;font-weight: 400; color: rgb(163, 165, 168);"/>
+<view style="height: {{div_line.width}}rpx; width: 90%; margin: 10rpx auto; background-color: {{div_line.color}};"></view>
+<textarea style="width: 90%; margin: 0 auto; margin-top: 50rpx;" placeholder="发表内容..." placeholder-style="font-size: 30rpx; color: rgb(163, 165, 168);"></textarea>
+<view style="height: 350px; margin-top: 100rpx; margin-left: 60rpx;">
+  <van-uploader 
+    file-list="{{ fileList }}" 
+    max-count="9"
+    accept="media"
+    multiple
+    preview-size="100"
+    upload-text="点击上传图片"
+    bind:after-read="vantImgUpload" 
   />
-</van-cell-group>
+</view>
+<view class="mid" style="width: 200rpx; height: 80rpx; border-radius: 10rpx; border: 1rpx solid gray; margin: 0 auto;box-shadow: 10rpx 10rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);">
+  <iconfont style="margin-right: 10rpx;" name="publish"></iconfont>
+  <view>发布信息</view>
+</view>
