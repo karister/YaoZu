@@ -5,7 +5,7 @@ import {getUserIdentity,getSingleDataByOpenid} from '../../../../common/common.j
 const app = getApp();
 const db = wx.cloud.database();
 const store_space_db = db.collection('store_space');
-const stores_db = db.collection('stores');
+const user_space_db = db.collection('user_space');
 
 Page({
 
@@ -53,7 +53,7 @@ Page({
   }, 
 
   /**
-   * // 图片上传到云存储
+   * 异步图片上传到云存储
    */
   async uploadImgToCloud(fileList) {
     let that = this;
@@ -73,7 +73,6 @@ Page({
         console.error('图片上传到云存储失败')
       })
     }
-    console.log(fileBuffer);
     return fileBuffer;
   },
 
@@ -101,7 +100,8 @@ Page({
       // 更新图片地址到数据库
       let now = new Date();
       let time = (now.getMonth() + 1).toString() + '.' + now.getDate().toString() + ' ' + now.getHours().toString() + ':' + now.getMinutes().toString();
-      store_space_db.add({
+      let data_db = (that.data.identity == 'store') ?store_space_db :user_space_db;
+      data_db.add({
         data: {
           name: that.data.name,
           imageUrl: that.data.imageUrl,
@@ -120,30 +120,6 @@ Page({
         console.error('更新图片地址到数据库失败')
       })
     })
-    // 图片上传到云存储
-    // for (let index = 0; index < fileList.length; index++) {
-    //   let now = new Date();
-    //   let time = (now.getMonth() + 1).toString() + now.getDate().toString() + now.getHours().toString() + now.getMinutes().toString();
-      // wx.cloud.uploadFile({
-      //   cloudPath: 'community/' + that.data.identity + '/' + that.data.name + '/' + time + '/' + index + '.png', // 上传至云端的路径
-      //   filePath: fileList[index].url, // 临时文件路径
-      //   success: res => {
-      //     // 更新fileID
-      //     fileList[index].url = res.fileID;
-      //     that.setData({
-      //       fileList
-      //     })
-      //     // console.log(fileList[index].url);
-      //   },
-      //   fail: ()=>{console.error('图片上传到云存储失败')},
-      //   complete: function () {
-      //   }
-      // })
-    // }
-    
-    // setTimeout(()=>{
-      
-    // },1000)
   },
 
   /**

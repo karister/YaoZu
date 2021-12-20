@@ -6,7 +6,7 @@
       {{msg.title}}
     </view>
     <view class="news_item_adminInfo">
-      <image src="cloud://cloud-env-9ggt1lz9119de7b5.636c-cloud-env-9ggt1lz9119de7b5-1308852391/test_img/12.jpg"></image>
+      <image src="{{msg.imageUrl}}"></image>
       <view class="news_item_adminInfo_brandName">
         {{msg.name}}
       </view>

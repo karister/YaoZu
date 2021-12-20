@@ -5,8 +5,7 @@ const app = getApp();
 const db = wx.cloud.database();
 
 const store_space_db = db.collection('store_space');
-const stores_db = db.collection('stores');
-const user_db = db.collection('user');
+const user_space_db = db.collection('user_space');
 
 Page({
 
@@ -76,30 +75,26 @@ Page({
   onShow: async function () {
     let that = this;
     let identity = '';
+    // 同步等待身份的读取
     await getUserIdentity().then(res=>{
       identity = res;
       console.log(identity);
     })
-    // 普通用户
-    if(identity == 'user') {
-      // console.log('i am user')
-    }
-    // 商家
-    if(identity == 'store') {
-      store_space_db.get({
-        success: function (res) {
-          let messageBuffer = res.data;
-          messageBuffer.forEach((element,index,array) => {
-            array[index].imgAutoHeight = Math.ceil(element.fileList.length/3)*150 + 30;
-            array[index].itemAutoHeight = Math.ceil(element.fileList.length/3)*150 + 380;
-            // console.log(element);
-          })
-          that.setData({
-            message: messageBuffer
-          })
-        }
+    let data_db = (identity == 'store') ?store_space_db :user_space_db;
+    // 查询对应身份下的动态记录
+    data_db.get().then(res=>{
+      let messageBuffer = res.data;
+      messageBuffer.forEach((element,index,array) => {
+        array[index].imgAutoHeight = Math.ceil(element.fileList.length/3)*150 + 30;
+        array[index].itemAutoHeight = Math.ceil(element.fileList.length/3)*150 + 380;
+        // console.log(element);
       })
-    }
+      that.setData({
+        message: messageBuffer
+      })
+    }).catch(error=>{
+      console.error('查询对应身份下的动态记录失败！');
+    })
   },
 
   /**
