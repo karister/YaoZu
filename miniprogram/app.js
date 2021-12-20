@@ -1,4 +1,5 @@
 // app.js
+
 App({
   globalData: {
     // openid
@@ -29,6 +30,7 @@ App({
 
     const that = this;
     const db = wx.cloud.database();
+
     // 获取用户openid
     wx.cloud.callFunction({
       name: 'getOpenid',

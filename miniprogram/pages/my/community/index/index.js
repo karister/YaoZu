@@ -1,26 +1,27 @@
 // pages/my/community/index/index.js
+import {getUserIdentity} from '../../../../common/common.js'
+
+const app = getApp();
+const db = wx.cloud.database();
+
+const store_space_db = db.collection('store_space');
+const stores_db = db.collection('stores');
+const user_db = db.collection('user');
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    
+    height:'',
+    message: [],
   },
 
   /**
-   * 跳转到发布信息填写界面
+   * 获取屏幕窗口高度
    */
-  clickToPublish() {
-    wx.navigateTo({
-      url: '/pages/my/community/publish/publish'
-    })
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  getScreenHeight() {
     let that = this;
     // 获取系统信息
     wx.getSystemInfo({
@@ -43,6 +44,23 @@ Page({
   },
 
   /**
+   * 跳转到发布信息填写界面
+   */
+  clickToPublish() {
+    wx.navigateTo({
+      url: '/pages/my/community/publish/publish'
+    })
+  },
+
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.getScreenHeight();
+  },
+
+  /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
@@ -52,8 +70,27 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-
+  onShow: async function () {
+    let that = this;
+    let identity = '';
+    await getUserIdentity().then(res=>{
+      identity = res;
+      console.log(identity);
+    })
+    // 普通用户
+    if(identity == 'user') {
+      // console.log('i am user')
+    }
+    // 商家
+    if(identity == 'store') {
+      store_space_db.get({
+        success: function (res) {
+          that.setData({
+            message: res.data
+          })
+        }
+      })
+    }
   },
 
   /**

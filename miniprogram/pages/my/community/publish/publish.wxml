@@ -7,7 +7,7 @@
   bindblur="inputBlur" 
   bindinput="setInputData" 
   data-name="title"
-  placeholder="请输入标题" 
+  placeholder="请输入标题(选填)" 
   placeholder-class="title_placeholder"
 />
 <view style="height: {{div_line.width}}rpx; width: 90%; margin: 10rpx auto; background-color: {{div_line.color}};"></view>
@@ -34,3 +34,4 @@
   <iconfont style="margin-right: 10rpx;" name="publish"></iconfont>
   <view>发布信息</view>
 </view>
+<van-toast id="van-toast" />

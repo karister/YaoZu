@@ -1,10 +1,10 @@
 {
   "pages": [
-    
+    "pages/my/index/index",
     "pages/my/community/index/index",
     "pages/my/community/publish/publish",
     "pages/my/test/test",
-    "pages/my/index/index",
+    
     "pages/my/admin/collect/collect",
     "pages/my/admin/browse/browse",
     
@@ -52,7 +52,7 @@
         "text": "门店区域"
       },
       {
-        "pagePath": "pages/my/test/test",
+        "pagePath": "pages/my/community/index/index",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
         "text": "社区动态"

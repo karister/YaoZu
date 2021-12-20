@@ -1,10 +1,11 @@
 // pages/my/community/publish/publish.js
+import Toast from '../../../../miniprogram_npm/@vant/weapp/toast/toast';
+import {getUserIdentity,getSingleDataByOpenid} from '../../../../common/common.js'
 
 const app = getApp();
 const db = wx.cloud.database();
 const store_space_db = db.collection('store_space');
 const stores_db = db.collection('stores');
-const user_db = db.collection('user');
 
 Page({
 
@@ -20,6 +21,8 @@ Page({
     name: '',
     // 发布人头像
     imageUrl: '',
+    // 发布人身份
+    identity: '',
     /**
      * 发布的图片列表
      * fileList：[{
@@ -32,7 +35,7 @@ Page({
     title: '',
     // 内容
     content: '',
-    // 时间（年月日）
+    // 时间（月.日 时 分）
     publishDate: ''
   },
 
@@ -53,51 +56,87 @@ Page({
    * 发布信息，即保存数据到数据库中
    */
   submit() {
-    let that = this;
-    // 组建动态信息对象
-    let now = new Date();
-    let time = now.getFullYear().toString() + '.' + (now.getMonth() + 1).toString() + '.' + now.getDate().toString()
-    let messageObj = {
-      fileList: that.data.fileList,
-      title: that.data.title,
-      content: that.data.content,
-      publishDate: time
+    // 填写完整性检查
+    if(this.data.content == '') {
+      Toast('请填写发布内容哦~');
+      return ;
     }
-    store_space_db.where({
-      _openid: app.globalData.openid
-    })
-    .get({
-      success: function (res) {
-        // 第一次发表动态，先添加用户
-        if(res.data.length == 0) {
-          store_space_db.add({
-            data: {
-              name: that.name,
-              imageUrl: that.imageUrl,
-              message: [messageObj]
-            }
-          })
-        } else{
-          let messageBuffer = res.data[0].message;
-          messageBuffer.unshift(messageObj);
+    // 空标题处理
+    if(this.data.title == '') {
+      this.setData({
+        title: '快来看一看！'
+      })
+    }
+    let that = this;
+    let fileList = that.data.fileList;
+    // 图片上传到云存储
+    fileList.forEach( (element,index,array) => {
+      let now = new Date();
+      let time = (now.getMonth() + 1).toString() + now.getDate().toString() + now.getHours().toString() + now.getMinutes().toString();
+      wx.cloud.uploadFile({
+        cloudPath: 'community/' + that.data.identity + '/' + that.data.name + '/' + time + '/' + index + '.png', // 上传至云端的路径
+        filePath: element.url, // 临时文件路径
+        success: res => {
+          console.log(res.fileID);
+          // 更新fileID
+          array[index].url = res.fileID;
+        },
+        fail: ()=>{console.error('图片上传到云存储失败')},
+        complete: function () {
+          //
         }
-      },
+      })
+    });
+    wx.showLoading({
+      title: '图片上传中',
     })
+    // 延时2000ms等待图片上传到云存储换取fileID
+    setTimeout( ()=> {
+      // 更新图片地址到数据库
+      let now = new Date();
+      let time = (now.getMonth() + 1).toString() + '.' + now.getDate().toString() + ' ' + now.getHours().toString() + ':' + now.getMinutes().toString();
+      store_space_db.add({
+        data: {
+          name: that.data.name,
+          imageUrl: that.data.imageUrl,
+          title: that.data.title,
+          content: that.data.content,
+          fileList: fileList,
+          publishDate: time
+        },
+        success: function (params) {
+          wx.hideLoading();
+          Toast.success('发布成功!');
+          wx.switchTab({
+            url: '/pages/my/community/index/index',
+          })
+        },
+        fail: ()=>{console.error('更新图片地址到数据库失败')},
+      })
+    }, 2000);
   },
 
+  /**
+   * vant组件上传发表信息的配图
+   * @param {files: 上传的图片链接} event 
+   */
   vantImgUpload(event) {
+    let that = this;
     let files = event.detail.file;
     // console.log(event.detail.file)
-    let fileList = this.data.fileList;
+    let fileList = that.data.fileList;
     files.forEach( (element,index) => {
       fileList.push({
         url: element.url,
         name: index
       })
     });
-    this.setData({fileList})
+    that.setData({fileList})
   },
 
+  /**
+   * 聚焦输入框时
+   */
   inputFocus() {
     this.setData({
       div_line: {
@@ -107,6 +146,9 @@ Page({
     })
   },
 
+  /**
+   * 输入框失去焦点时
+   */
   inputBlur() {
     this.setData({
       div_line: {
@@ -119,44 +161,31 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: async function (options) {
     let that = this;
     let identity;
-    let nickName;
-    let avatarUrl;
-    // 判断用户身份
-    user_db.where({
-      _openid: app.globalData.openid
+    await getUserIdentity().then(res=>{
+      identity = res;
     })
-    .get({
-      success: function (res) {
-        identity = res.data[0].identity;
-        nickName = res.data[0].nickName;
-        avatarUrl = res.data[0].avatarUrl;
-        // 用户身份
-        if(identity == 'user') {
-          that.setData({
-            name: nickName,
-            imageUrl: avatarUrl
-          })
-        }
-        // 商家身份
-        if(identity == 'store') {
-          // 读取商家品牌头像和名称
-          stores_db.where({
-            _openid: app.globalData.openid
-          })
-          .get({
-            success: function (res) {
-              that.setData({
-                name: res.data[0].brand,
-                imageUrl: res.data[0].brandImgSrc
-              })
-            },
-          })
-        }
-      }
-    })
+    // 用户身份
+    if(identity == 'user') {
+      that.setData({
+        name: app.globalData.nickName,
+        imageUrl: app.globalData.avatarUrl,
+        identity: identity
+      })
+    }
+    // 商家身份
+    if(identity == 'store') {
+      // 读取商家品牌头像和名称
+      await getSingleDataByOpenid('stores').then(res=>{
+        that.setData({
+          name: res.brand,
+          imageUrl: res.brandImgSrc,
+          identity: identity
+        })
+      })
+    }
   },
 
   /**
