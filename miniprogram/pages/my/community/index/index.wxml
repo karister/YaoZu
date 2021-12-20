@@ -1,7 +1,7 @@
 <!-- <button type="primary" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号</button> -->
 
 <scroll-view style="height: {{height}}rpx;position: absolute; z-index: 100;" scroll-y>
-  <view wx:for="{{message}}" wx:key="key" wx:for-item="msg" class="news_item_box">
+  <view wx:for="{{message}}" wx:key="key" wx:for-item="msg" class="news_item_box" style="height: {{itemAutoHeight}}rpx">
     <view class="van-hairline--bottom news_item_title">
       {{msg.title}}
     </view>
@@ -13,10 +13,10 @@
     </view>
     <!-- <view  style="width: 100%; height: 100rpx; display: flex; align-items: center; margin-left: 20rpx; font-size: 30rpx;">
     </view> -->
-    <view class="van-multi-ellipsis--l2" style="margin: 10rpx 0; margin-left: 20rpx; font-size: 28rpx;">
+    <view class="van-multi-ellipsis--l2" style="margin: 10rpx 0; margin-left: 20rpx; font-size: 30rpx;">
       {{msg.content}}
     </view>
-    <view class="news_item_ImageBox">
+    <view class="news_item_ImageBox" style="height: {{msg.imgAutoHeight}}rpx;">
       <image wx:for="{{msg.fileList}}" wx:key="key" wx:for-item="image" src="{{image.url}}"></image>
     </view>
     <view class="news_item_bottom">

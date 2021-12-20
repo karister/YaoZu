@@ -11,7 +11,6 @@
 
 .news_item_box{
   width: 100%; 
-  height: 830rpx; 
   margin-top: 20rpx;
   background-color: white;
 }
@@ -45,13 +44,14 @@
   color: rgb(80, 81, 83);
 }
 .news_item_ImageBox{
-  width: 600rpx; 
-  height: 480rpx; 
-  margin: 0 auto;
+  /* width: 600rpx; */
+  /* height: 480rpx;  */
+  margin-left: 50rpx;
 }
 .news_item_ImageBox image{
   width: 200rpx; 
   height: 150rpx;
+  margin-left: 15rpx;
 }
 .news_item_bottom{
   width: 600rpx; 

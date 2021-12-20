@@ -14,8 +14,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 屏幕窗口高度
     height:'',
+    // 读取的动态记录列表
     message: [],
+
   },
 
   /**
@@ -85,8 +88,14 @@ Page({
     if(identity == 'store') {
       store_space_db.get({
         success: function (res) {
+          let messageBuffer = res.data;
+          messageBuffer.forEach((element,index,array) => {
+            array[index].imgAutoHeight = Math.ceil(element.fileList.length/3)*150 + 30;
+            array[index].itemAutoHeight = Math.ceil(element.fileList.length/3)*150 + 380;
+            // console.log(element);
+          })
           that.setData({
-            message: res.data
+            message: messageBuffer
           })
         }
       })

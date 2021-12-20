@@ -53,9 +53,37 @@ Page({
   }, 
 
   /**
+   * // 图片上传到云存储
+   */
+  async uploadImgToCloud(fileList) {
+    let that = this;
+    let fileBuffer = [];
+    for (let index = 0; index < fileList.length; index++) {
+      let now = new Date();
+      let time = (now.getMonth() + 1).toString() + now.getDate().toString() + now.getHours().toString() + now.getMinutes().toString();
+      await wx.cloud.uploadFile({
+        cloudPath: 'community/' + that.data.identity + '/' + that.data.name + '/' + time + '/' + index + '.png', // 上传至云端的路径
+        filePath: fileList[index].url, // 临时文件路径
+      }).then(res => {
+        fileBuffer.push({
+          url: res.fileID
+        })
+        // console.log(res.fileID)
+      }).catch(error => {
+        console.error('图片上传到云存储失败')
+      })
+    }
+    console.log(fileBuffer);
+    return fileBuffer;
+  },
+
+  /**
    * 发布信息，即保存数据到数据库中
    */
-  submit() {
+  async submit() {
+    wx.showLoading({
+      title: '图片上传中',
+    })
     // 填写完整性检查
     if(this.data.content == '') {
       Toast('请填写发布内容哦~');
@@ -69,29 +97,7 @@ Page({
     }
     let that = this;
     let fileList = that.data.fileList;
-    // 图片上传到云存储
-    fileList.forEach( (element,index,array) => {
-      let now = new Date();
-      let time = (now.getMonth() + 1).toString() + now.getDate().toString() + now.getHours().toString() + now.getMinutes().toString();
-      wx.cloud.uploadFile({
-        cloudPath: 'community/' + that.data.identity + '/' + that.data.name + '/' + time + '/' + index + '.png', // 上传至云端的路径
-        filePath: element.url, // 临时文件路径
-        success: res => {
-          console.log(res.fileID);
-          // 更新fileID
-          array[index].url = res.fileID;
-        },
-        fail: ()=>{console.error('图片上传到云存储失败')},
-        complete: function () {
-          //
-        }
-      })
-    });
-    wx.showLoading({
-      title: '图片上传中',
-    })
-    // 延时2000ms等待图片上传到云存储换取fileID
-    setTimeout( ()=> {
+    await that.uploadImgToCloud(fileList).then(res=>{
       // 更新图片地址到数据库
       let now = new Date();
       let time = (now.getMonth() + 1).toString() + '.' + now.getDate().toString() + ' ' + now.getHours().toString() + ':' + now.getMinutes().toString();
@@ -101,19 +107,43 @@ Page({
           imageUrl: that.data.imageUrl,
           title: that.data.title,
           content: that.data.content,
-          fileList: fileList,
+          fileList: res,
           publishDate: time
-        },
-        success: function (params) {
-          wx.hideLoading();
-          Toast.success('发布成功!');
-          wx.switchTab({
-            url: '/pages/my/community/index/index',
-          })
-        },
-        fail: ()=>{console.error('更新图片地址到数据库失败')},
+        }
+      }).then(res=>{
+        wx.hideLoading();
+        Toast.success('发布成功!');
+        wx.switchTab({
+          url: '/pages/my/community/index/index',
+        })
+      }).catch(error=>{
+        console.error('更新图片地址到数据库失败')
       })
-    }, 2000);
+    })
+    // 图片上传到云存储
+    // for (let index = 0; index < fileList.length; index++) {
+    //   let now = new Date();
+    //   let time = (now.getMonth() + 1).toString() + now.getDate().toString() + now.getHours().toString() + now.getMinutes().toString();
+      // wx.cloud.uploadFile({
+      //   cloudPath: 'community/' + that.data.identity + '/' + that.data.name + '/' + time + '/' + index + '.png', // 上传至云端的路径
+      //   filePath: fileList[index].url, // 临时文件路径
+      //   success: res => {
+      //     // 更新fileID
+      //     fileList[index].url = res.fileID;
+      //     that.setData({
+      //       fileList
+      //     })
+      //     // console.log(fileList[index].url);
+      //   },
+      //   fail: ()=>{console.error('图片上传到云存储失败')},
+      //   complete: function () {
+      //   }
+      // })
+    // }
+    
+    // setTimeout(()=>{
+      
+    // },1000)
   },
 
   /**

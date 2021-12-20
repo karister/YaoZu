@@ -29,9 +29,9 @@
     </view>
     <view style="display: flex;flex-direction: row;"  wx:if="{{!label.urlsEmpty}}">
       <van-button bindtap="allClear" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="danger" round>全部清空</van-button>
-      <van-button bindtap="deleteImage" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="primary" round disabled="{{label.disable}}">删除图片</van-button>
-      <van-button bindtap="changeImage" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round disabled="{{label.disable}}">更换图片</van-button>
-      <van-button bindtap="cancelSelect" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round plain disabled="{{label.disable}}">取消选择</van-button>
+      <van-button bindclick="deleteImage" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="primary" round disabled="{{label.disable}}">删除图片</van-button>
+      <van-button bindclick="changeImage" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round disabled="{{label.disable}}">更换图片</van-button>
+      <van-button bindclick="cancelSelect" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round plain disabled="{{label.disable}}">取消选择</van-button>
     </view>
     <van-empty 
       description="空无一物！点击上传图片" 
