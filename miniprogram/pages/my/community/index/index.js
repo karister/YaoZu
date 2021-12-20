@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    
   },
 
   /**
@@ -13,7 +13,7 @@ Page({
    */
   clickToPublish() {
     wx.navigateTo({
-      url: '/pages/my/community/publish/publish',
+      url: '/pages/my/community/publish/publish'
     })
   },
 
@@ -37,7 +37,7 @@ Page({
         that.setData({
           height: height
         });
-        console.log(height)
+        // console.log(height)
       }
     })
   },
