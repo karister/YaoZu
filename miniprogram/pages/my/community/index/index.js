@@ -54,6 +54,33 @@ Page({
     })
   },
 
+  /**
+   * 点击图片预览大图
+   * @param {imageIndex: 当前点击的图片索引;imgUrls: 图片列表} event   
+   */
+  viewImage: function (event) {
+    let imageIndex = event.currentTarget.dataset.index;
+    let imgList = event.currentTarget.dataset.imglist;
+    // console.log(imageIndex + ':' + imgList[imageIndex].url)
+    // 纯图片列表
+    let imgUrls = [];
+    imgList.forEach(element=>{
+      imgUrls.push(element.url);
+    })
+    wx.previewImage({
+      current: imgUrls[imageIndex],
+      urls: imgUrls
+    })
+  },
+
+  /**
+   * 调起系统拨打电话
+   */
+  callPhone: function () {
+    wx.makePhoneCall({
+      phoneNumber: app.globalData.phoneNumber
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -82,7 +109,7 @@ Page({
     })
     let data_db = (identity == 'store') ?store_space_db :user_space_db;
     // 查询对应身份下的动态记录
-    data_db.get().then(res=>{
+    data_db.orderBy('publishDate', 'desc').get().then(res=>{
       let messageBuffer = res.data;
       messageBuffer.forEach((element,index,array) => {
         array[index].imgAutoHeight = Math.ceil(element.fileList.length/3)*150 + 30;

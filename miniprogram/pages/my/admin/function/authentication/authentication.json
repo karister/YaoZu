@@ -11,5 +11,10 @@
     "van-checkbox": "@vant/weapp/checkbox/index",
     "van-checkbox-group": "@vant/weapp/checkbox-group/index",
     "van-dialog": "@vant/weapp/dialog/index"
-  }
+  },
+  "backgroundColor": "#ffffff",
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "店铺认证",
+  "navigationBarTextStyle": "black"
 }

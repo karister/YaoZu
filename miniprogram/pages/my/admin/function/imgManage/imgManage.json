@@ -9,5 +9,11 @@
     "van-empty": "@vant/weapp/empty/index",
     "van-toast": "@vant/weapp/toast/index",
     "van-action-sheet": "@vant/weapp/action-sheet/index"
-  }
+  },
+  "backgroundColor": "#ffffff",
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "店铺展图管理",
+  "navigationBarTextStyle": "black"
+  
 }

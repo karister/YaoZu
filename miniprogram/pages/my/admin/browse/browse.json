@@ -1,5 +1,10 @@
 {
   "usingComponents": {
     "van-divider": "@vant/weapp/divider/index"
-  }
+  },
+  "backgroundColor": "#ffffff",
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "最近浏览",
+  "navigationBarTextStyle": "black"
 }

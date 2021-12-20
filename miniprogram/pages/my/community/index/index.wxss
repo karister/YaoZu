@@ -61,6 +61,20 @@
   flex-direction: row;
   align-items: center;
 }
+.callme_box{
+  height: 50rpx;
+  width: 220rpx; 
+  margin-left: 250rpx; 
+  border-radius: 10rpx;
+}
+.callme_text{
+  height: 100%; 
+  font-size: 26rpx; 
+  color: rgb(109, 108, 108); 
+  margin-left: 10rpx; 
+  display: flex; 
+  align-items: center;
+}
 
 
 .write_iconBox{

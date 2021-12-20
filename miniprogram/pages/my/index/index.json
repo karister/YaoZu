@@ -3,6 +3,11 @@
     "van-grid": "@vant/weapp/grid/index",
     "van-grid-item": "@vant/weapp/grid-item/index",
     "van-search": "@vant/weapp/search/index"
-  }
+  },
+  "backgroundColor": "#ffffff",
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "南康家具云市场",
+  "navigationBarTextStyle": "black"
   
 }

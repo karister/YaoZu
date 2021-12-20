@@ -1,8 +1,8 @@
 {
   "usingComponents": {},
   "backgroundColor": "#ffffff",
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTitleText": "区域列表",
-    "navigationBarTextStyle": "black"
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "区域列表",
+  "navigationBarTextStyle": "black"
 }

@@ -17,18 +17,29 @@
       {{msg.content}}
     </view>
     <view class="news_item_ImageBox" style="height: {{msg.imgAutoHeight}}rpx;">
-      <image wx:for="{{msg.fileList}}" wx:key="key" wx:for-item="image" src="{{image.url}}"></image>
+      <image 
+        wx:for="{{msg.fileList}}" 
+        wx:key="key" 
+        wx:for-item="image" 
+        wx:for-index="imageIndex"
+        src="{{image.url}}"
+        bindtap="viewImage"
+        data-index="{{imageIndex}}"
+        data-imglist="{{msg.fileList}}"
+      ></image>
     </view>
     <view class="news_item_bottom">
       <view style="width: 150rpx;font-size: 26rpx; color: rgb(83, 82, 81);">  
         {{msg.publishDate}}
       </view>
-      <view class="mid" style="height: 50rpx; width: 80rpx; border-radius: 10rpx; margin-left: 350rpx;" >  
+      <view class="mid callme_box" bindtap="callPhone" >  
         <iconfont name="callme"></iconfont>
+        <view class="callme_text">联系我</view>
       </view>
     </view>
   </view>
 </scroll-view>
+
 
 
 <view style="position: absolute; z-index: 101;">

@@ -1,5 +1,10 @@
 {
   "usingComponents": {
     "van-divider": "@vant/weapp/divider/index"
-  }
+  },
+  "backgroundColor": "#ffffff",
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "收藏商家",
+  "navigationBarTextStyle": "black"
 }

@@ -26,7 +26,7 @@ Component({
   },
   data: {
     colors: '',
-    svgSize: 18,
+    svgSize: 20,
     quot: '"',
     isStr: true,
   },
