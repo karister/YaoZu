@@ -57,11 +57,8 @@ Page({
         title: '商家管理',
         page: 'storeAdmin'
       }, {
-        title: '查询记录',
-        page: 'selectRecord'
-      }, {
-        title: '聚合操作',
-        page: 'sumRecord'
+        title: '首页图片管理',
+        page: 'indexImgAdmin'
       }]
     }
   },
@@ -111,6 +108,14 @@ Page({
       url: '/pages/my/admin/function/imgManage/imgManage',
     })
   },
+  /**
+   * 个性化设置
+   */
+  diySet(){
+    wx.navigateTo({
+      url: '/pages/my/admin/function/diySet/diySet',
+    })
+  },
 
   /**
    * 商家界面的各个功能跳转
@@ -120,13 +125,15 @@ Page({
     // 是否已授权
     if(checkAuthed()) {
       var index = event.currentTarget.dataset.index;
-      console.log('function: ' + index );
+      // console.log('function: ' + index );
       if(index == 0) {
         this.myAuthFun();
       } else if(index == 1) {
         this.storeInfo();
       } else if(index == 2) {
         this.imgManage();
+      } else if(index == 3) {
+        this.diySet();
       }   
     } else{
       this.setData({

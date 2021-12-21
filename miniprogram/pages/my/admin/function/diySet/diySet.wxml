@@ -1,0 +1,16 @@
+<!--pages/my/admin/function/diySet/diySet.wxml-->
+<view style="width: 90%; height: 100rpx; margin: 20rpx auto; background-color: white; border-radius: 20rpx;box-shadow: 10rpx 10rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);">
+  <van-cell-group>
+    <van-field
+      value="{{ browseNum }}"
+      label="浏览量"
+      auto-focus
+      placeholder="设置成你想要的数字~"
+      bind:change="onChange"
+    />
+  </van-cell-group>
+</view>
+<view style="margin: 25rpx auto">
+  <van-button type="primary" round bind:click="onClickToSet">提交修改</van-button>
+</view>
+<van-toast id="van-toast" />

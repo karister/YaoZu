@@ -6,6 +6,8 @@
     "pages/my/admin/userInfo/userInfo",
     "pages/my/admin/super/authStoreDetail/authStoreDetail",
     "pages/my/admin/super/authStoreList/authStoreList",
+    "pages/my/admin/super/indexImgAdmin/indexImgAdmin",
+    "pages/my/admin/super/storeAdmin/storeAdmin",
     "pages/my/test/test",
     
     "pages/my/community/publish/publish",
@@ -15,6 +17,7 @@
     
     "pages/my/admin/function/imgManage/imgManage",
     "pages/my/admin/function/storeInfo/storeInfo",
+    "pages/my/admin/function/diySet/diySet",
     "pages/my/admin/function/authentication/authentication",
    
 
