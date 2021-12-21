@@ -26,3 +26,22 @@ export async function getSingleDataByOpenid (dbName) {
   .get()
   return res.data[0];
 };
+
+/**
+ * 查询dnName数据库中是否有对应openid的数据
+ * @param dbName: 查询的数据库 
+ * @param openid: 查询的_openid
+ * @returns 读取的单条数据 
+ */
+export async function checkNewData(dbName,openid) {
+  const res = await db.collection(dbName).where({
+    _openid: openid
+  })
+  .get()
+  console.log(res)
+  if(res.data.length == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}

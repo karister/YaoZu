@@ -108,7 +108,8 @@ Page({
           title: that.data.title,
           content: that.data.content,
           fileList: res,
-          publishDate: time
+          publishDate: time,
+          phoneNumber: app.globalData.phoneNumber
         }
       }).then(res=>{
         wx.hideLoading();
@@ -190,6 +191,8 @@ Page({
           imageUrl: res.brandImgSrc,
           identity: identity
         })
+      }).catch(error=>{
+        console.error('读取商家品牌头像和名称失败！')
       })
     }
   },

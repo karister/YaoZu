@@ -1,6 +1,6 @@
 // pages/my/detail/detail.js
 import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast';
-
+import {checkNewData,getSingleDataByOpenid} from '../../../common/common.js'
 const app = getApp();
 const db = wx.cloud.database();
 
@@ -86,26 +86,39 @@ Page({
   /**
    * 检查本店铺是否已被收藏
    */
-  checkCollected() {
+  async checkCollected() {
     const that = this;
-    db.collection('collect').where({
-      _openid: app.globalData.openid
+    // 检查是否为初始记录
+    let result;
+    await checkNewData('collect', app.globalData.openid).then(res=>{
+      result = (res) ?true :false;
     })
-    .get({
-      success: function (res) {
-        var stores = res.data[0].stores;
+    if(result) {
+      // 新建收藏店铺collect用户记录
+      db.collection('collect').add({
+        data: {
+          stores: []
+        }
+      })
+    } else {
+      // 更新收藏店铺collect用户记录
+        await getSingleDataByOpenid('collect').then(res=>{
+        var stores = res.stores;
         for(let i = 0; i < stores.length; i++) {
           if(that.data.storeOpenid == stores[i].storeOpenid) {
             that.setData({
               collected: true
             })
+            break;
           }
         }
         that.setData({
           collectStores: stores
         })
-      }
-    })
+      }).catch(error=>{
+        console.error('更新收藏店铺collect用户记录失败！')
+      })
+    }
   },
 
   /**
@@ -220,12 +233,24 @@ Page({
    *    browseNum: 浏览量
    * } storeInfoObj 
    */
-  updatebrowse(storeInfoObj) {
-    db.collection('browse').where({
-      _openid: app.globalData.openid
+  async updatebrowse(storeInfoObj) {
+    // 检查是否为初始记录
+    let result;
+    await checkNewData('browse', app.globalData.openid).then(res=>{
+      result = (res) ?true :false;
     })
-    .get({
-      success: function (res) {
+    if(result) {
+      console.log('新建浏览记录browse用户记录')
+      // 新建浏览记录browse用户记录
+      db.collection('browse').add({
+        data: {
+          browse: []
+        }
+      })
+    } else{
+      console.log('更新浏览记录browse用户记录')
+      // 更新浏览记录browse用户记录
+      await getSingleDataByOpenid('browse').then(res=>{
         // browse数据库中browse字段的json数据格式
         /**
          * browse: [ {}, {}, {} ]
@@ -250,32 +275,11 @@ Page({
          *            area:
          *          }
          *      ]
-         *    },
-         *    {
-         *      date: 12月2日
-         *      storeInfo: [
-         *          {
-         *            storeOpenid: 
-         *            brandName:
-         *            brandImgUrl:
-         *            labelText:
-         *            browseNum:
-         *            area:
-         *          },
-         *          {
-         *            storeOpenid: 
-         *            brandName:
-         *            brandImgUrl:
-         *            labelText:
-         *            browseNum:
-         *            area:
-         *          }
-         *      ]
          *    }
          * ]
          */
         // 获取browse数据库中browse字段赋值缓冲区
-        var browseBuffer = res.data[0].browse;
+        var browseBuffer = res.browse;
         // 拼接当天日期字符串
         var now = new Date();
         var time = (now.getMonth() + 1).toString() + '月' + now.getDate().toString() + '日';
@@ -327,8 +331,10 @@ Page({
             browse: browseBuffer
           }
         })
-      }
-    })
+      }).catch(error=>{
+        console.error('更新浏览记录browse用户记录失败！')
+      })
+    }
   },
 
   /**
@@ -412,7 +418,6 @@ Page({
       // 检查本店铺是否被收藏
       that.checkCollected();
     }
-    
   },
 
   /**

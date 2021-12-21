@@ -32,7 +32,7 @@
       <view style="width: 150rpx;font-size: 26rpx; color: rgb(83, 82, 81);">  
         {{msg.publishDate}}
       </view>
-      <view class="mid callme_box" bindtap="callPhone" >  
+      <view class="mid callme_box" bindtap="callPhone" data-phone="{{msg.phoneNumber}}">  
         <iconfont name="callme"></iconfont>
         <view class="callme_text">联系我</view>
       </view>

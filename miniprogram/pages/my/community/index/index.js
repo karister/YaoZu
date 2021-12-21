@@ -76,9 +76,10 @@ Page({
   /**
    * 调起系统拨打电话
    */
-  callPhone: function () {
+  callPhone: function (event) {
+    let phoneNumber = event.currentTarget.dataset.phone;
     wx.makePhoneCall({
-      phoneNumber: app.globalData.phoneNumber
+      phoneNumber: phoneNumber
     })
   },
 
