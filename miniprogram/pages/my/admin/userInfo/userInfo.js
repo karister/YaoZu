@@ -1,5 +1,5 @@
 // pages/my/admin/admin.js
-import {checkAuthed} from '../../../../common/common.js'
+import {checkAuthed,getSingleDataByOpenid} from '../../../../common/common.js'
 
 const db = wx.cloud.database();
 const _ = db.command;
@@ -44,11 +44,48 @@ Page({
     show: false,
     // 用户身份,决定入口功能
     identity: 'user',
+    // 超级功能显示
+    superShow: false,
+    // 超级功能数据
+    power: {
+      title: '超级功能',
+      showItem: false,
+      item: [{
+        title: '审核商家入驻',
+        page: 'authStoreList'
+      }, {
+        title: '商家管理',
+        page: 'storeAdmin'
+      }, {
+        title: '查询记录',
+        page: 'selectRecord'
+      }, {
+        title: '聚合操作',
+        page: 'sumRecord'
+      }]
+    }
   },
 
   /**
-   * 
+   * 超级功能跳转
+   * @param {功能index} event 
    */
+  jumpPage (event) {
+    let page = event.currentTarget.dataset.page;
+    // console.log(page)
+    wx.navigateTo({
+      url: '/pages/my/admin/super/' + page + '/' + page,
+    })
+  },
+
+  /**
+   * 点击超级功能
+   */
+  onClickSuper() {
+    let power = this.data.power;
+    power.showItem = !power.showItem;
+    this.setData({power});
+  },
 
   /**
    * 我的认证
@@ -245,15 +282,16 @@ Page({
           }
         })
         // 更新浏览记录表中的头像和名称
-        db.collection('browse').where({
-          _openid: app.globalData.openid
-        })
-        .update({
-          data: {
-            avatarUrl: app.globalData.avatarUrl,
-            nickName: app.globalData.nickName,
-          }
-        })
+        // 2.21.12.21 发现这段代码更新的字段没有使用价值，故屏蔽之
+        // db.collection('browse').where({
+        //   _openid: app.globalData.openid
+        // })
+        // .update({
+        //   data: {
+        //     avatarUrl: app.globalData.avatarUrl,
+        //     nickName: app.globalData.nickName,
+        //   }
+        // })
       }
     })
   },
@@ -261,23 +299,33 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    // 检查openid的身份,若为user，则开启商家入驻接口，若为store则改为我的店铺接口
+  onLoad: async function (options) {
+    // 查询用户的身份和内部别名
     const that = this;
-    console.log(app.globalData)
-    db.collection('user').where({
-      _openid: app.globalData.openid
+    console.log(app.globalData);
+    await getSingleDataByOpenid('user').then(res=>{
+      // 超级功能权限拥有者
+      if(res.name == 'admin') {
+        that.setData({superShow: true})
+        // let admin_info = that.data.admin_info;
+        // admin_info[admin_info.length-1].class = 'van-hairline--bottom';
+        // let adminObj = {
+        //   iconStr: 'super',
+        //   text: '超级功能',
+        //   class: ''
+        // };
+        // admin_info.push(adminObj);
+        // that.setData({
+        //   admin_info,
+        //   adminFuncHeight: 500
+        // });
+      }
+        that.setData({identity: res.identity});
+    }).catch(error=>{
+      console.error('检查openid的身份失败！')
     })
-    .get({
-      success: function (res) {
-        // console.log(res);
-        if(res.data[0].identity == 'store') {
-          that.setData({identity: 'store'})
-        }
-      } 
-    })
-    // 已授权
-    if(app.globalData.avatarUrl != '') {
+    // 已授权则更新page data的个人信息
+    if(checkAuthed()) {
       that.setData({
         // 更新头像和名称至page data
         avatarUrl: app.globalData.avatarUrl,
@@ -285,6 +333,7 @@ Page({
         phoneNumber: app.globalData.phoneNumber
       })
     }
+    // 检查用户是否为超级功能拥有者
   },
 
   /**

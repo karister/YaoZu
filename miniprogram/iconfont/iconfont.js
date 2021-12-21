@@ -1,6 +1,6 @@
 Component({
   properties: {
-    // callme | publish | uncollect | collect | set | tupian | update | label | join | delete | add | arrow | zizhi | shenhe | browsed | info | click | authed | unauth | phone | address | brand
+    // super | callme | publish | uncollect | collect | set | tupian | update | label | join | delete | add | arrow | zizhi | shenhe | browsed | info | click | authed | unauth | phone | address | brand
     name: {
       type: String,
     },
@@ -26,7 +26,7 @@ Component({
   },
   data: {
     colors: '',
-    svgSize: 20,
+    svgSize: 18,
     quot: '"',
     isStr: true,
   },

@@ -19,9 +19,15 @@ export var getUserIdentity = async function() {
  * @param dbName: 查询的数据库 
  * @returns 读取的单条数据
  */
-export async function getSingleDataByOpenid (dbName) {
+export async function getSingleDataByOpenid (dbName, openid) {
+  let realOpenid;
+  if(openid == undefined) {
+    realOpenid = app.globalData.openid;
+  } else{
+    realOpenid = openid;
+  }
   const res = await db.collection(dbName).where({
-    _openid: app.globalData.openid
+    _openid: realOpenid
   })
   .get()
   return res.data[0];

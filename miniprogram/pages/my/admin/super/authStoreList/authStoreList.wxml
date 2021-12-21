@@ -1,0 +1,21 @@
+<!--pages/my/admin/super/authStoreList/authStoreList.wxml-->
+<view bindtap="clickToDetail" data-openid="{{storeInfo.openid}}" class="basic_info_box" wx:for="{{display_info}}" wx:key="key" wx:for-item="storeInfo">
+  <image 
+    style="width: 160rpx;height: 160rpx;margin: 20rpx 20rpx; border-radius: 20rpx;"
+    src="{{storeInfo.brandImgUrl}}"
+  ></image>
+  <view style="width: 400rpx;height: 100%; display: flex;flex-direction: column;">
+    <view style="height: 50rpx;font-size: 32rpx;font-weight: 600; display: flex;align-items: center;">
+      {{storeInfo.brandName}}
+    </view>
+    <view style="height: 50rpx;font-size: 24rpx;color: rgb(77, 79, 80);;display: flex;align-items: center;">
+      [{{storeInfo.area}}]
+    </view>
+    <view style="height: 50rpx;font-size: 24rpx;color: rgb(77, 79, 80);;display: flex;align-items: center;">
+      {{storeInfo.address}}
+    </view>
+    <view style="height: 50rpx;font-size: 24rpx;color: rgb(77, 79, 80);display: flex;align-items: center;">
+      {{storeInfo.labelText}}
+    </view>
+  </view>
+</view>

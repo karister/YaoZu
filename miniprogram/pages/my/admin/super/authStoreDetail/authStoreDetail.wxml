@@ -1,0 +1,107 @@
+<!--pages/my/admin/super/authStoreJoin/authStoreJoin.wxml-->
+
+<!-- ********************************authInfo************************************** -->
+<!-- ********************************authInfo************************************** -->
+<view class="info_box" style="height: 520rpx;">
+  <view style="width: 100%;height: 120rpx;">
+    <view class="step_info_box mid">
+      <iconfont name="zizhi"></iconfont>
+      <text>认证信息</text>
+    </view>
+  </view>
+  <view class="brand_normal_text">
+    <text space="emsp" decode>联系人&emsp;</text>
+    <van-cell-group>
+      <van-field
+        model:value="{{ adminName }}"
+        disabled
+      />
+    </van-cell-group>
+  </view>
+  <view class="brand_normal_text">
+    <text>联系电话</text>
+    <van-cell-group>
+      <van-field
+        model:value="{{ phone }}"
+        disabled
+      />
+    </van-cell-group>
+  </view>
+
+  <view class="auth_img_box"> 
+    <view style="width: 6%;height: 100%;"></view>
+    <view style="width: 41%;height: 100%;display: flex;flex-direction: column;">
+      <image hidden="{{authImgState}}" class="auth_img_item" src="{{authImgUrl[0]}}" bindtap="previewImg" data-index="0"></image>
+      <view style="margin-top: 100rpx;" hidden="{{!authImgState}}">未上传门面图片</view>
+    </view>
+    <view style="width: 6%;height: 100%;"></view>
+    <view style="width: 41%;height: 100%;display: flex;flex-direction: column;">
+      <image hidden="{{authImgState}}" class="auth_img_item" src="{{authImgUrl[1]}}" bindtap="previewImg" data-index="1" ></image>
+      <view style="margin-top: 100rpx;" hidden="{{!authImgState}}">未上传营业执照</view>
+    </view>
+    <view style="width: 6%;height: 100%;"></view>
+  </view>
+</view>
+
+
+
+
+<!-- ********************************storeInfo************************************** -->
+<!-- ********************************storeInfo************************************** -->
+<view class="info_box" style="height: {{step0InfoBoxHeight}}rpx;"> 
+  <view style="width: 100%;height: 120rpx;">
+    <view class="step_info_box mid">
+      <iconfont name="info"></iconfont>
+      <text>门店信息</text>
+    </view>
+  </view>
+  <view class="brand_img_box">
+    <text>品牌头像</text>
+    <image src="{{brandImgSrc}}"></image>
+  </view>
+  <view class="brand_normal_text">
+    <text>品牌名称</text>
+    <van-cell-group>
+      <van-field
+        model:value="{{ brandName }}"
+        disabled
+      />
+    </van-cell-group>
+  </view>
+  <view class="brand_normal_text">
+    <text>门市区域</text>
+    <van-cell-group>
+      <van-field
+        model:value="{{ area }}"
+        disabled
+      />
+    </van-cell-group>
+  </view>
+  <view class="brand_normal_text">
+    <text>门市地址</text>
+    <van-cell-group>
+      <van-field
+        model:value="{{ address }}"
+      />
+    </van-cell-group>
+    <view class="mid location_icon_box" bindtap="onLocation">
+        <iconfont name="address"></iconfont>
+      </view>
+  </view>
+  <view class="brand_normal_text" wx:for="{{labelList}}" wx:key="key" wx:key="key">
+    <text >分类标签</text>
+    <van-cell-group>
+      <van-field
+        model:value="{{ item }}"
+        disabled
+      />
+    </van-cell-group>
+  </view>
+</view>
+
+<view style="margin: 50rpx auto;">
+  <van-button type="primary" round bind:click="onClickToAuth">审核通过</van-button>
+</view>
+
+
+<van-toast id="van-toast" />

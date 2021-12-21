@@ -3,33 +3,28 @@
     
     "pages/my/index/index",
     "pages/my/community/index/index",
-    "pages/my/community/publish/publish",
+    "pages/my/admin/userInfo/userInfo",
+    "pages/my/admin/super/authStoreDetail/authStoreDetail",
+    "pages/my/admin/super/authStoreList/authStoreList",
     "pages/my/test/test",
     
+    "pages/my/community/publish/publish",
+    
     "pages/my/admin/collect/collect",
-    "pages/my/admin/browse/browse",
+    "pages/my/admin/browse/browse",  
     
     "pages/my/admin/function/imgManage/imgManage",
-    
-    
-    
     "pages/my/admin/function/storeInfo/storeInfo",
-    
     "pages/my/admin/function/authentication/authentication",
-    
-    "pages/my/admin/userInfo/userInfo",
-    
-    
-    
-    
-    
-    
-    
+   
+
     "pages/my/join/brandJion/brandJion",
     "pages/my/join/policy/policy",
     
     "pages/my/search/search",
+
     "pages/my/detail/detail",
+
     "pages/my/display/display"
     
   ],

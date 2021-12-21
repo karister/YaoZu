@@ -26,8 +26,8 @@ Page({
     var index = event.currentTarget.dataset.index;
     var imgUrls = this.data.authImgUrl;
     wx.previewImage({
-      urls: [imgUrls[0].url,imgUrls[1].url],
-      current: imgUrls[index].url
+      urls: imgUrls,
+      current: imgUrls[index]
     })
   },
   

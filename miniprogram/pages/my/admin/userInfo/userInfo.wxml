@@ -82,6 +82,24 @@
       </view>
     </view>
   </view>
-  
-  
+</view>
+
+<view style="width: 90%;margin: 20rpx auto;background-color: white;border-radius: 20rpx;" wx:if="{{superShow}}" bindtap="onClickSuper">
+  <view class="admin_function_item_box ">
+    <view style="width: 8%;">
+      <iconfont name="super"></iconfont>
+    </view>
+    <text style="width: 82%;" >{{power.title}}</text>
+    <view style="width: 10%;">
+      <iconfont name="click" style="display: flex;align-items: center;"></iconfont>
+    </view>
+  </view>
+  <view wx:if="{{power.showItem}}">
+    <view wx:key="title" wx:for="{{power.item}}">
+      <view class="line"></view>
+      <view class="power_item" bindtap="jumpPage" data-page="{{item.page}}">
+        <view class="power_item_title">{{item.title}}</view>
+      </view>
+    </view>
+  </view>
 </view>

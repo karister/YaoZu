@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "van-divider": "@vant/weapp/divider/index"
+  },
+  "backgroundColor": "#ffffff",
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "待审核列表",
+  "navigationBarTextStyle": "black"
+}
