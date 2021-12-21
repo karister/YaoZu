@@ -45,3 +45,19 @@ export async function checkNewData(dbName,openid) {
     return false;
   }
 }
+
+/**
+ * 检查用户是否授权
+ */
+export function checkAuthed () {
+  // 已授权
+  if((app.globalData.avatarUrl != '') && (app.globalData.phoneNumber != '')) {
+    // console.log(app.globalData.avatarUrl);
+    // console.log(app.globalData.phoneNumber);
+    // console.log('已授权')
+    return true;
+  } else {
+    // console.log('未授权')
+    return false;
+  }
+}

@@ -1,6 +1,6 @@
 // pages/my/detail/detail.js
 import Toast from '../../../miniprogram_npm/@vant/weapp/toast/toast';
-import {checkNewData,getSingleDataByOpenid} from '../../../common/common.js'
+import {checkNewData,getSingleDataByOpenid,checkAuthed} from '../../../common/common.js'
 const app = getApp();
 const db = wx.cloud.database();
 
@@ -62,25 +62,6 @@ Page({
     storeOpenid: '',
     collected: false,
     collectStores: []
-  },
-
-  /**
-   * 检查用户是否授权
-   */
-  checkAuthed: function () {
-    // 已授权
-    if((app.globalData.avatarUrl != '') && (app.globalData.phoneNumber != '')) {
-      // console.log(app.globalData.avatarUrl);
-      // console.log(app.globalData.phoneNumber);
-      // console.log('已授权')
-      return true;
-    } else {
-      // console.log('未授权')
-      wx.switchTab({
-        url: '/pages/my/admin/userInfo/userInfo'
-      })
-      return false;
-    }
   },
 
   /**
@@ -343,7 +324,7 @@ Page({
   onLoad: function (options) {
 
     // 已授权才可加载，否则开启遮罩层授权
-    if(this.checkAuthed()) {
+    if(checkAuthed()) {
       /**
        * 接收跳转过来携带的openid数据，注意此openid为对应商家在stores集合中的的openid，并非打开此页面的用户的openid
        */
@@ -417,6 +398,10 @@ Page({
       })
       // 检查本店铺是否被收藏
       that.checkCollected();
+    } else{
+      wx.switchTab({
+        url: '/pages/my/admin/userInfo/userInfo'
+      })
     }
   },
 

@@ -1,5 +1,5 @@
 // pages/my/community/index/index.js
-import {getUserIdentity} from '../../../../common/common.js'
+import {getUserIdentity,checkAuthed} from '../../../../common/common.js'
 
 const app = getApp();
 const db = wx.cloud.database();
@@ -101,28 +101,35 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: async function () {
-    let that = this;
-    let identity = '';
-    // 同步等待身份的读取
-    await getUserIdentity().then(res=>{
-      identity = res;
-      console.log(identity);
-    })
-    let data_db = (identity == 'store') ?store_space_db :user_space_db;
-    // 查询对应身份下的动态记录
-    data_db.orderBy('publishDate', 'desc').get().then(res=>{
-      let messageBuffer = res.data;
-      messageBuffer.forEach((element,index,array) => {
-        array[index].imgAutoHeight = Math.ceil(element.fileList.length/3)*150 + 30;
-        array[index].itemAutoHeight = Math.ceil(element.fileList.length/3)*150 + 380;
-        // console.log(element);
+    // 已授权
+    if(checkAuthed()) {
+      let that = this;
+      let identity = '';
+      // 同步等待身份的读取
+      await getUserIdentity().then(res=>{
+        identity = res;
+        console.log(identity);
       })
-      that.setData({
-        message: messageBuffer
+      let data_db = (identity == 'store') ?store_space_db :user_space_db;
+      // 查询对应身份下的动态记录
+      data_db.orderBy('publishDate', 'desc').get().then(res=>{
+        let messageBuffer = res.data;
+        messageBuffer.forEach((element,index,array) => {
+          array[index].imgAutoHeight = Math.ceil(element.fileList.length/3)*150 + 30;
+          array[index].itemAutoHeight = Math.ceil(element.fileList.length/3)*150 + 380;
+          // console.log(element);
+        })
+        that.setData({
+          message: messageBuffer
+        })
+      }).catch(error=>{
+        console.error('查询对应身份下的动态记录失败！');
       })
-    }).catch(error=>{
-      console.error('查询对应身份下的动态记录失败！');
-    })
+    } else{
+      wx.switchTab({
+        url: '/pages/my/admin/userInfo/userInfo'
+      })
+    }
   },
 
   /**

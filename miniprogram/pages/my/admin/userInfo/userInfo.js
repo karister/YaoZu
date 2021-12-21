@@ -1,4 +1,6 @@
 // pages/my/admin/admin.js
+import {checkAuthed} from '../../../../common/common.js'
+
 const db = wx.cloud.database();
 const _ = db.command;
 const app = getApp();
@@ -43,6 +45,11 @@ Page({
     // 用户身份,决定入口功能
     identity: 'user',
   },
+
+  /**
+   * 
+   */
+
   /**
    * 我的认证
    */
@@ -74,7 +81,7 @@ Page({
    */
   actionFuntion: function (event) {
     // 是否已授权
-    if(this.checkAuthed()) {
+    if(checkAuthed()) {
       var index = event.currentTarget.dataset.index;
       console.log('function: ' + index );
       if(index == 0) {
@@ -84,6 +91,10 @@ Page({
       } else if(index == 2) {
         this.imgManage();
       }   
+    } else{
+      this.setData({
+        show: true
+      })
     }
   },
 
@@ -92,9 +103,13 @@ Page({
    */
   browseFunction() {
     // 是否已授权
-    if(this.checkAuthed()) {
+    if(checkAuthed()) {
       wx.navigateTo({
         url: '/pages/my/admin/browse/browse'
+      })
+    } else{
+      this.setData({
+        show: true
       })
     }
   },
@@ -104,9 +119,13 @@ Page({
    */
   collectFunction() {
     // 是否已授权
-    if(this.checkAuthed()) {
+    if(checkAuthed()) {
       wx.navigateTo({
         url: '/pages/my/admin/collect/collect'
+      })
+    } else{
+      this.setData({
+        show: true
       })
     }
   },
@@ -116,7 +135,7 @@ Page({
    */
   brandJoin: function () {
      // 是否已授权
-     if(this.checkAuthed()) {
+     if(checkAuthed()) {
       // 不是商户
       if(this.data.identity == 'user') {
         wx.navigateTo({
@@ -135,23 +154,10 @@ Page({
           }
         })
       }
-    }
-  },
-
-  /**
-   * 检查用户是否授权
-   */
-  checkAuthed: function () {
-    // 已授权
-    if((app.globalData.avatarUrl != '') && (app.globalData.phoneNumber != '')) {
-      // console.log(app.globalData.avatarUrl);
-      // console.log(app.globalData.phoneNumber);
-      // console.log('已授权')
-      return true;
-    } else {
-      // console.log('未授权')
-      this.setData({show: true});
-      return false;
+    } else{
+      this.setData({
+        show: true
+      })
     }
   },
 
@@ -293,7 +299,11 @@ Page({
    */
   onShow: function () {
     // 未授权
-    this.checkAuthed();
+    if(!checkAuthed()){
+      this.setData({
+        show: true
+      })
+    };
   },
 
   /**

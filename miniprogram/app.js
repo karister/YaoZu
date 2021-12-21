@@ -61,18 +61,6 @@ App({
                   console.log(res)
                 }
               })
-              // // 新建浏览记录browse用户
-              // db.collection('browse').add({
-              //   data: {
-              //     browse: []
-              //   }
-              // })
-              // // 新建收藏店铺collect用户
-              // db.collection('collect').add({
-              //   data: {
-              //     stores: []
-              //   }
-              // })
             } else {
               // 用户存在则写入头像和名称至globalData
               console.log('user has exist')
