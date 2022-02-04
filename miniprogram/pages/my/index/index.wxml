@@ -18,7 +18,7 @@
 </view> -->
 <!-- 地区图片 -->
 <view class="areaBigBox">
-    <view class="areaImgBox"  hover-class="areaImgHover" wx:for="{{imgUrls}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
+    <view class="areaImgBox"  hover-class="areaImgHover" wx:for="{{imgUrls1}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
       <image src="{{item}}" style="height: 200rpx;width: 200rpx;"></image>
     </view>
 </view>

@@ -1,19 +1,21 @@
 // pages/my/index/index.js
+const db = wx.cloud.database();
+const _ = db.command;
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-      imgUrls: ['/images/consult.png','/images/feedback.png','/images/user2.png','/images/user2.png'],
-      pagePaths: ['/pages/h1/h1','/pages/h2/h2','/pages/h3/h3','/pages/h4/h4']
+      imgUrls: [],
+      imgUrls1: ['/images/consult.png','/images/feedback.png','/images/user2.png','/images/user2.png']
   },
 
   imgClick: function (e) {
       var index = e.currentTarget.dataset.index;
       console.log(index);
       wx.navigateTo({
-          // url: this.data.pagePaths[index]
           url: '/pages/my/display/display?index=' + index
         })
   },
@@ -23,12 +25,25 @@ Page({
     })
   },
 
+  getIndexImage() {
+    const that = this;
+    db.collection('index').where({
+      _id: '133e253361c1d599017d273c0b729104'
+    })
+    .get({
+      success: res => {
+        that.setData({
+          imgUrls: res.data[0].imageList
+        }) 
+      }
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      
+    this.getIndexImage()
   },
 
   /**
