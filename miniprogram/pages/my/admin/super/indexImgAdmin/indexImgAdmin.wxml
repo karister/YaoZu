@@ -35,7 +35,7 @@
       data-index="{{proIndex}}"
     />
     <view style="display: flex;flex-direction: row;" wx:if="{{!pro.empty}}">
-      <van-button bindtap="allClear" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="danger" round>全部清空</van-button>
+      <van-button bindtap="allClear" data-index="{{proIndex}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="danger" round>全部清空</van-button>
       <van-button bindclick="deleteImage" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="primary" round disabled="{{disabled}}">删除图片</van-button>
       <van-button bindclick="chooseImage" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round disabled="{{disabled}}">更换图片</van-button>
       <van-button bindclick="cancelSelect" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round plain disabled="{{disabled}}">取消选择</van-button>

@@ -41,6 +41,8 @@ Page({
         imageList: [],
         imageObject: []
       }
+      
+      
     ]
   },
 
@@ -58,19 +60,26 @@ Page({
 
   /**
    * 长按图片进行编辑
-   * @param {imageindex: 当前点击的图片索引;labelindex: 标签的索引} event   
+   * @param {event.currentTarget.dataset.index: 当前上传的项目索引} event 
    */
   editImage(event) {
+    let proIndex = event.currentTarget.dataset.index;
     let that = this;
-    let imageIndex = event.currentTarget.dataset.imageindex;
-    let imageObject = that.data.imageObject;
     if(that.data.disabled) {
-      imageObject[imageIndex].borderColor = that.data.selectedColor;
-      that.setData({
-        imageObject,
-        disabled: false,
-        selectIndex: imageIndex
-      })
+
+      if(proIndex == 0) {
+        that.setData({
+          'project[0].borderColor': that.data.selectedColor,
+          disabled: false,
+          selectIndex: imageIndex
+        })
+      } else {
+        that.setData({
+          'project[1].borderColor': that.data.selectedColor,
+          disabled: false,
+          selectIndex: imageIndex
+        })
+      }
     }
   },
 
@@ -109,6 +118,10 @@ Page({
     let that = this;
     let projectTemp = that.data.project;
     let now = new Date();
+    console.log('开始换取')
+    setTimeout(()=> {
+      console.log('fileID换取完毕，开启延时');
+    },2000)
     let time = (now.getMonth() + 1).toString() + now.getDate().toString() + now.getHours().toString() + now.getMinutes().toString();
     projectTemp.forEach(pro => {
       pro.imageList.forEach( (imageUrl,index) => {
@@ -127,11 +140,16 @@ Page({
     that.setData({
       project: projectTemp
     })
+    setTimeout(()=> {
+      console.log('延时完毕');
+    },2000)
   },
 
-  onPublish() {
+  async onPublish() {
     let that = this;
-    that.uploadToCloud().then(res=>{
+    await that.uploadToCloud();
+    setTimeout(() => {
+      console.log('开始写入');
       db.collection('index').where({
         _id: '133e253361c1d599017d273c0b729104'
       })
@@ -141,13 +159,11 @@ Page({
           iconList: that.data.project[1].imageList
         }
       })
-    }).catch(error => {
-      console.error('图片上传到云存储失败2')
-    })
-    Toast.success({
-      message: '发布成功',
-      duration: 1000
-    });
+      Toast.success({
+        message: '发布成功',
+        duration: 1000
+      });
+    }, 3000);
   },
 
   /**
@@ -206,6 +222,21 @@ Page({
   },
 
   /**
+   * 全部清空上传的图片
+   * @param {index: 项目的索引} event 
+   */
+  allClear(event) {
+    let proIndex = event.currentTarget.dataset.index;
+    let project = this.data.project;
+    project[proIndex].imageList = [];
+    project[proIndex].imageObject = [];
+    project[proIndex].empty = true;
+    this.setData({
+      project
+    })
+  },
+
+  /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
@@ -215,29 +246,43 @@ Page({
     }).get().then(res=>{
       let resImageList = res.data[0].imageList;
       let resIconList = res.data[0].iconList;
+      if(resImageList.length == 0) {
+        that.setData({
+          'project[0].empty': true
+        })
+      } else {
+        let imageObject = [];
+        resImageList.forEach( url => {
+          imageObject.push({
+            url: url,
+            borderColor: that.data.normalColor
+          })
+        })
+        that.setData({
+          'project[0].imageObject': imageObject,
+          'project[0].imageList': resImageList,
+          'project[0].empty': false
+        })
+      }
 
-      let imageObject = [];
-      let iconObject = [];
-      resImageList.forEach( url => {
-        imageObject.push({
-          url: url,
-          borderColor: that.data.normalColor
+      if(resIconList.length == 0) {
+        that.setData({
+          'project[1].empty': true
         })
-      })
-      resIconList.forEach( url => {
-        iconObject.push({
-          url: url,
-          borderColor: that.data.normalColor
+      } else {
+        let iconObject = [];
+        resIconList.forEach( url => {
+          iconObject.push({
+            url: url,
+            borderColor: that.data.normalColor
+          })
         })
-      })
-      that.setData({
-        'project[0].imageObject': imageObject,
-        'project[0].imageList': resImageList,
-        'project[0].empty': false,
-        'project[1].imageObject': iconObject,
-        'project[1].imageList': resIconList,
-        'project[1].empty': false
-      })
+        that.setData({
+          'project[1].imageObject': iconObject,
+          'project[1].imageList': resIconList,
+          'project[1].empty': false,
+        })
+      }
     })
     
 
