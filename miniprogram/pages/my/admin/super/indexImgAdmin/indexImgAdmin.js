@@ -16,10 +16,6 @@ Page({
     selectedColor: 'red',
     // 正常的图片框颜色
     normalColor: '#e4e4e4',
-    // 按钮编辑状态
-    disabled: true,
-    // 选中的图片索引
-    selectIndex: 0,
     // 首页固定可上传图片数量
     confirmNumImg: 6,
     // 修改项目
@@ -29,6 +25,10 @@ Page({
         dirName: 'Image',
         text: '轮播图拉伸比例长宽高大约3:1，为保证显示的效果请上传的图片大致符合拉伸比例',
         empty: true,
+        // 按钮编辑状态
+        disabled: true,
+        // 选中的图片索引
+        selectIndex: 0,
         imageList: [],
         imageObject: []
 
@@ -38,6 +38,10 @@ Page({
         dirName: 'Icon',
         text: '图标图拉伸比例长宽高为1:1，为保证显示的效果请上传的图片大致符合拉伸比例',
         empty: true,
+        // 按钮编辑状态
+        disabled: true,
+        // 选中的图片索引
+        selectIndex: 0,
         imageList: [],
         imageObject: []
       }
@@ -48,14 +52,24 @@ Page({
 
   /**
    * 取消选中的图片
+   * @param {event.currentTarget.dataset.index: 当前上传的项目索引} event 
    */
-  cancelSelect() {
-    let imageObject = this.data.imageObject;
-    imageObject[this.data.selectIndex].borderColor = this.data.normalColor;
-    this.setData({
-      imageObject,
-      disabled: true
-    })
+  cancelSelect(event) {
+    let that = this;
+    let proIndex = event.currentTarget.dataset.index;
+    let imageObject = that.data.project[proIndex].imageObject;
+    imageObject[that.data.project[proIndex].selectIndex].borderColor = this.data.normalColor;
+    if(proIndex == 0) {
+      that.setData({
+        'project[0].imageObject': imageObject,
+        'project[0].disabled': true
+      })
+    } else {
+      that.setData({
+        'project[1].imageObject': imageObject,
+        'project[1].disabled': true
+      })
+    }
   },
 
   /**
@@ -63,31 +77,67 @@ Page({
    * @param {event.currentTarget.dataset.index: 当前上传的项目索引} event 
    */
   editImage(event) {
-    let proIndex = event.currentTarget.dataset.index;
     let that = this;
-    if(that.data.disabled) {
-
+    let proIndex = event.currentTarget.dataset.index;
+    let imageIndex = event.currentTarget.dataset.imageindex;
+    let imageObject = that.data.project[proIndex].imageObject;
+    if(that.data.project[proIndex].disabled) {
+      imageObject[imageIndex].borderColor = that.data.selectedColor;
       if(proIndex == 0) {
         that.setData({
-          'project[0].borderColor': that.data.selectedColor,
-          disabled: false,
-          selectIndex: imageIndex
+          'project[0].imageObject': imageObject,
+          'project[0].disabled': false,
+          'project[0].selectIndex': imageIndex
         })
       } else {
         that.setData({
-          'project[1].borderColor': that.data.selectedColor,
-          disabled: false,
-          selectIndex: imageIndex
+          'project[1].imageObject': imageObject,
+          'project[1].disabled': false,
+          'project[1].selectIndex': imageIndex
         })
       }
     }
   },
 
   /**
+   * 删除选中的图片
+   * @param {imageindex: 当前点击的图片索引;labelindex: 标签的索引} event   
+   */
+  deleteImage(event) {
+    let that = this;
+    let proIndex = event.currentTarget.dataset.index;
+    let imageObject = that.data.project[proIndex].imageObject;
+    let imageList = that.data.project[proIndex].imageList;
+    let imageIndex = that.data.project[proIndex].selectIndex;
+    imageList.splice(imageIndex,1);
+    imageList.push('');
+    imageObject.splice(imageIndex,1);
+    imageObject.push({
+      url: '',
+      borderColor: this.data.normalColor
+    })
+    if(proIndex == 0) {
+      that.setData({
+        'project[0].imageObject': imageObject,
+        'project[0].imageList': imageList,
+        'project[0].disabled': true
+
+      })
+    } else {
+      that.setData({
+        'project[1].imageObject': imageObject,
+        'project[1].imageList': imageList,
+        'project[1].disabled': true
+      })
+    }
+  },
+
+  /**
    * 选择图片
    */
-  chooseImage() {
+  chooseImage(event) {
     let that = this;
+    let proIndex = event.currentTarget.dataset.index;
     wx.chooseMedia({
       count: 1,
       mediaType: ['image','video'],
@@ -96,17 +146,26 @@ Page({
       camera: 'back',
       success(res) {
         let url = res.tempFiles[0].tempFilePath;
-        let selectIndex = that.data.selectIndex;
-        let imageList = that.data.imageList;
-        let imageObject = that.data.imageObject;
-        imageList[selectIndex] = url;
-        imageObject[selectIndex].url = url;
-        imageObject[selectIndex].borderColor = that.data.normalColor;
-        that.setData({
-          imageList,
-          imageObject,
-          disabled: true
-        });
+        let imageObject = that.data.project[proIndex].imageObject;
+        let imageList = that.data.project[proIndex].imageList;
+        let imageIndex = that.data.project[proIndex].selectIndex;
+        imageList[imageIndex] = url;
+        imageObject[imageIndex].url = url;
+        imageObject[imageIndex].borderColor = that.data.normalColor;
+        if(proIndex == 0) {
+          that.setData({
+            'project[0].imageObject': imageObject,
+            'project[0].imageList': imageList,
+            'project[0].disabled': true
+    
+          })
+        } else {
+          that.setData({
+            'project[1].imageObject': imageObject,
+            'project[1].imageList': imageList,
+            'project[1].disabled': true
+          })
+        }
       }
     })
   },

@@ -24,6 +24,7 @@
         src="{{image.url}}"
         bindtap="viewImage"
         data-imageindex="{{imageIndex}}"
+        data-index="{{proIndex}}"
         bindlongpress="editImage"
       >
       </image>
@@ -36,9 +37,9 @@
     />
     <view style="display: flex;flex-direction: row;" wx:if="{{!pro.empty}}">
       <van-button bindtap="allClear" data-index="{{proIndex}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="danger" round>全部清空</van-button>
-      <van-button bindclick="deleteImage" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="primary" round disabled="{{disabled}}">删除图片</van-button>
-      <van-button bindclick="chooseImage" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round disabled="{{disabled}}">更换图片</van-button>
-      <van-button bindclick="cancelSelect" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round plain disabled="{{disabled}}">取消选择</van-button>
+      <van-button bindclick="deleteImage" data-index="{{proIndex}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="primary" round disabled="{{pro.disabled}}">删除图片</van-button>
+      <van-button bindclick="chooseImage" data-index="{{proIndex}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round disabled="{{pro.disabled}}">更换图片</van-button>
+      <van-button bindclick="cancelSelect" data-index="{{proIndex}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round plain disabled="{{pro.disabled}}">取消选择</van-button>
     </view>
   </view>
 </view>
