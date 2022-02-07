@@ -224,7 +224,8 @@ Page({
               browseNum: 100,
               authState: 0,
               authImgUrl:[data.authImgUrl[0].url,data.authImgUrl[1].url],
-              viewState: 0
+              viewState: 0,
+              notTest: 1
             },
             success: function (res) {
               console.log(res)

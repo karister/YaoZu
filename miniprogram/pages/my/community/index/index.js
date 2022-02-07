@@ -112,7 +112,7 @@ Page({
       })
       let data_db = (identity == 'store') ?store_space_db :user_space_db;
       // 查询对应身份下的动态记录
-      data_db.orderBy('publishDate', 'asc').get().then(res=>{
+      data_db.orderBy('timeStamp', 'desc').get().then(res=>{
         let messageBuffer = res.data;
         messageBuffer.forEach((element,index,array) => {
           array[index].imgAutoHeight = Math.ceil(element.fileList.length/3)*150 + 30;

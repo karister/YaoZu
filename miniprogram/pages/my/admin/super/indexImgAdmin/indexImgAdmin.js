@@ -31,7 +31,6 @@ Page({
         selectIndex: 0,
         imageList: [],
         imageObject: []
-
       },
       {
         name: '地区图标图',

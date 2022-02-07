@@ -18,8 +18,17 @@
 </view> -->
 <!-- 地区图片 -->
 <view class="areaBigBox">
-    <view class="areaImgBox"  hover-class="areaImgHover" wx:for="{{imgUrls1}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
-      <image src="{{item}}" style="height: 200rpx;width: 200rpx;"></image>
+    <view class="area-item" wx:for="{{imgUrls1}}" wx:key="key" wx:for-item="area" >
+        <image 
+            src="{{area.url}}" 
+            class="area-image"
+            hover-class="areaImgHover" 
+            bindtap="imgClick" 
+            data-index="{{index}}">
+        </image>
+        <view style="height: 50rpx;" class="mid">
+            {{area.name}}
+        </view>
     </view>
 </view>
 <view class="search_box mid" bindtap="clickToSearch">

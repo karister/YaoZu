@@ -67,3 +67,29 @@ export function checkAuthed () {
     return false;
   }
 }
+
+/**
+ * 商家数据查询条件
+ * arg=null 普查 arg!=null 模糊查
+ */
+const areas = ['中心市场','博览中心','家私城','光明家具城','其他区域'];
+export function getQueryParam(index,arg) {
+  let param = '';
+  if(arg != null) {
+    param = {
+      brand: {
+        // 模糊查询 '.*'相当于mysql的like
+        $regex: '.*' + arg + '.*',
+        // 不区分大小写
+        $options: 'i'
+      },
+      viewState: 1
+    }
+  } else {
+    param = {
+      area: areas[index],
+      viewState: 1
+    }
+  }
+  return param;
+}

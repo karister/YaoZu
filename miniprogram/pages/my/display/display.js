@@ -1,4 +1,5 @@
 // pages/my/display/display.js
+import {getQueryParam} from '../../../common/common.js'
 Page({
 
   /**
@@ -60,10 +61,7 @@ Page({
       if(i == index) {
         area_info[index].bgk_color = '#4692B9';
         area_info[i].font_color = 'white';
-        db.collection('stores').where({
-          area: area_info[index].area,
-          viewState: 1
-        })
+        db.collection('stores').where(getQueryParam(index,null))
         .get({ 
           success: function(res) {
             //打印调试信息
@@ -189,7 +187,7 @@ Page({
       db.collection('stores').where({
         area: area_info[i].area
       }).count().then(res => {
-        // console.log(area_info[i].area + ':' + res.total);
+        console.log(area_info[i].area + ':' + res.total);
         area_info[i].data_total = res.total;
         that.setData({
           area_info
@@ -253,9 +251,7 @@ Page({
     for(let i = 0;i < 4; i ++) {
       // 为当前点击的index
       if(i == index) {
-        db.collection('stores').where({
-          area: area_info[index].area
-        }).skip(old_data_length)
+        db.collection('stores').where(getQueryParam(index,null)).skip(old_data_length)
         .get({ 
           success: function(res) {
             console.log(res.data);

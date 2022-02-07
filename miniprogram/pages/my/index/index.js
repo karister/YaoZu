@@ -9,7 +9,7 @@ Page({
    */
   data: {
       imgUrls: [],
-      imgUrls1: ['/images/consult.png','/images/feedback.png','/images/user2.png','/images/user2.png']
+      imgUrls1: []
   },
 
   imgClick: function (e) {
@@ -28,12 +28,45 @@ Page({
   getIndexImage() {
     const that = this;
     db.collection('index').where({
-      _id: '133e253361c1d599017d273c0b729104'
+      filed: 'index_image'
     })
     .get({
       success: res => {
+        let imageList = res.data[0].imageList;
+        // let iconList = res.data[0].iconList;
+        let imageUrlTemp = [];
+        // let iconUrlTemp = [];
+        imageList.forEach( url => {
+          if(url != '') {
+            imageUrlTemp.push(url);
+          }
+        });
+        // iconList.forEach( url => {
+        //   if(url != '') {
+        //     iconUrlTemp.push(url);
+        //   }
+        // });
         that.setData({
-          imgUrls: res.data[0].imageList
+          imgUrls: imageUrlTemp,
+          // imgUrls1: iconUrlTemp
+        }) 
+      }
+    })
+
+    db.collection('index').where({
+      filed: 'areaInfo'
+    })
+    .get({
+      success: res => {
+        // let iconList = res.data[0].area;
+        // let iconUrlTemp = [];
+        // iconList.forEach( url => {
+        //   if(url != '') {
+        //     iconUrlTemp.push(url);
+        //   }
+        // });
+        that.setData({
+           imgUrls1: res.data[0].area
         }) 
       }
     })

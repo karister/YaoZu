@@ -99,7 +99,7 @@ Page({
     await that.uploadImgToCloud(fileList).then(res=>{
       // 更新图片地址到数据库
       let now = new Date();
-      let time = (now.getMonth() + 1).toString() + '.' + now.getDate().toString() + ' ' + now.getHours().toString() + ':' + now.getMinutes().toString();
+      let timeString = (now.getMonth() + 1).toString() + '.' + now.getDate().toString() + ' ' + now.getHours().toString() + ':' + now.getMinutes().toString();
       let data_db = (that.data.identity == 'store') ?store_space_db :user_space_db;
       data_db.add({
         data: {
@@ -108,7 +108,8 @@ Page({
           title: that.data.title,
           content: that.data.content,
           fileList: res,
-          publishDate: time,
+          publishDate: timeString,
+          timeStamp: now.getTime(),
           phoneNumber: app.globalData.phoneNumber
         }
       }).then(res=>{

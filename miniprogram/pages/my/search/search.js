@@ -1,3 +1,4 @@
+import {getQueryParam} from '../../../common/common.js'
 Page({
   // 页面的初始数据
   data: {
@@ -36,15 +37,7 @@ Page({
       // 1. 获取数据库引用
       const db = wx.cloud.database()
       // 2. 构造查询语句
-      db.collection('stores').where({
-        brand: {
-          // 模糊查询 '.*'相当于mysql的like
-          $regex: '.*' + inputData + '.*',
-          // 不区分大小写
-          $options: 'i'
-        },
-        viewState: 1
-      })
+      db.collection('stores').where(getQueryParam(null,inputData))
       .get({ 
         success: function(res) {
           //无搜素结果
