@@ -25,7 +25,20 @@
             </view>
         </view>
 
-        <view class="mid" style="margin: 25rpx 0" wx:if="{{!isSelected}}">
+        
+        <view style="display: flex;flex-direction: row;margin-top: 25rpx;">
+            <text>是否展示测试数据</text>
+            <van-switch 
+                style="margin-left: 250rpx;" 
+                checked="{{ checked }}" 
+                bind:change="switchChange" 
+                active-color="#07c160"
+                inactive-color="#d7d8d7"
+                />
+        </view>
+        
+
+        <view class="mid" style="margin: 25rpx 0">
             <van-button type="primary" round plain size="normal" icon="arrow" color="" form-type="submit">保存</van-button>
         </view> 
     </form> 

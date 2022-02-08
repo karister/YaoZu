@@ -73,6 +73,7 @@ export function checkAuthed () {
  * arg=null 普查 arg!=null 模糊查
  */
 const areas = ['中心市场','博览中心','家私城','光明家具城','其他区域'];
+let checked = '';
 export function getQueryParam(index,arg) {
   let param = '';
   if(arg != null) {
@@ -91,5 +92,9 @@ export function getQueryParam(index,arg) {
       viewState: 1
     }
   }
+  if(!app.globalData.checked) {
+    param.notTest = 1;
+  }
+  console.log(param)
   return param;
 }

@@ -34,6 +34,12 @@ Page({
         //         isUpload: false
         //     }
         // ]
+        checked: true
+    },
+    switchChange: function() {
+        this.setData({
+            checked: !this.data.checked
+        })
     },
 
 
@@ -142,8 +148,9 @@ Page({
         })
         .update({
             data: {
-                area: this.data.areas,
-                iconList: iconList
+                area: that.data.areas,
+                iconList: iconList,
+                checked: that.data.checked
             },
             success: function (res) {
                 Toast.success({
@@ -170,7 +177,8 @@ Page({
                 }
             });
             this.setData({
-                areas: areaList
+                areas: areaList,
+                checked: res.data[0].checked
             })
         })
     },

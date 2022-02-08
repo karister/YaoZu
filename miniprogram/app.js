@@ -10,7 +10,8 @@ App({
     nickName: '',
     // 微信绑定手机号
     phoneNumber: '',
-    test: 'test'
+    test: 'test',
+    checked: ''
   },
 
 
@@ -73,5 +74,11 @@ App({
       }
     })
     // this.globalData = {};
+    db.collection('index').where({
+      filed: 'areaInfo'
+    }).get().then( res => {
+      that.globalData.checked = res.data[0].checked;
+    })
   }
+  
 });
