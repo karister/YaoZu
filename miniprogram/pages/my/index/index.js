@@ -65,9 +65,25 @@ Page({
         //     iconUrlTemp.push(url);
         //   }
         // });
+        let areaList = res.data[0].area;
+        let areaTemp = [];
+        let tempObject = {};
+        areaList.forEach((area,index) => {
+          if(index % 2 == 0) {
+            tempObject.num1 = area.name,
+            tempObject.url1 = area.url
+          } else {
+            tempObject.num2 = area.name,
+            tempObject.url2 = area.url
+            areaTemp.push(tempObject);
+            tempObject = {};
+          }
+        });
+        console.log(areaTemp);
         that.setData({
-           imgUrls1: res.data[0].area
+          imgUrls1: areaTemp
         }) 
+        
       }
     })
   },
@@ -75,8 +91,9 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    this.getIndexImage()
+  onLoad: function () {
+    this.getIndexImage();
+    
   },
 
   /**

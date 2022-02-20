@@ -17,7 +17,7 @@
     </view>
 </view> -->
 <!-- 地区图片 -->
-<view class="areaBigBox">
+<!-- <view class="areaBigBox">
     <view class="area-item" wx:for="{{imgUrls1}}" wx:key="key" wx:for-item="area" >
         <image 
             src="{{area.url}}" 
@@ -30,7 +30,53 @@
             {{area.name}}
         </view>
     </view>
+</view> -->
+<view class="area-basic-box" wx:for="{{imgUrls1}}" wx:key="key" wx:for-item="area">
+    <view class="area-basic-item-box">
+        <image src="{{area.url1}}">
+        </image>
+        <view class="area-basic-item-text">
+            <text class="mid">{{area.num1}}</text>
+        </view>
+    </view>
+    <view class="area-basic-item-divline">
+    </view>
+    <view class="area-basic-item-box">
+        <image src="{{area.url2}}">
+        </image>
+        <view class="area-basic-item-text">
+            <text class="mid">{{area.num2}}</text>
+        </view>
+    </view>
 </view>
+
+
+
+<view class="store-basic-box" wx:for="{{imgUrls1}}" wx:key="key" wx:for-item="area">
+    <view class="store-basic-item-box">
+        <image src="{{area.url1}}">
+        </image>
+        <view class="store-basic-item-text">
+            <text class="mid">{{area.num1}}</text>
+        </view>
+    </view>
+    <view class="store-basic-item-divline">
+    </view>
+    <view class="store-basic-item-box">
+        <image src="{{area.url2}}">
+        </image>
+        <view class="store-basic-item-text">
+            <text class="mid">{{area.num2}}</text>
+        </view>
+    </view>
+</view>
+
+
+
+
+
+
+
 <view class="search_box mid" bindtap="clickToSearch">
     <text>搜索商家</text>
 </view>

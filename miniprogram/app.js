@@ -11,7 +11,8 @@ App({
     // 微信绑定手机号
     phoneNumber: '',
     test: 'test',
-    checked: ''
+    checked: '',
+    areaList: []
   },
 
 
@@ -78,6 +79,12 @@ App({
       filed: 'areaInfo'
     }).get().then( res => {
       that.globalData.checked = res.data[0].checked;
+      let areaInfo = res.data[0].area;
+      let areaList = [];
+      areaInfo.forEach(area => {
+        areaList.push(area.name);
+      });
+      that.globalData.areaList = areaList;
     })
   }
   

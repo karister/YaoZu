@@ -2,23 +2,26 @@
 .swiperBox{
   height: 300rpx;
   width: 100%;
+  margin-bottom: 20rpx;
 }
 .swiperBox image{
   height: 100%;
   width: 100%;
 }
 .areaBigBox{
-  margin: 100rpx auto;
+  margin: 50rpx auto;
   height: 480rpx;
-  width: 570rpx; 
-  /* border: 1px solid rgb(61, 90, 177); */
+  width: 90%; 
+  border: 1px solid rgb(61, 90, 177);
+  display: flex;
+  flex-direction: row;
 }
 .area-item{
-  /* display: flex; */
-  /* flex-direction: column; */
-  margin: 20rpx 20rpx;
-  display: inline-block;
-  width: 150rpx;
+  display: flex;
+  flex-direction: column;
+  /* margin: 20rpx 20rpx; */
+  /* display: inline-block; */
+  width: 45%;
   height: 200rpx;
 }
 .area-image{
@@ -77,4 +80,70 @@ page{
 .search_box text{
   color: rgb(81, 87, 87);
   font-size: 38rpx;
+}
+
+
+
+
+.area-basic-box {
+  width: 90%;
+  height: 300rpx;
+  margin:0 auto;
+  display: flex;
+  flex-direction: row;
+}
+.area-basic-item-box {
+  width: 47%;
+  height: 300rpx;
+  display: flex;
+  flex-direction: column;
+}
+.area-basic-item-box image {
+  height: 210rpx;
+  width: 90%;
+  margin: 20rpx auto;
+  border-radius: 10rpx;
+}
+.area-basic-item-divline {
+  width: 6%;
+  height: 300rpx
+}
+.area-basic-item-text {
+  height: 50rpx;
+}
+.area-basic-item-text > text {
+  font-size: 28rpx;
+}
+
+
+
+.store-basic-box {
+  width: 96%;
+  height: 480rpx;
+  margin:0 auto;
+  display: flex;
+  flex-direction: row;
+}
+.store-basic-item-box {
+  width: 49%;
+  height: 480rpx;
+  display: flex;
+  flex-direction: column;
+}
+.store-basic-item-box image {
+  height: 360rpx;
+  width: 100%;
+  margin: 10rpx auto;
+  border-radius: 5rpx;
+}
+.store-basic-item-divline {
+  width: 2%;
+  height: 480rpx
+}
+.store-basic-item-text {
+  height: 100rpx;
+  border: 1rpx solid rebeccapurple;
+}
+.store-basic-item-text > text {
+  font-size: 28rpx;
 }
