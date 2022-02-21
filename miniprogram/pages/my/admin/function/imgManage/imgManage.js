@@ -147,6 +147,21 @@ Page({
       })
     }
   },
+  
+  /**
+   * 去往编辑产品信息页面
+   * @param {} event 
+   */
+  toEditProductInfo(event) {
+    var labelIndex = event.currentTarget.dataset.labelindex;
+    var labelObject = this.data.labelObject;
+    var imgUrls = this.data.imgUrls;
+    var imageIndex = labelObject[labelIndex].selectIndex;
+    var imageUrl = imgUrls[labelIndex][imageIndex];
+    wx.navigateTo({
+      url: '/pages/my/admin/function/imgManage/productInfo?imageUrl=' + imageUrl,
+    })
+  },
 
 
   /**

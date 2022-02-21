@@ -1,12 +1,17 @@
 <view class="label_item_box" wx:for="{{labelObject}}" wx:key="key" wx:for-item="label" wx:for-index="index">
   <view style="width: 100%;height: 140rpx;display: flex;flex-direction: row;">
-    <view style="width: 70%;height: 100%;display: flex;flex-direction: column;">
+    <view style="width: 40%;height: 100%;display: flex;flex-direction: column;" class="mid">
       <view class="label_text_box">
         <iconfont name="label"></iconfont>
         <text style="margin-left: 20rpx;">{{label.labelName}}</text>
       </view>
-      <text class="detail_text_box">点击图片可预览大图,长按可进行编辑
-      上传后点击右边按钮立即发布到店铺</text>
+      <!-- <text class="detail_text_box">点击图片可预览大图,长按可进行编辑
+      上传后点击右边按钮立即发布到店铺</text> -->
+    </view>
+    <!-- <view style="width: 5%;height: 100%;border:1rpx solid red"></view> -->
+    <view style="border: 2rpx solid rgb(255, 0, 0);" class="update_button mid" bindtap="allClear" data-labelindex="{{index}}">
+      <iconfont name="clean"></iconfont>
+      <text style="font-size: 26rpx;margin-top: 10rpx;">全部清空</text>
     </view>
     <view class="update_button mid" bindtap="onPublish" data-index="{{index}}">
       <iconfont name="update"></iconfont>
@@ -28,8 +33,8 @@
       </image>
     </view>
     <view style="display: flex;flex-direction: row;"  wx:if="{{!label.urlsEmpty}}">
-      <van-button bindtap="allClear" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="danger" round>全部清空</van-button>
-      <van-button bindclick="deleteImage" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="primary" round disabled="{{label.disable}}">删除图片</van-button>
+      <van-button bindclick="deleteImage" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="danger" round disabled="{{label.disable}}">删除图片</van-button>
+      <van-button bindclick="toEditProductInfo" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="primary" round disabled="{{label.disable}}">产品信息</van-button>
       <van-button bindclick="changeImage" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round disabled="{{label.disable}}">更换图片</van-button>
       <van-button bindclick="cancelSelect" data-labelindex="{{index}}" class="mid" size="small" style="width: 25%;margin-top: 10rpx;" type="info" round plain disabled="{{label.disable}}">取消选择</van-button>
     </view>

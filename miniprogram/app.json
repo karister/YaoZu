@@ -16,7 +16,8 @@
     "pages/my/admin/collect/collect",
     "pages/my/admin/browse/browse",  
     
-    "pages/my/admin/function/imgManage/imgManage",
+    "pages/my/admin/function/imgManage/imgManage", 
+    "pages/my/admin/function/imgManage/productInfo", 
     "pages/my/admin/function/storeInfo/storeInfo",
     "pages/my/admin/function/diySet/diySet",
     "pages/my/admin/function/authentication/authentication",
