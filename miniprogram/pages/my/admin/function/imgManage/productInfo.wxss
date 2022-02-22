@@ -8,7 +8,7 @@
   
   .info_box{
     width: 90%;
-    height: 740rpx;
+    height: 840rpx;
     margin: 50rpx auto;
     border-radius: 20rpx;
     background-color: white;
