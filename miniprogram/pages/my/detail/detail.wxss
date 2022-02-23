@@ -1,25 +1,27 @@
 /* pages/my/detail/detail.wxss */
 
 
-.swiperBox{
+.swiperBox {
   height: 500rpx;
   width: 100%;
   margin: 0 auto;
   border: 2px solid rgb(168, 169, 172);
   border-radius: 10px;
 }
-.swiperBox image{
+
+.swiperBox image {
   height: 100%;
   width: 100%;
 }
 
-.mid{
+.mid {
   display: flex;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
   text-align: center；
 }
-.info_box{
+
+.info_box {
   width: 100%;
   height: 400rpx;
   background-color: white;
@@ -27,33 +29,38 @@
   display: flex;
   flex-direction: column;
 }
-.basic_info_box{
+
+.basic_info_box {
   width: 100%;
   height: 200rpx;
   /* border: 1rpx solid red; */
   display: flex;
   flex-direction: row;
 }
-.basic_info_image_box{
+
+.basic_info_image_box {
   width: 30%;
   height: 100%;
   /* border: 1rpx solid red; */
   border-radius: 10rpx;
 }
-.basic_info_image_box image{
+
+.basic_info_image_box image {
   height: 80%;
   width: 80%;
   /* border: 1rpx solid red; */
   border-radius: 20rpx;
 }
-.basic_info_text_box{
+
+.basic_info_text_box {
   height: 100%;
   width: 70%;
   display: flex;
   flex-direction: column;
   /* border: 1rpx solid red; */
 }
-.basic_info_text_box text{
+
+.basic_info_text_box text {
   width: 100%;
   height: 30%;
   display: flex;
@@ -62,14 +69,16 @@
   /* text-align: center; */
   /* border: 1rpx solid red; */
 }
-.basic_info_brand_box{
+
+.basic_info_brand_box {
   height: 40%;
   display: flex;
   flex-direction: row;
   align-items: center;
   /* border: 1rpx solid red; */
 }
-.basic_info_brand_text{
+
+.basic_info_brand_text {
   width: 50%;
   font-size: 34rpx;
   font-weight: 600;
@@ -77,34 +86,39 @@
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   /* border: 1rpx solid red; */
 }
-.basic_info_collect{
+
+.basic_info_collect {
   height: 60rpx;
   width: 60rpx;
-  border-radius: 30rpx; 
+  border-radius: 30rpx;
   border: 2rpx solid rgb(190, 182, 182);
 }
-.basic_info_text_label{
+
+.basic_info_text_label {
   height: 30%;
   font-size: 30rpx;
   color: rgb(134, 144, 153);
   /* border: 1rpx solid red; */
 }
-.basic_info_text_browse{
+
+.basic_info_text_browse {
   height: 30%;
   color: rgb(165, 171, 177);
   /* border: 1rpx solid red; */
 }
 
-.other_info_box{
+.other_info_box {
   width: 100%;
   height: 200rpx;
   /* border: 1rpx solid red; */
 }
-.other_info_text{
+
+.other_info_text {
   margin: 0 10rpx;
   font-size: 28rpx;
 }
-.other_info_auth_icon{
+
+.other_info_auth_icon {
   width: 100%;
   height: 60rpx;
   margin: 0 10rpx;
@@ -113,7 +127,8 @@
   align-items: center;
   /* border: 1rpx solid red; */
 }
-.other_info_address_box{
+
+.other_info_address_box {
   width: 100%;
   margin: 10rpx 10rpx;
   display: flex;
@@ -121,7 +136,8 @@
   /* align-items: center; */
   /* border: 1rpx solid red; */
 }
-.other_info_address_text{
+
+.other_info_address_text {
   width: 68%;
   height: 100%;
   display: flex;
@@ -129,7 +145,8 @@
   align-items: center;
   /* border: 1rpx solid red; */
 }
-.other_info_address_location{
+
+.other_info_address_location {
   width: 30%;
   height: 56rpx;
   margin: 2rpx 0;
@@ -138,7 +155,8 @@
   border-radius: 20rpx;
   /* box-shadow: 0rpx 10rpx 50rpx 10rpx rgba(85,85,85,0.20); */
 }
-.other_info_phone_box{
+
+.other_info_phone_box {
   width: 100%;
   height: 60rpx;
   margin: 0 10rpx;
@@ -146,7 +164,8 @@
   flex-direction: row;
   /* border: 1rpx solid red; */
 }
-.other_info_phone_number{
+
+.other_info_phone_number {
   width: 68%;
   height: 100%;
   display: flex;
@@ -154,7 +173,8 @@
   align-items: center;
   /* border: 1rpx solid red; */
 }
-.other_info_phone_call{
+
+.other_info_phone_call {
   width: 30%;
   height: 56rpx;
   margin: 2rpx 0;
@@ -163,30 +183,49 @@
   border-radius: 20rpx;
 }
 
-.div_line{
+.div_line {
   width: 100%;
   height: 15rpx;
- }
+}
 
-.auth_img_box{
+.auth_img_box {
   width: 100%;
   height: 300rpx;
   background-color: white;
   display: flex;
   flex-direction: row;
 }
-.auth_img_box image{
+
+.auth_img_box image {
   height: 240rpx;
   width: 70%;
   margin: 30rpx 0;
 }
-.auth_img_box text{
+
+.auth_img_box text {
   margin: auto auto;
   font-size: 38rpx;
   color: #6d706e;
 }
-.product_img_box{
+
+.product_item_box {
   width: 100%;
+  height: 600rpx;
+  /* border: 1rpx solid rebeccapurple; */
+  background-color: white;
+  border-radius: 20rpx;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50rpx;
+}
+
+.product_img_box {
+  width: 90%;
   height: 400rpx;
-  /* border: 1rpx solid red; */
+  margin: 20rpx auto;
+}
+
+.product_img_box image {
+  width: 100%;
+  height: 100%;
 }

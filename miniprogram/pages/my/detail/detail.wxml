@@ -75,8 +75,17 @@
 <view class="div_line"></view>
 <van-tabs swipeable sticky>
   <van-tab title="{{label.labelName}}" wx:for="{{display_info.labelList}}" wx:key="key" wx:for-item="label">
-    <image class="product_img_box" src="{{url}}" wx:for="{{label.imgUrls}}" wx:key="key" wx:for-item="url" wx:for-index="imgIndex" bindtap="viewImage" data-index="{{imgIndex}}" data-name="{{label.labelName}}"></image>
+    <view class="product_item_box" wx:for="{{label.imgUrls}}" wx:key="key" wx:for-item="url" wx:for-index="imgIndex">
+        <view class="product_img_box">
+            <image src="{{url}}" bindtap="viewImage" data-index="{{imgIndex}}" data-name="{{label.labelName}}"></image>
+        </view>
+        <view style="width: 90%;height: 160rpx;margin: 0 auto;">
+            <view style="font-size: 32rpx;">电动摩托车与一旦双人</view>
+            <view style="font-size: 24rpx;">1302#</view>
+            <view style="font-size: 24rpx;color: red;">2630￥</view>
+        </view>
+    </view>
   </van-tab>
-</van-tabs>
+</van-tabs> 
 
 
