@@ -10,6 +10,12 @@
   justify-content: center;  
   text-align: center；
 }
+.title_text_content{
+  font-size: 24rpx;
+  margin-top: 4rpx;
+  margin-left: 4rpx;
+  /* border: 1rpx solid rebeccapurple; */
+}
 .label_item_box{
   width: 90%;
   height: 742rpx;
