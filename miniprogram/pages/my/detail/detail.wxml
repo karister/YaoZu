@@ -80,9 +80,9 @@
             <image src="{{url}}" bindtap="viewImage" data-index="{{imgIndex}}" data-name="{{label.labelName}}"></image>
         </view>
         <view style="width: 90%;height: 160rpx;margin: 0 auto;">
-            <view style="font-size: 32rpx;">电动摩托车与一旦双人</view>
-            <view style="font-size: 24rpx;">1302#</view>
-            <view style="font-size: 24rpx;color: red;">2630￥</view>
+            <view style="font-size: 38rpx;font-weight: 550;">电动摩托车与一旦双人</view>
+            <view style="font-size: 30rpx;font-weight: 500;">[# 1302]</view>
+            <view style="font-size: 38rpx;font-weight: 500;color: rgb(167, 32, 32);">￥2630</view>
         </view>
     </view>
   </van-tab>
