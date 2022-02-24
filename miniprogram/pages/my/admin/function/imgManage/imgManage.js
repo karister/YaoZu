@@ -68,6 +68,9 @@ Page({
     // 增加集合元素
     labelObject[labelIndex].images.push({
       url: '',
+      // label: '',
+      // model: '',
+      // price: '',
       borderColor: this.data.normalColor
     })
     // 增加集合元素
@@ -159,7 +162,7 @@ Page({
     var imageIndex = labelObject[labelIndex].selectIndex;
     var imageUrl = imgUrls[labelIndex][imageIndex];
     wx.navigateTo({
-      url: '/pages/my/admin/function/imgManage/productInfo?imageUrl=' + imageUrl,
+      url: `/pages/my/admin/function/imgManage/productInfo?imageUrl=${imageUrl}&imageIndex=${imageIndex}&labelIndex=${labelIndex}`,
     })
   },
 
@@ -265,10 +268,16 @@ Page({
     // 更新图片地址到数据库
     // 构建空列表（同数据库中product-labels列表结构一致）
     var dbLabelObbject = [];
-    imgUrls.forEach( (element,index) => {
+    imgUrls.forEach( (imageList,index) => {
       // 此处将图片链接为空的也写入了product-labels-imgUrls
+      let imageObjectsBuffer = [];
+      imageList.forEach(url => {
+        imageObjectsBuffer.push({
+          url: url
+        })
+      });
       dbLabelObbject.push({
-        imgUrls: element,
+        imageObjects: imageObjectsBuffer,
         labelName: labelObject[index].labelName
       })
     } )
@@ -289,7 +298,7 @@ Page({
       message: '发布成功',
       duration: 1000
     });
-    },2000 ) 
+    },3000 ) 
   },
 
   /**
@@ -303,16 +312,13 @@ Page({
     })
     .get({
       success: function (res) {
+        console.log(res)
         var labelData = res.data[0].labels;
         var labelObject = that.data.labelObject;
         var imgUrls = that.data.imgUrls;
-        // console.log(labelData)
+        let imageList = [];
         for(let i = 0; i < labelData.length; i++) {
-          imgUrls.push(labelData[i].imgUrls)
-          that.setData({
-            imgUrls
-          })
-          if(labelData[i].imgUrls.length == 0) {
+          if(labelData[i].imageObjects.length == 0) {
             labelObject.push({
               labelName: labelData[i].labelName,
               images:[],
@@ -320,11 +326,16 @@ Page({
               selectIndex: 0,
               urlsEmpty: true//显示空状态
             })
+            imageList = [];
           } else {
             var imagesBuffer = [];
-            labelData[i].imgUrls.forEach( url => {
+            labelData[i].imageObjects.forEach( imgObj => {
+              imageList.push(imgObj.url);
               imagesBuffer.push({
-                url: url,
+                url: imgObj.url,
+                label: imgObj.label,
+                model: imgObj.model,
+                price: imgObj.price,
                 borderColor: that.data.normalColor
               })
             } )
@@ -337,9 +348,11 @@ Page({
             })
           }
         }
-        // console.log(labelObject)
+        imgUrls.push(imageList)
+        console.log(labelObject)
         that.setData({
           labelObject,
+          imgUrls,
           brandName: res.data[0].brandName
         });
       }

@@ -12,8 +12,6 @@
         <iconfont name="label"></iconfont>
         <text style="margin-left: 20rpx;">{{label.labelName}}</text>
       </view>
-      <!-- <text class="detail_text_box">点击图片可预览大图,长按可进行编辑
-      上传后点击右边按钮立即发布到店铺</text> -->
     </view>
     <!-- <view style="width: 5%;height: 100%;border:1rpx solid red"></view> -->
     <view style="border: 2rpx solid rgb(255, 0, 0);" class="update_button mid" bindtap="allClear" data-labelindex="{{index}}">
