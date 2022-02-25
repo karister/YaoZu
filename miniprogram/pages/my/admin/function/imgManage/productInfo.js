@@ -1,4 +1,7 @@
-// pages/my/admin/function/imgManage/productInfo.js
+const db = wx.cloud.database();
+const _ = db.command;
+const app = getApp();
+import Toast from '../../../../../miniprogram_npm/@vant/weapp/toast/toast';
 Page({
 
     /**
@@ -8,7 +11,9 @@ Page({
         imageUrl: '',
         model: '',
         label: '',
-        price: 0
+        price: 0,
+        isFirst: false,
+        isLast: false
     },
 
     /**
@@ -26,22 +31,70 @@ Page({
     
   },
 
+
   /**
-   * 提交数据
+   * 提交数据 
    * @param {*} options 
    */
-  updateData(event) {
-    var value = event.detail.value;
-    console.log(value)
+  async updateData(event) {
+    const that = this;
+    let value = event.detail.value;
+    let imageIndex = that.data.imageIndex;
+    let labelIndex = that.data.labelIndex;
+    let labelObjects = that.data.labelObjects;
+    labelObjects[labelIndex].imageObjects[imageIndex].model = value.model;
+    labelObjects[labelIndex].imageObjects[imageIndex].label = value.label;
+    labelObjects[labelIndex].imageObjects[imageIndex].price = value.price;
+    db.collection('product').where({
+      _openid: app.globalData.openid
+    })
+    .update({
+      data: {
+        labels: labelObjects
+      },
+      success: function () {
+        wx.showLoading({
+          title: '修改中',
+        })
+        setTimeout(() => {
+          wx.hideLoading({
+            success: (res) => {
+              Toast.success('提交成功!');
+            },
+          })
+        }, 500);
+      }
+    })
   },
 
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
-        this.setData({
-            imageUrl: options.imageUrl
+     onLoad: function (options) {
+      const that = this;
+      let imageIndex = options.imageIndex;
+      let labelIndex = options.labelIndex;
+      console.log(imageIndex)
+      db.collection('product').where({
+        _openid: app.globalData.openid
+      })
+      .get().then(res=>{
+        let labelObjects = res.data[0].labels;
+        that.setData({
+          labelObjects,
+          model: labelObjects[labelIndex].imageObjects[imageIndex].model,
+          label: labelObjects[labelIndex].imageObjects[imageIndex].label,
+          price: labelObjects[labelIndex].imageObjects[imageIndex].price
         })
+      })
+      that.setData({
+          imageUrl: options.imageUrl,
+          imageIndex,
+          labelIndex,
+          isFirst: (imageIndex == 0) ? true : false,
+          isLast: (imageIndex == 8) ? true : false,
+      })
+      
     },
 
     /**

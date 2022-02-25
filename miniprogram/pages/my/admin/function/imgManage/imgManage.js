@@ -161,6 +161,7 @@ Page({
     var imgUrls = this.data.imgUrls;
     var imageIndex = labelObject[labelIndex].selectIndex;
     var imageUrl = imgUrls[labelIndex][imageIndex];
+    this.cancelSelect(event);
     wx.navigateTo({
       url: `/pages/my/admin/function/imgManage/productInfo?imageUrl=${imageUrl}&imageIndex=${imageIndex}&labelIndex=${labelIndex}`,
     })

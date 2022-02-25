@@ -1,6 +1,5 @@
 // pages/my/admin/super/indexImgAdmin/indexImgAdmin.js
 import Toast from '../../../../../miniprogram_npm/@vant/weapp/toast/toast';
-import {getSingleDataByOpenid} from '../../../../../common/common.js'
 const db = wx.cloud.database();
 const _ = db.command;
 const app = getApp();
