@@ -162,6 +162,7 @@ Page({
     var imageIndex = labelObject[labelIndex].selectIndex;
     var imageUrl = imgUrls[labelIndex][imageIndex];
     this.cancelSelect(event);
+    console.log(imageUrl);
     wx.navigateTo({
       url: `/pages/my/admin/function/imgManage/productInfo?imageUrl=${imageUrl}&imageIndex=${imageIndex}&labelIndex=${labelIndex}`,
     })
@@ -211,12 +212,18 @@ Page({
           if(i < res.tempFiles.length) {// 上传的图片直接赋值url显示
             labelObject[labelIndex].images.push({
               url: res.tempFiles[i].tempFilePath,
+              model: '',
+              label: '',
+              price: '',
               borderColor: that.data.normalColor
             });
             imgUrls[labelIndex].push(res.tempFiles[i].tempFilePath);
           } else {// 不足9张的部分显示空图片
             labelObject[labelIndex].images.push({
               url: '',
+              model: '',
+              label: '',
+              price: '',
               borderColor: that.data.normalColor
             });
             imgUrls[labelIndex].push('');
@@ -243,63 +250,57 @@ Page({
     var labelObject = data.labelObject;
     var imgUrls = this.data.imgUrls;
     console.log(imgUrls)
+    console.log(labelObject)
     // 将上传图片得到的临时链接通过上传到云存储换取fileID
-    imgUrls[labelIndex].forEach( (item,index) => {
-      var now = new Date();
-      var time = now.getFullYear().toString() + (now.getMonth()+1).toString() + now.getDate().toString() + now.getDay().toString() + now.getHours().toString() + now.getMinutes().toString();
-      // console.log(time);
-      // 上传到云存储
-      wx.cloud.uploadFile({
-        cloudPath: 'product_img/' + data.brandName + '/' + data.labelObject[labelIndex].labelName + '/' + time + '/' + index + '.png', // 上传至云端的路径
-        filePath: item, // 临时文件路径
-        success: res => {
-          console.log(res.fileID);
-          imgUrls[labelIndex][index] = res.fileID;
-          // 换取到fileID更新到page data
-          that.setData({imgUrls});
-        }
-      })
-    })
+    // imgUrls[labelIndex].forEach( (item,index) => {
+    //   var now = new Date();
+    //   var time = now.getFullYear().toString() + (now.getMonth()+1).toString() + now.getDate().toString() + now.getDay().toString() + now.getHours().toString() + now.getMinutes().toString();
+    //   // console.log(time);
+    //   // 上传到云存储
+    //   wx.cloud.uploadFile({
+    //     cloudPath: 'product_img/' + data.brandName + '/' + data.labelObject[labelIndex].labelName + '/' + time + '/' + index + '.png', // 上传至云端的路径
+    //     filePath: item, // 临时文件路径
+    //     success: res => {
+    //       console.log(res.fileID);
+    //       imgUrls[labelIndex][index] = res.fileID;
+    //       // 换取到fileID更新到page data
+    //       that.setData({imgUrls});
+    //     }
+    //   })
+    // })
 
-    wx.showLoading({
-      title: '图片发布中',
-    })
-    // 延时2000ms等待图片上传到云存储换取fileID
-    setTimeout( ()=> {
-    // 更新图片地址到数据库
-    // 构建空列表（同数据库中product-labels列表结构一致）
-    var dbLabelObbject = [];
-    imgUrls.forEach( (imageList,index) => {
-      // 此处将图片链接为空的也写入了product-labels-imgUrls
-      let imageObjectsBuffer = [];
-      imageList.forEach(url => {
-        imageObjectsBuffer.push({
-          url: url
-        })
-      });
-      dbLabelObbject.push({
-        imageObjects: imageObjectsBuffer,
-        labelName: labelObject[index].labelName
-      })
-    } )
-    db.collection('product').where({
-      _openid: app.globalData.openid
-    })
-    .update({
-      data:{
-        labels: dbLabelObbject
-      },
-      success: function (res) {
-        // console.log(res); 
-      },
-      fail: console.error
-    })
-    wx.hideLoading();
-    Toast.success({
-      message: '发布成功',
-      duration: 1000
-    });
-    },3000 ) 
+    // wx.showLoading({
+    //   title: '图片发布中',
+    // })
+    // // 延时2000ms等待图片上传到云存储换取fileID
+    // setTimeout( ()=> {
+    // // 更新图片地址到数据库
+    // // 构建空列表（同数据库中product-labels列表结构一致）
+    // var dbLabelObbject = [];
+    // labelObject.forEach( labelOb => {
+    //   dbLabelObbject.push({
+    //     imageObjects: labelOb.images,
+    //     labelName: labelOb.labelName
+    //   })
+    // } )
+    // db.collection('product').where({
+    //   _openid: app.globalData.openid
+    // })
+    // .update({
+    //   data:{
+    //     labels: dbLabelObbject
+    //   },
+    //   success: function (res) {
+    //     // console.log(res); 
+    //   },
+    //   fail: console.error
+    // })
+    // wx.hideLoading();
+    // Toast.success({
+    //   message: '发布成功',
+    //   duration: 1000
+    // });
+    // },3000 ) 
   },
 
   /**
@@ -313,44 +314,37 @@ Page({
     })
     .get({
       success: function (res) {
-        console.log(res)
         var labelData = res.data[0].labels;
         var labelObject = that.data.labelObject;
         var imgUrls = that.data.imgUrls;
         let imageList = [];
         for(let i = 0; i < labelData.length; i++) {
           if(labelData[i].imageObjects.length == 0) {
+            imageList = [];
             labelObject.push({
               labelName: labelData[i].labelName,
               images:[],
               disable: true,
               selectIndex: 0,
               urlsEmpty: true//显示空状态
-            })
-            imageList = [];
+            })          
           } else {
-            var imagesBuffer = [];
             labelData[i].imageObjects.forEach( imgObj => {
               imageList.push(imgObj.url);
-              imagesBuffer.push({
-                url: imgObj.url,
-                label: imgObj.label,
-                model: imgObj.model,
-                price: imgObj.price,
-                borderColor: that.data.normalColor
-              })
             } )
             labelObject.push({
               labelName: labelData[i].labelName,
-              images: imagesBuffer,
+              images: labelData[i].imageObjects,
               disable: true,
               selectIndex: 0,
               urlsEmpty: false//不显示空状态
             })
           }
+          imgUrls.push(imageList)
         }
-        imgUrls.push(imageList)
+        
         console.log(labelObject)
+        console.log(imgUrls)
         that.setData({
           labelObject,
           imgUrls,
