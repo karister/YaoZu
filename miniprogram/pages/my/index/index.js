@@ -1,7 +1,7 @@
 // pages/my/index/index.js
 const db = wx.cloud.database();
 const _ = db.command;
-
+import {getRandomData} from '../../../common/common.js'
 Page({
 
   /**
@@ -12,6 +12,10 @@ Page({
       imgUrls1: []
   },
 
+  /**
+   * 点击进入区域商家列表
+   * @param {index} e 
+   */
   imgClick: function (e) {
       var index = e.currentTarget.dataset.index;
       console.log(index);
@@ -19,12 +23,17 @@ Page({
           url: '/pages/my/display/display?index=' + index
         })
   },
+  /**
+   * 点击进入搜索框
+   */
   clickToSearch: function () {
     wx.navigateTo({
       url: '/pages/my/search/search'
     })
   },
-
+  /**
+   * 获取index页面图片
+   */
   getIndexImage() {
     const that = this;
     db.collection('index').where({
@@ -79,7 +88,7 @@ Page({
             tempObject = {};
           }
         });
-        console.log(areaTemp);
+        // console.log(areaTemp);
         that.setData({
           imgUrls1: areaTemp
         }) 
@@ -89,11 +98,34 @@ Page({
   },
 
   /**
+   * 获取火爆产品信息
+   */
+  getHotProductInfo() {
+    let RandomUrl = '';
+    let randomNum;
+    let randomNumMax;
+    db.collection('product').count().then(res => {
+      randomNumMax = (res.total > 20) ? res.total : 20;
+    })
+    while (RandomUrl == '') {
+      randomNum = Math.floor(Math.random() * randomNumMax);
+      db.collection('product').then(res => {
+        let labelObjects = res.data[randomNum].labels;
+        randomNum = Math.floor(Math.random() * labelObjects.length);
+        let imageObjects = labelObjects[randomNum].imageObjects;
+        randomNum = Math.floor(Math.random() * imageObjects.length);
+        RandomUrl = imageObjects[randomNum].url;
+      })
+    }
+    
+    return RandomUrl;
+  },
+  /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
     this.getIndexImage();
-    
+    // this.getHotProductInfo();
   },
 
   /**

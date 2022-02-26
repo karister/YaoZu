@@ -69,7 +69,7 @@ export function checkAuthed () {
 }
 
 /**
- * 商家数据查询条件
+ * 根据区域商家数据查询条件
  * arg=null 普查 arg!=null 模糊查
  */
 const areas = ['中心市场','博览中心','家私城','光明家具城','其他区域'];
@@ -96,5 +96,19 @@ export function getQueryParam(index,arg) {
     param.notTest = 1;
   }
   console.log(param)
+  return param;
+}
+
+/**
+ * 获取随机商家图片数据
+ * value：false 真假数据  true 真数据
+ */
+export function getRandomData(value) {
+  let param = {
+    viewState: 1
+  };
+  if(value) {
+    param.notTest = 1;
+  }
   return param;
 }

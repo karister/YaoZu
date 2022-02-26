@@ -85,7 +85,9 @@ App({
         areaList.push(area.name);
       });
       that.globalData.areaList = areaList;
+      console.log(areaList)
     })
+
   }
   
 });
