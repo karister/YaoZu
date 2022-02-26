@@ -342,7 +342,6 @@ Page({
           }
           imgUrls.push(imageList)
         }
-        
         console.log(labelObject)
         console.log(imgUrls)
         that.setData({
