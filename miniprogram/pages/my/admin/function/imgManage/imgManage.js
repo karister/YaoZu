@@ -68,9 +68,9 @@ Page({
     // 增加集合元素
     labelObject[labelIndex].images.push({
       url: '',
-      // label: '',
-      // model: '',
-      // price: '',
+      label: '',
+      model: '',
+      price: '',
       borderColor: this.data.normalColor
     })
     // 增加集合元素

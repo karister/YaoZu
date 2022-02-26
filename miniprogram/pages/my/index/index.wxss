@@ -34,9 +34,9 @@
   border: 1rpx solid rgb(126, 152, 165);
 }
 
-page{
+/* page{
   background-color: white;
-}
+} */
 .mid{
   display: flex;
   align-items: center;
@@ -119,31 +119,33 @@ page{
 
 .store-basic-box {
   width: 96%;
-  height: 480rpx;
-  margin:0 auto;
+  height: 500rpx;
+  margin: 10rpx auto;
   display: flex;
   flex-direction: row;
 }
 .store-basic-item-box {
   width: 49%;
-  height: 480rpx;
+  height: 500rpx;
   display: flex;
   flex-direction: column;
+  background-color: white;
+  border-radius: 10rpx;
+  box-shadow: 5rpx 5rpx 5rpx 2rpx rgba(85, 85, 85, 0.05);
 }
 .store-basic-item-box image {
   height: 360rpx;
   width: 100%;
-  margin: 10rpx auto;
-  border-radius: 5rpx;
+  margin: 0 auto;
+  border-radius: 10rpx;
 }
 .store-basic-item-divline {
   width: 2%;
-  height: 480rpx
+  height: 500rpx
 }
 .store-basic-item-text {
-  height: 100rpx;
-  border: 1rpx solid rebeccapurple;
-}
-.store-basic-item-text > text {
-  font-size: 28rpx;
+  display: flex;
+  flex-direction: column;
+  height: 140rpx;
+  
 }

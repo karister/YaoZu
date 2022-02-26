@@ -75,14 +75,14 @@
 <view class="div_line"></view>
 <van-tabs swipeable sticky>
   <van-tab title="{{label.labelName}}" wx:for="{{display_info.labelList}}" wx:key="key" wx:for-item="label">
-    <view class="product_item_box" wx:for="{{label.imgUrls}}" wx:key="key" wx:for-item="url" wx:for-index="imgIndex">
+    <view class="product_item_box" wx:for="{{label.imageObjects}}" wx:key="key" wx:for-item="imgObj" wx:for-index="imgIndex">
         <view class="product_img_box">
-            <image src="{{url}}" bindtap="viewImage" data-index="{{imgIndex}}" data-name="{{label.labelName}}"></image>
+            <image src="{{imgObj.url}}" bindtap="viewImage" data-index="{{imgIndex}}" data-name="{{label.labelName}}"></image>
         </view>
         <view style="width: 90%;height: 160rpx;margin: 0 auto;">
-            <view style="font-size: 38rpx;font-weight: 550;">电动摩托车与一旦双人</view>
-            <view style="font-size: 30rpx;font-weight: 500;">[# 1302]</view>
-            <view style="font-size: 38rpx;font-weight: 500;color: rgb(167, 32, 32);">￥2630</view>
+            <view style="font-size: 38rpx;font-weight: 550;">{{imgObj.label}}</view>
+            <view style="font-size: 30rpx;font-weight: 500;">[{{imgObj.model}}]</view>
+            <view style="font-size: 38rpx;font-weight: 500;color: rgb(167, 32, 32);">￥{{imgObj.price}}</view>
         </view>
     </view>
   </van-tab>

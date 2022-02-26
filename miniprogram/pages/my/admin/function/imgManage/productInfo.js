@@ -16,6 +16,32 @@ Page({
         isLast: false
     },
 
+    nullHandle(value) {
+      if(value == null)
+        return '';
+      return value;
+    },
+
+    changeProduct(event) {
+      const that = this;
+      let dir = event.currentTarget.dataset.dir;
+      let imageIndex = (dir == 'back') ? (Number(that.data.imageIndex) - 1) : (Number(that.data.imageIndex) + 1);
+      console.log(imageIndex)
+      let labelIndex = that.data.labelIndex;
+      let labelObjects = that.data.labelObjects;
+      let imageData = labelObjects[labelIndex].imageObjects[imageIndex];
+      that.setData({
+        imageUrl: that.nullHandle(imageData.url),
+        model: that.nullHandle(imageData.model),
+        label: that.nullHandle(imageData.label),
+        price: that.nullHandle(imageData.price),
+        imageIndex,
+        isFirst: (imageIndex == 0) ? true : false,
+        isLast: (imageIndex == 8) ? true : false,
+      })
+    },
+
+
     /**
    * 输入变化设置数据
    * @param {当前输入值} event
@@ -59,7 +85,10 @@ Page({
         setTimeout(() => {
           wx.hideLoading({
             success: (res) => {
-              Toast.success('提交成功!');
+              Toast.success({
+                message: '提交成功!',
+                duration: 500
+              });
             },
           })
         }, 500);

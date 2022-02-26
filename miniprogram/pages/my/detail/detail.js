@@ -163,14 +163,17 @@ Page({
     var index = event.currentTarget.dataset.index;
     var name = event.currentTarget.dataset.name;
     var display_info = this.data.display_info;
-    // console.log(index)
+    let imageList = [];
     display_info.labelList.forEach(element => {
       if(element.labelName == name) {
-        if(element.imgUrls[index] != '') {
+        element.imageObjects.forEach(imgObj => {
+          imageList.push(imgObj.url);
+        })
+        if(imageList[index] != '') {
           // console.log(index + ':' + element.imgUrls[index])
           wx.previewImage({
-            current: element.imgUrls[index], // 当前显示图片的http链接
-            urls: element.imgUrls // 需要预览的图片http链接列表
+            current: imageList[index], // 当前显示图片的http链接
+            urls: imageList // 需要预览的图片http链接列表
           })
         }
       }
@@ -388,7 +391,7 @@ Page({
           labels.forEach(element => {
             display_info.labelList.push({
               labelName: element.labelName,
-              imgUrls: element.imgUrls
+              imageObjects: element.imageObjects
             })
           });
           that.setData({

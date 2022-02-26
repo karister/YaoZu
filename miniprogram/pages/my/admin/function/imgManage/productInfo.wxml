@@ -2,7 +2,7 @@
 <view class="info_box"> 
 
     <view style="width: 100%;height: 100rpx;display: flex;flex-direction: row;">
-        <view class="mid" style="width: 27%;height: 100%;" hidden="{{isFirst}}">
+        <view class="mid" style="width: 27%;height: 100%;" hidden="{{isFirst}}" bindtap="changeProduct" data-dir="back">
             <view class="mid" style="display: flex;flex-direction: row;border-radius: 20rpx; border: 2rpx solid rgb(217, 220, 228);height: 60rpx;width: 80%;margin: 20rpx 0; box-shadow: 10rpx 10rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);">
                 <iconfont name="back" style="margin:0 13rpx;"></iconfont>
                 <view style="font-size: 26rpx;">上一个</view>
@@ -11,7 +11,7 @@
         <view class="mid" style="width: 27%;height: 100%;" hidden="{{!isFirst}}"></view>
         <view style="width: 46%;height: 100%;">
         </view>
-        <view class="mid" style="width: 27%;height: 100%;" hidden="{{isLast}}">
+        <view class="mid" style="width: 27%;height: 100%;" hidden="{{isLast}}"  bindtap="changeProduct" data-dir="next">
             <view class="mid" style="display: flex;flex-direction: row;border-radius: 20rpx; border: 2rpx solid rgb(217, 220, 228);height: 60rpx;width: 80%;margin: 20rpx 0; box-shadow: 10rpx 10rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);">
                 <view style="font-size: 26rpx;">下一个</view>
                 <iconfont name="next" style="margin:0 13rpx;"></iconfont>
@@ -39,7 +39,6 @@
                 model:value="{{ model }}"
                 bind:change="changeSetData"
                 data-item="model"
-                placeholder="例：X X家具"
                 clickable
                 clearable
             />
@@ -53,7 +52,6 @@
                 model:value="{{ label }}"
                 bind:change="changeSetData"
                 data-item="label"
-                placeholder="例：X X家具"
                 clickable
                 clearable
             />
@@ -67,7 +65,6 @@
                 model:value="{{ price }}"
                 bind:change="changeSetData"
                 data-item="price"
-                placeholder="例：X X家具"
                 clickable
                 clearable
             />
