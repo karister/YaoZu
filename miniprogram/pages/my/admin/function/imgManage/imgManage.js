@@ -285,12 +285,23 @@ Page({
         labelName: labelOb.labelName
       })
     } )
+    // 从iamgeUrls即纯图片数组中，去除有效url
+    let imageListBuffer = [];
+    imgUrls.forEach(images => {
+      let list = [];
+      images.forEach(url => {
+        if(url != '')
+          list.push(url)
+      });
+      imageListBuffer.push(list);
+    });
     db.collection('product').where({
       _openid: app.globalData.openid
     })
     .update({
       data:{
-        labels: dbLabelObbject
+        labels: dbLabelObbject,
+        imageList: imageListBuffer
       },
       success: function (res) {
         // console.log(res); 
@@ -321,8 +332,8 @@ Page({
         var imgUrls = that.data.imgUrls;
         let imageList = [];
         for(let i = 0; i < labelData.length; i++) {
+          imageList = [];
           if(labelData[i].imageObjects.length == 0) {
-            imageList = [];
             labelObject.push({
               labelName: labelData[i].labelName,
               images:[],
@@ -343,8 +354,8 @@ Page({
             })
           }
           imgUrls.push(imageList)
+          console.log(imageList)
         }
-        console.log(labelObject)
         console.log(imgUrls)
         that.setData({
           labelObject,

@@ -98,34 +98,57 @@ Page({
   },
 
   /**
-   * 获取火爆产品信息
+   * 随机获取火爆产品信息
    */
-  getHotProductInfo() {
-    let RandomUrl = '';
+  async getHotProductInfo() {
+    let randomImage = '';
     let randomNum;
     let randomNumMax;
-    db.collection('product').count().then(res => {
-      randomNumMax = (res.total > 20) ? res.total : 20;
+    await db.collection('product').where(getRandomData()).count().then(res => {
+      randomNumMax = (res.total < 20) ? res.total : 20;
     })
-    while (RandomUrl == '') {
+    while (randomImage == '') {
       randomNum = Math.floor(Math.random() * randomNumMax);
-      db.collection('product').then(res => {
+      await db.collection('product').where(getRandomData()).get().then(res => {
         let labelObjects = res.data[randomNum].labels;
         randomNum = Math.floor(Math.random() * labelObjects.length);
-        let imageObjects = labelObjects[randomNum].imageObjects;
-        randomNum = Math.floor(Math.random() * imageObjects.length);
-        RandomUrl = imageObjects[randomNum].url;
+        randomImage = labelObjects[randomNum].imageObjects[Math.floor(Math.random() * labelObjects[randomNum].imageObjects.length)];
       })
+      return randomImage;
     }
-    
-    return RandomUrl;
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function () {
+  onLoad: async function () {
     this.getIndexImage();
-    // this.getHotProductInfo();
+    let hotProductObj = [];
+    for (let index = 0; index < 6; index++) {
+      await this.getHotProductInfo().then(res => {
+        hotProductObj.push(res)
+        console.log(res)
+      })
+    }
+    let productTemp = [];
+    let tempObject = {};
+    hotProductObj.forEach((product,index) => {
+      index += 1;
+      if(index % 2) {
+        tempObject.url1 = product.url;
+        tempObject.label1 = product.label;
+        tempObject.price1 = product.price;
+      } else {
+        tempObject.url2 = product.url;
+        tempObject.label2 = product.label;
+        tempObject.price2 = product.price;
+        productTemp.push(tempObject);
+        tempObject = {};
+      }
+    });
+    this.setData({
+      hotProductObj: productTemp
+    })
+    console.log(productTemp)
   },
 
   /**
@@ -160,14 +183,39 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-
+  onReachBottom: async function () {
+    let hotProductObj = this.data.hotProductObj;
+    let tempProduct = [];
+    for (let index = 0; index < 6; index++) {
+      await this.getHotProductInfo().then(res => {
+        tempProduct.push(res)
+      })
+    }
+    let tempObject = {};
+    tempProduct.forEach((product,index) => {
+      index += 1;
+      if(index % 2) {
+        tempObject.url1 = product.url;
+        tempObject.label1 = product.label;
+        tempObject.price1 = product.price;
+      } else {
+        tempObject.url2 = product.url;
+        tempObject.label2 = product.label;
+        tempObject.price2 = product.price;
+        hotProductObj.push(tempObject);
+        tempObject = {};
+      }
+    });
+    this.setData({
+      hotProductObj
+    })
+    console.log(hotProductObj)
   },
 
   /**

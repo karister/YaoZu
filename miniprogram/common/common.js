@@ -1,5 +1,6 @@
 const db = wx.cloud.database();
 const app = getApp();  
+const _ = db.command;
 /**
  * 数据库读取的同步执行方法!!!!!!!!!!
  */
@@ -100,15 +101,11 @@ export function getQueryParam(index,arg) {
 }
 
 /**
- * 获取随机商家图片数据
- * value：false 真假数据  true 真数据
+ * 获取随机产品图片数据
  */
-export function getRandomData(value) {
+export function getRandomData() {
   let param = {
-    viewState: 1
+    imageList: _.exists(true)
   };
-  if(value) {
-    param.notTest = 1;
-  }
   return param;
 }
