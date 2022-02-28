@@ -134,7 +134,7 @@ Page({
                 updateFlag = true;
                 labelsBuffer.push({
                   labelName: labelName,
-                  imgUrls: label.imgUrls
+                  imageObjects: label.imageObjects
                 })
               }
             })
@@ -142,7 +142,7 @@ Page({
             if(!updateFlag) {
               labelsBuffer.push({
                 labelName: labelName,
-                imgUrls: []
+                imageObjects: []
               })
             }
             // 重置标志

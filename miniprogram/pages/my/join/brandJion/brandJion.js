@@ -360,7 +360,7 @@ Page({
     // console.log(index)
     labelList[index] = value;
     labelObject[index].labelName = value;
-    labelObject[index].imgUrls = [];
+    labelObject[index].imageObjects = [];
     this.setData({
       labelList
     })

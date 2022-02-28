@@ -80,9 +80,6 @@ Page({
    * 发布信息，即保存数据到数据库中
    */
   async submit() {
-    wx.showLoading({
-      title: '图片上传中',
-    })
     // 填写完整性检查
     if(this.data.content == '') {
       Toast('请填写发布内容哦~');
@@ -96,6 +93,11 @@ Page({
     }
     let that = this;
     let fileList = that.data.fileList;
+    if(fileList.length > 0) {
+      wx.showLoading({
+        title: '图片上传中',
+      })
+    }
     await that.uploadImgToCloud(fileList).then(res=>{
       // 更新图片地址到数据库
       let now = new Date();

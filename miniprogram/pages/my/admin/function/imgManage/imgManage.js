@@ -276,44 +276,44 @@ Page({
     })
     // 延时2000ms等待图片上传到云存储换取fileID
     setTimeout( ()=> {
-    // 更新图片地址到数据库
-    // 构建空列表（同数据库中product-labels列表结构一致）
-    var dbLabelObbject = [];
-    labelObject.forEach( labelOb => {
-      dbLabelObbject.push({
-        imageObjects: labelOb.images,
-        labelName: labelOb.labelName
-      })
-    } )
-    // 从iamgeUrls即纯图片数组中，去除有效url
-    let imageListBuffer = [];
-    imgUrls.forEach(images => {
-      let list = [];
-      images.forEach(url => {
-        if(url != '')
-          list.push(url)
+      // 更新图片地址到数据库
+      // 构建空列表（同数据库中product-labels列表结构一致）
+      var dbLabelObbject = [];
+      labelObject.forEach( labelOb => {
+        dbLabelObbject.push({
+          imageObjects: labelOb.images,
+          labelName: labelOb.labelName
+        })
+      } )
+      // 从iamgeUrls即纯图片数组中，去除有效url
+      let imageListBuffer = [];
+      imgUrls.forEach(images => {
+        let list = [];
+        images.forEach(url => {
+          if(url != '')
+            list.push(url)
+        });
+        imageListBuffer.push(list);
       });
-      imageListBuffer.push(list);
-    });
-    db.collection('product').where({
-      _openid: app.globalData.openid
-    })
-    .update({
-      data:{
-        labels: dbLabelObbject,
-        imageList: imageListBuffer
-      },
-      success: function (res) {
-        // console.log(res); 
-      },
-      fail: console.error
-    })
-    wx.hideLoading();
-    Toast.success({
-      message: '发布成功',
-      duration: 1000
-    });
-    },3000 ) 
+      db.collection('product').where({
+        _openid: app.globalData.openid
+      })
+      .update({
+        data:{
+          labels: dbLabelObbject,
+          imageList: imageListBuffer
+        },
+        success: function (res) {
+          // console.log(res); 
+        },
+        fail: console.error
+      })
+      wx.hideLoading();
+      Toast.success({
+        message: '发布成功',
+        duration: 1000
+      });
+    },(imageListBuffer.length > 6) ? 3000 : 2000); 
   },
 
   /**

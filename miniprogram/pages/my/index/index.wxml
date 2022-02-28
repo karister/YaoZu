@@ -55,7 +55,7 @@
     <text style="font-size: 30rpx;font-weight: 600;">最多人看</text>
 </view>
 <view class="store-basic-box" wx:for="{{hotProductObj}}" wx:key="key" wx:for-item="product">
-    <view class="store-basic-item-box">
+    <view class="store-basic-item-box" bindtap="clickToStore" data-openid="{{product.openid1}}">
         <image src="{{product.url1}}">
         </image>
         <view class="store-basic-item-text">
@@ -65,10 +65,10 @@
             <view style="display: flex;flex-direction: row;margin-left: 20rpx;height: 80rpx;font-weight: 400; color: rgb(250, 35, 35);">
                 <view style="font-size: 24rpx;height: 30rpx;margin-top: 23rpx;">￥</view>
                 <text decode="true" style="font-size: 34rpx;line-height: 80rpx;">{{product.price1}}&emsp;&emsp;</text>
-                <view style="font-size: 24rpx;color: rgb(102, 101, 102); height: 30rpx;margin-top: 20rpx;">浏览:12</view>
+                <view style="font-size: 24rpx;color: rgb(102, 101, 102); height: 30rpx;margin-top: 20rpx;">浏览:{{product.browseNum1}}</view>
             </view>
-            <view style="font-size: 22rpx;margin-left: 20rpx;height: 30rpx;color: rgb(174, 175, 175);display: flex;flex-direction: row;">
-                <text decode="true">景德镇陶瓷旗舰店&emsp;&emsp;&emsp;</text>
+            <view style="font-size: 24rpx;margin-left: 20rpx;height: 30rpx;color: rgb(131, 141, 141);display: flex;flex-direction: row;">
+                <text decode="true">{{product.brandName1}}&emsp;&emsp;&emsp;&emsp;</text>
                 <text style="font-size: 26rpx; color: rgb(48, 49, 49);">进店></text>
             </view>
         </view>
@@ -76,7 +76,7 @@
     </view>
     <view class="store-basic-item-divline">
     </view>
-    <view class="store-basic-item-box">
+    <view class="store-basic-item-box" bindtap="clickToStore" data-openid="{{product.openid2}}">
         <image src="{{product.url2}}">
         </image>
         <view class="store-basic-item-text">
@@ -86,10 +86,10 @@
             <view style="display: flex;flex-direction: row;margin-left: 20rpx;height: 80rpx;font-weight: 400; color: rgb(250, 35, 35);">
                 <view style="font-size: 24rpx;height: 30rpx;margin-top: 23rpx;">￥</view>
                 <text decode="true" style="font-size: 34rpx;line-height: 80rpx;">{{product.price2}}&emsp;&emsp;</text>
-                <view style="font-size: 24rpx;color: rgb(102, 101, 102); height: 30rpx;margin-top: 20rpx;">浏览:12</view>
+                <view style="font-size: 24rpx;color: rgb(102, 101, 102); height: 30rpx;margin-top: 20rpx;">浏览:{{product.browseNum2}}</view>
             </view>
-            <view style="font-size: 22rpx;margin-left: 20rpx;height: 30rpx;color: rgb(174, 175, 175);display: flex;flex-direction: row;">
-                <text decode="true">景德镇陶瓷旗舰店&emsp;&emsp;&emsp;</text>
+            <view style="font-size: 24rpx;margin-left: 20rpx;height: 30rpx;color: rgb(131, 141, 141);display: flex;flex-direction: row;">
+                <text decode="true">{{product.brandName2}}&emsp;&emsp;&emsp;&emsp;</text>
                 <text style="font-size: 26rpx; color: rgb(48, 49, 49);">进店></text>
             </view>
         </view>

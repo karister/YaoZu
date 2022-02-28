@@ -104,18 +104,42 @@ Page({
     let randomImage = '';
     let randomNum;
     let randomNumMax;
+    let productInfo;
     await db.collection('product').where(getRandomData()).count().then(res => {
       randomNumMax = (res.total < 20) ? res.total : 20;
     })
-    while (randomImage == '') {
+    while (!randomImage) {
       randomNum = Math.floor(Math.random() * randomNumMax);
       await db.collection('product').where(getRandomData()).get().then(res => {
         let labelObjects = res.data[randomNum].labels;
+        productInfo = res.data[randomNum];
         randomNum = Math.floor(Math.random() * labelObjects.length);
         randomImage = labelObjects[randomNum].imageObjects[Math.floor(Math.random() * labelObjects[randomNum].imageObjects.length)];
+      }).then(async function() {
+        if(randomImage) {
+          // console.log(randomImage)
+          await db.collection('stores').where({
+            _openid: productInfo._openid
+          }).get().then(res => {
+            randomImage.brandName = res.data[0].brand;
+            randomImage.openid = res.data[0]._openid;
+            randomImage.browseNum = res.data[0].browseNum;
+          })
+        }
       })
-      return randomImage;
     }
+    return randomImage;
+  },
+
+  /**
+   * 点击爆款图片跳转至商家详情
+   * openid : 商家openid
+   */
+  clickToStore(event){
+    let openid = event.currentTarget.dataset.openid;
+    wx.navigateTo({
+      url: '/pages/my/detail/detail?openid=' + openid
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -123,28 +147,31 @@ Page({
   onLoad: async function () {
     this.getIndexImage();
     let hotProductObj = [];
-    for (let index = 0; index < 6; index++) {
-      await this.getHotProductInfo().then(res => {
-        hotProductObj.push(res)
-        console.log(res)
-      })
-    }
     let productTemp = [];
     let tempObject = {};
-    hotProductObj.forEach((product,index) => {
-      index += 1;
-      if(index % 2) {
-        tempObject.url1 = product.url;
-        tempObject.label1 = product.label;
-        tempObject.price1 = product.price;
-      } else {
-        tempObject.url2 = product.url;
-        tempObject.label2 = product.label;
-        tempObject.price2 = product.price;
-        productTemp.push(tempObject);
-        tempObject = {};
-      }
-    });
+    for (let index = 0; index < 6; index++) {
+      await this.getHotProductInfo().then(res => {
+        let product = res;
+        hotProductObj.push(product)
+        if((index + 1) % 2) {
+          tempObject.url1 = product.url;
+          tempObject.label1 = product.label;
+          tempObject.price1 = product.price;
+          tempObject.brandName1 = product.brandName;
+          tempObject.openid1 = product.openid;
+          tempObject.browseNum1 = product.browseNum;
+        } else {
+          tempObject.url2 = product.url;
+          tempObject.label2 = product.label;
+          tempObject.price2 = product.price;
+          tempObject.brandName2 = product.brandName;
+          tempObject.openid2 = product.openid;
+          tempObject.browseNum2 = product.browseNum;
+          productTemp.push(tempObject);
+          tempObject = {};
+        }
+      })
+    }
     this.setData({
       hotProductObj: productTemp
     })
@@ -204,10 +231,16 @@ Page({
         tempObject.url1 = product.url;
         tempObject.label1 = product.label;
         tempObject.price1 = product.price;
+        tempObject.brandName1 = product.brandName;
+        tempObject.openid1 = product.openid;
+        tempObject.browseNum1 = product.browseNum;
       } else {
         tempObject.url2 = product.url;
         tempObject.label2 = product.label;
         tempObject.price2 = product.price;
+        tempObject.brandName2 = product.brandName;
+        tempObject.openid2 = product.openid;
+        tempObject.browseNum2 = product.browseNum;
         hotProductObj.push(tempObject);
         tempObject = {};
       }
