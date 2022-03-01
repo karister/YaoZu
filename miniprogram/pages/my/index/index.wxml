@@ -32,7 +32,7 @@
     </view>
 </view> -->
 
-<view style="height: 50rpx;margin-left: 40rpx;margin-top: 10rpx;">
+<view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
     <text style="font-size: 30rpx;font-weight: 600;">搜索商家</text>
 </view>
 <view class="search_box" bindtap="clickToSearch">
@@ -40,7 +40,7 @@
     <text>搜索商家</text>
 </view>
 
-<view style="height: 50rpx;margin-left: 40rpx;margin-top: 10rpx;">
+<view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
     <text style="font-size: 30rpx;font-weight: 600;">南康家具馆</text>
 </view>
 <view class="area-basic-box" wx:for="{{imgUrls1}}" wx:key="key" wx:for-item="area">
@@ -63,7 +63,7 @@
 </view>
 
 
-<view style="height: 50rpx;margin-left: 40rpx;margin-top: 10rpx;">
+<view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
     <text style="font-size: 30rpx;font-weight: 600;">最多人看</text>
 </view>
 <view class="store-basic-box" wx:for="{{hotProductObj}}" wx:key="key" wx:for-item="product">

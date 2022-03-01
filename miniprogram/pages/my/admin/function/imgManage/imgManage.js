@@ -313,7 +313,7 @@ Page({
         message: '发布成功',
         duration: 1000
       });
-    },(imageListBuffer.length > 6) ? 3000 : 2000); 
+    },3000); 
   },
 
   /**
