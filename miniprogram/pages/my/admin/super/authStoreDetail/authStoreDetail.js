@@ -115,9 +115,9 @@ Page({
     })
     // 读取用户入驻填写的信息
     await getSingleDataByOpenid('stores', storeOpenid).then(res=>{
-      console.log(res);
+      // console.log(res);
       let state = false;
-      if(res.authImgUrl != '') {
+      if(res.authImgUrl) {
         state = true;
       }
       let length = res.label.length -1;

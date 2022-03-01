@@ -73,13 +73,18 @@
 .search_box{
   width: 80%;
   height: 80rpx;
-  margin: 0 auto;
-  border-radius: 40rpx;
-  background-color: #f7f8fa;
+  margin: 20rpx auto;
+  border: 5rpx solid black;
+  /* border-radius: 40rpx; */
+  background-color:white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .search_box text{
-  color: rgb(81, 87, 87);
-  font-size: 38rpx;
+  color: rgb(28, 29, 29);
+  font-size: 30rpx;
+  margin-left: 20rpx;
 }
 
 
@@ -88,7 +93,7 @@
 .area-basic-box {
   width: 90%;
   height: 300rpx;
-  margin:0 auto;
+  margin:20rpx auto;
   display: flex;
   flex-direction: row;
 }
@@ -120,7 +125,7 @@
 .store-basic-box {
   width: 96%;
   height: 560rpx;
-  margin: 10rpx auto;
+  margin: 20rpx auto;
   display: flex;
   flex-direction: row;
 }
