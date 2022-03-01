@@ -128,6 +128,7 @@ Page({
         productInfo = res.data[randomNum];
         randomNum = Math.floor(Math.random() * labelObjects.length);
         randomImage = labelObjects[randomNum].imageObjects[Math.floor(Math.random() * labelObjects[randomNum].imageObjects.length)];
+        randomImage.labelName = labelObjects[randomNum].labelName;
       }).then(async function() {
         if(randomImage.url) {
           // console.log(randomImage)
@@ -166,7 +167,7 @@ Page({
     for (let index = 0; index < 6; index++) {
       await this.getHotProductInfo().then(res => {
         let product = res;
-        console.log(res.url)
+        console.log(res)
         hotProductObj.push(product)
         if((index + 1) % 2) {
           tempObject.url1 = product.url;
@@ -175,6 +176,7 @@ Page({
           tempObject.brandName1 = product.brandName;
           tempObject.openid1 = product.openid;
           tempObject.browseNum1 = product.browseNum;
+          tempObject.labelName1 = product.labelName;
         } else {
           tempObject.url2 = product.url;
           tempObject.label2 = product.label;
@@ -182,6 +184,7 @@ Page({
           tempObject.brandName2 = product.brandName;
           tempObject.openid2 = product.openid;
           tempObject.browseNum2 = product.browseNum;
+          tempObject.labelName2 = product.labelName;
           productTemp.push(tempObject);
           tempObject = {};
         }
@@ -236,7 +239,7 @@ Page({
     let tempProduct = [];
     for (let index = 0; index < 6; index++) {
       await this.getHotProductInfo().then(res => {
-        console.log(res.url)
+        console.log(res)
         tempProduct.push(res)
       })
     }
@@ -250,6 +253,7 @@ Page({
         tempObject.brandName1 = product.brandName;
         tempObject.openid1 = product.openid;
         tempObject.browseNum1 = product.browseNum;
+        tempObject.labelName1 = product.labelName;
       } else {
         tempObject.url2 = product.url;
         tempObject.label2 = product.label;
@@ -257,6 +261,7 @@ Page({
         tempObject.brandName2 = product.brandName;
         tempObject.openid2 = product.openid;
         tempObject.browseNum2 = product.browseNum;
+        tempObject.labelName2 = product.labelName;
         hotProductObj.push(tempObject);
         tempObject = {};
       }

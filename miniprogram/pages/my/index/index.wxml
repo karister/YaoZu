@@ -79,7 +79,7 @@
                 <view style="font-size: 24rpx;color: rgb(102, 101, 102); height: 30rpx;margin-top: 20rpx;">浏览:{{product.browseNum1}}</view>
             </view>
             <view style="font-size: 24rpx;margin-left: 20rpx;height: 30rpx;color: rgb(131, 141, 141);display: flex;flex-direction: row;">
-                <text decode="true">{{product.brandName1}}&emsp;&emsp;&emsp;&emsp;</text>
+                <text decode="true">{{product.brandName1}}[{{product.labelName1}}]&emsp;&emsp;</text>
                 <text style="font-size: 26rpx; color: rgb(48, 49, 49);">进店></text>
             </view>
         </view>
@@ -100,7 +100,7 @@
                 <view style="font-size: 24rpx;color: rgb(102, 101, 102); height: 30rpx;margin-top: 20rpx;">浏览:{{product.browseNum2}}</view>
             </view>
             <view style="font-size: 24rpx;margin-left: 20rpx;height: 30rpx;color: rgb(131, 141, 141);display: flex;flex-direction: row;">
-                <text decode="true">{{product.brandName2}}&emsp;&emsp;&emsp;&emsp;</text>
+                <text decode="true">{{product.brandName2}}[{{product.labelName2}}]&emsp;&emsp;</text>
                 <text style="font-size: 26rpx; color: rgb(48, 49, 49);">进店></text>
             </view>
         </view>
