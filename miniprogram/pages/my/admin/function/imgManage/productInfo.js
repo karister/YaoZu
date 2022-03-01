@@ -71,6 +71,8 @@ Page({
     labelObjects[labelIndex].imageObjects[imageIndex].model = value.model;
     labelObjects[labelIndex].imageObjects[imageIndex].label = value.label;
     labelObjects[labelIndex].imageObjects[imageIndex].price = value.price;
+    console.log(value);
+    console.log(labelObjects);
     db.collection('product').where({
       _openid: app.globalData.openid
     })

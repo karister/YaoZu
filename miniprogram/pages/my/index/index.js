@@ -97,10 +97,23 @@ Page({
     })
   },
 
+  //生成从minNum到maxNum的随机数
+  getRandomNum(minNum,maxNum){ 
+    switch(arguments.length){ 
+        case 1: 
+            return parseInt(Math.random()*minNum+1,10);  
+        case 2:   
+            return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
+        default: 
+            return 0; 
+    } 
+  },
+
   /**
    * 随机获取火爆产品信息
    */
   async getHotProductInfo() {
+    let that = this;
     let randomImage = '';
     let randomNum;
     let randomNumMax;
@@ -108,7 +121,7 @@ Page({
     await db.collection('product').where(getRandomData()).count().then(res => {
       randomNumMax = (res.total < 20) ? res.total : 20;
     })
-    while (!randomImage) {
+    while (!randomImage.url) {
       randomNum = Math.floor(Math.random() * randomNumMax);
       await db.collection('product').where(getRandomData()).get().then(res => {
         let labelObjects = res.data[randomNum].labels;
@@ -116,14 +129,15 @@ Page({
         randomNum = Math.floor(Math.random() * labelObjects.length);
         randomImage = labelObjects[randomNum].imageObjects[Math.floor(Math.random() * labelObjects[randomNum].imageObjects.length)];
       }).then(async function() {
-        if(randomImage) {
+        if(randomImage.url) {
           // console.log(randomImage)
           await db.collection('stores').where({
             _openid: productInfo._openid
           }).get().then(res => {
             randomImage.brandName = res.data[0].brand;
             randomImage.openid = res.data[0]._openid;
-            randomImage.browseNum = res.data[0].browseNum;
+            // randomImage.browseNum = res.data[0].browseNum;
+            randomImage.browseNum = that.getRandomNum(1000,3000);
           })
         }
       })
@@ -152,6 +166,7 @@ Page({
     for (let index = 0; index < 6; index++) {
       await this.getHotProductInfo().then(res => {
         let product = res;
+        console.log(res.url)
         hotProductObj.push(product)
         if((index + 1) % 2) {
           tempObject.url1 = product.url;
@@ -175,7 +190,7 @@ Page({
     this.setData({
       hotProductObj: productTemp
     })
-    console.log(productTemp)
+    // console.log(productTemp)
   },
 
   /**
@@ -221,6 +236,7 @@ Page({
     let tempProduct = [];
     for (let index = 0; index < 6; index++) {
       await this.getHotProductInfo().then(res => {
+        console.log(res.url)
         tempProduct.push(res)
       })
     }
@@ -248,7 +264,7 @@ Page({
     this.setData({
       hotProductObj
     })
-    console.log(hotProductObj)
+    // console.log(hotProductObj)
   },
 
   /**

@@ -37,7 +37,6 @@
 </view>
 <view class="search_box" bindtap="clickToSearch">
     <iconfont name="search" style="margin-left: 20rpx;"></iconfont>
-    <text>搜索商家</text>
 </view>
 
 <view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
