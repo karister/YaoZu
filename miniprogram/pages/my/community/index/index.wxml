@@ -1,6 +1,6 @@
 <!-- <button type="primary" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号</button> -->
-
-<scroll-view style="height: {{height}}rpx;position: absolute; z-index: 100;" scroll-y>
+<view class="mid" style="height: 100rpx; width: 500rpx;background-color: white; margin: 100rpx auto;border: 2rpx solid black;box-shadow: 10rpx 10rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);">尽请期待！</view>
+<scroll-view style="height: {{height}}rpx;position: absolute; z-index: 100;" scroll-y  wx:if="{{false}}">
   <view wx:for="{{message}}" wx:key="key" wx:for-item="msg" class="news_item_box" style="height: {{itemAutoHeight}}rpx">
     <view class="van-hairline--bottom news_item_title">
       {{msg.title}}
@@ -42,7 +42,7 @@
 
 
 
-<view style="position: absolute; z-index: 101;">
+<view style="position: absolute; z-index: 101;" wx:if="{{false}}">
   <view bindtap="clickToPublish" class="mid write_iconBox">
     <iconfont name="browsed"></iconfont>
   </view>

@@ -53,12 +53,6 @@
         "text": "门店区域"
       },
       {
-        "pagePath": "pages/my/community/index/index",
-        "iconPath": "/images/wechat.png",
-        "selectedIconPath": "/images/wechatHL.png",
-        "text": "社区动态"
-      },
-      {
         "pagePath": "pages/my/admin/userInfo/userInfo",
         "iconPath": "/images/wechat.png",
         "selectedIconPath": "/images/wechatHL.png",
