@@ -107,7 +107,7 @@ Page({
    * 跳转下一步，同时提交表单
    * @param {提交的表单数据} event 
    */
-  nextStep: function (event) {
+  nextStep: async function (event) {
     // 基本值:data,提交数据value,step步骤数
     var data = this.data;
     var value = event.detail.value;
@@ -161,18 +161,60 @@ Page({
        * 全部数据填写提交完毕，写入stores 集合
        */
       if(joinStep == 2) {
+
         // 上传头像图片
-        wx.cloud.uploadFile({
+        await wx.cloud.uploadFile({
           cloudPath: 'brand_img/' + data.brandName  + '/' + (new Date()).getTime() + '.png', // 上传至云端的路径
           filePath: data.brandImgSrc, // 小程序临时文件路径
-          success: res => {
-            // 返回文件 ID
-            console.log(res.fileID)
-            // 修改临时文件路径为存储唯一ID
-            that.setData({brandImgSrc: res.fileID});
-          },
-          fail: console.error
+        }).then(res => {
+          // 返回文件 ID
+          console.log(res.fileID)
+          // 修改临时文件路径为存储唯一ID
+          that.setData({brandImgSrc: res.fileID});
+        }).catch(error => {
+          console.error('上传头像图片失败')
         })
+
+        // var authImgUrl = data.authImgUrl;
+        // // 上传认证图片1
+        // await wx.cloud.uploadFile({
+        //   cloudPath: 'auth_img/' + data.brandName + '/' + (new Date()).getTime() + '.0' + '.png', // 上传至云端的路径
+        //   filePath: authImgUrl[0].url, // 小程序临时文件路径
+        // }).then(res=>{
+        //   // 返回文件 ID
+        //   console.log(res.fileID)
+        //   authImgUrl[0].url = res.fileID;
+        //   that.setData({
+        //     authImgUrl
+        // }).catch(error => {
+        //   console.error('上传认证图片1失败')
+        // })
+        // // 上传认证图片2
+        // await wx.cloud.uploadFile({
+        //   cloudPath: 'auth_img/' + data.brandName + '/' + (new Date()).getTime() + '.1' + '.png', // 上传至云端的路径
+        //   filePath: authImgUrl[1].url, // 小程序临时文件路径
+        // }).then(res=>{
+        //   // 返回文件 ID
+        //   console.log(res.fileID)
+        //   authImgUrl[1].url = res.fileID;
+        //   that.setData({ 
+        //     authImgUrl
+        // }).catch(error => {
+        //   console.error('上传认证图片2失败')
+        // })
+        
+        // // 上传头像图片
+        // wx.cloud.uploadFile({
+        //   cloudPath: 'brand_img/' + data.brandName  + '/' + (new Date()).getTime() + '.png', // 上传至云端的路径
+        //   filePath: data.brandImgSrc, // 小程序临时文件路径
+        //   success: res => {
+        //     // 返回文件 ID
+        //     console.log(res.fileID)
+        //     // 修改临时文件路径为存储唯一ID
+        //     that.setData({brandImgSrc: res.fileID});
+        //   },
+        //   fail: console.error
+        // })
 
         var authImgUrl = data.authImgUrl;
         // 上传认证图片1

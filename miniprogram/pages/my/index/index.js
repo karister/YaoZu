@@ -9,7 +9,8 @@ Page({
    */
   data: {
       imgUrls: [],
-      imgUrls1: []
+      imgUrls1: [],
+      hotProductObj: []
   },
 
   /**
@@ -114,7 +115,7 @@ Page({
    */
   async getHotProductInfo() {
     let that = this;
-    let randomImage = '';
+    let randomImage = {};
     let randomNum;
     let randomNumMax;
     let productInfo;
@@ -131,7 +132,7 @@ Page({
         randomImage.labelName = labelObjects[randomNum].labelName;
       }).then(async function() {
         if(randomImage.url) {
-          // console.log(randomImage)
+          console.log(randomImage)
           await db.collection('stores').where({
             _openid: productInfo._openid
           }).get().then(res => {
@@ -167,7 +168,7 @@ Page({
     for (let index = 0; index < 6; index++) {
       await this.getHotProductInfo().then(res => {
         let product = res;
-        console.log(res)
+        // console.log(res)
         hotProductObj.push(product)
         if((index + 1) % 2) {
           tempObject.url1 = product.url;
