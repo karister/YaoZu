@@ -99,6 +99,7 @@ Page({
    */
   uploadImg: function (event) {
     let index = event.currentTarget.dataset.index;
+    console.log(index)
     let that = this;
     wx.chooseMedia({
     count: 1,
@@ -136,13 +137,14 @@ Page({
      * 
      * @param {*} options 
      */
-    updateData: function () {
+    updateData: async function () {
         let that = this;
         let areaList = that.data.areas;
         let iconList = []
         areaList.forEach(area => {
             iconList.push(area.url);
         });
+        console.log(areaList)
         db.collection('index').where({
             filed: 'areaInfo'
         })

@@ -117,7 +117,7 @@ Page({
     await getSingleDataByOpenid('stores', storeOpenid).then(res=>{
       // console.log(res);
       let state = false;
-      if(res.authImgUrl) {
+      if(res.authImgUrl.length != 0) {
         state = true;
       }
       let length = res.label.length -1;

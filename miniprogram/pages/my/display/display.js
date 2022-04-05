@@ -43,6 +43,14 @@ Page({
     })
   },
 
+  getAreaInfo() {
+    db.collection('index').where({
+        filed: 'areaInfo'
+    }).get().then( res => {
+       
+    })
+  },
+
   /**
    * 加载store集合中的数据，设置对应index区域的渲染数据
    */
@@ -104,7 +112,10 @@ Page({
    */
   onLoad: function (options) {
     // console.error('页面加载');
+    // 加载商家数据
     this.loadStoresData(options.index);
+    // 加载区域信息
+
 
     /**
      * 获取所有area的数据总数便于后面读取数据分页
