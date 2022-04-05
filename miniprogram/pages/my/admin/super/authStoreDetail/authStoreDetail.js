@@ -120,6 +120,7 @@ Page({
       if(res.authImgUrl.length != 0) {
         state = true;
       }
+      console.log(state);
       let length = res.label.length -1;
       let step0InfoBoxHeight = that.data.step0InfoBoxHeight;
       step0InfoBoxHeight += length*90;

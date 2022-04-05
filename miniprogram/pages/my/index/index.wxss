@@ -93,15 +93,17 @@
 .area-basic-box {
   width: 90%;
   height: 300rpx;
-  margin:20rpx auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
+  /* border: 1rpx solid rgb(95, 126, 116); */
 }
 .area-basic-item-box {
   width: 47%;
   height: 300rpx;
   display: flex;
   flex-direction: column;
+  /* border: 1rpx solid aquamarine; */
 }
 .area-basic-item-box image {
   height: 210rpx;
@@ -117,7 +119,7 @@
   height: 50rpx;
 }
 .area-basic-item-text > text {
-  font-size: 34rpx;
+  font-size: 36rpx;
   font-weight: 600;
 }
 
