@@ -1,33 +1,13 @@
 // pages/my/display/display.js
 import {getQueryParam} from '../../../common/common.js'
+const db = wx.cloud.database();
+const app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    area_info: [
-      {
-        area: '中心市场',
-        font_color: 'white',
-        bgk_color: '#4692B9'//'#f05b04'
-      },
-      {
-        area: '博览中心',
-        font_color: 'black',
-        bgk_color: ''
-      },
-      {
-        area: '家私城',
-        font_color: 'black',
-        bgk_color: ''
-      },
-      {
-        area: '光明家具城',
-        font_color: 'black',
-        bgk_color: ''
-      }
-    ],
     display_index: 0,
     data_length: 0,
     stores_data: [],
@@ -43,32 +23,32 @@ Page({
     })
   },
 
-  getAreaInfo() {
+  async getAreaInfo() {
     db.collection('index').where({
         filed: 'areaInfo'
     }).get().then( res => {
-       
+       console.log(res.data[0].area);
     })
   },
 
   /**
    * 加载store集合中的数据，设置对应index区域的渲染数据
    */
-  loadStoresData(index) {
+  async loadStoresData(index) {
+    console.log(index);
     var that = this;
-    // 获取数据库引用
-    const db = wx.cloud.database();
-
+    // 获取数据库中区域信息
+    // await this.getAreaInfo();
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!
     // 设置data中数组对象的方法
-    const area_info = that.data.area_info;
-    for(let i = 0;i < 4; i ++) {
-      area_info[i].bgk_color = '';
-      area_info[i].font_color = 'black';
+    // const area_info = that.data.area_info;
+    for(let i = 0;i < app.globalData.areaList.length; i ++) {
+      // area_info[i].bgk_color = '';
+      // area_info[i].font_color = 'black';
       // 为当前点击的index
       if(i == index) {
-        area_info[index].bgk_color = '#4692B9';
-        area_info[i].font_color = 'white';
+        // area_info[index].bgk_color = '#4692B9';
+        // area_info[i].font_color = 'white';
         db.collection('stores').where(getQueryParam(index,null))
         .get({ 
           success: function(res) {
@@ -76,10 +56,10 @@ Page({
             // console.log('success');
             // console.log('res.length:' + res.data.length);
             //存储匹配结果
-            const stores_data = that.data.stores_data;
+            const stores_data = [];
             for(let i = 0;i < res.data.length; i++) {
               stores_data[i] = res.data[i];
-              // console.log(stores_data[i]);
+              console.log(stores_data[i]);
             }
             // console.error('next load');
             // 设置展示结果数据
@@ -93,8 +73,7 @@ Page({
       }
     }
     that.setData ({
-      display_index: index,
-      area_info 
+      display_index: index
     })
   },
 
@@ -103,7 +82,8 @@ Page({
    */
   clickAreaItem: function (e) {
     // console.error('点击区域列表');
-    this.loadStoresData(e.currentTarget.dataset.index);
+    let dataset = e.currentTarget.dataset;
+    this.loadStoresData(dataset.index + dataset.num*4);
   
   },
 
@@ -116,6 +96,22 @@ Page({
     this.loadStoresData(options.index);
     // 加载区域信息
 
+
+    // 手动自适应区域信息显示的处理。。。。。。
+    let areaList1 = [];
+    let areaList2 = [];
+    app.globalData.areaList.forEach((area,index) => {
+      if(index < 4)
+        areaList1.push(area);
+      else
+        areaList2.push(area);
+    });
+    console.log(areaList1);
+    console.log(areaList2);
+    this.setData({
+      areaList1,
+      areaList2
+    })
 
     /**
      * 获取所有area的数据总数便于后面读取数据分页

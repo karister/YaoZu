@@ -89,11 +89,14 @@ Page({
             tempObject = {};
           }
         });
-        // console.log(areaTemp);
+        if(areaList.length % 2 != 0) {
+          tempObject.num2 = "其他区域",
+          tempObject.url2 = [];
+          areaTemp.push(tempObject);
+        }
         that.setData({
           imgUrls1: areaTemp
         }) 
-        
       }
     })
   },

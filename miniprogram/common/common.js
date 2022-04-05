@@ -73,9 +73,9 @@ export function checkAuthed () {
  * 根据区域商家数据查询条件
  * arg=null 普查 arg!=null 模糊查
  */
-const areas = ['中心市场','博览中心','家私城','光明家具城','其他区域'];
-let checked = '';
+// const areas = ['中心市场','博览中心','家私城','光明家具城','其他区域'];
 export function getQueryParam(index,arg) {
+  const areas = app.globalData.areaList;
   let param = '';
   if(arg != null) {
     param = {

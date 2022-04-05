@@ -9,10 +9,24 @@
 <!-- 分割线 -->
 <!-- <view class="divLine"></view> -->
 <!-- 区域列表 -->
-<view class="list_box mid">
+<!-- <view class="list_box mid">
   <view class="list_item" wx:for="{{area_info}}" wx:key="key" bindtap="clickAreaItem" data-index="{{index}}">
     <view class="mid" style="background-color: {{item.bgk_color}};">
       <text class="mid" style="color: {{item.font_color}};">{{item.area}}</text>
+    </view>
+  </view>
+</view> -->
+<view class="list_box mid">
+  <view class="list_item" wx:for="{{areaList1}}" wx:key="key" bindtap="clickAreaItem" data-index="{{index}}" data-num="0">
+    <view class="mid" style="background-color: {{item.bgk_color}};">
+      <text class="mid" style="color: {{item.font_color}};">{{item}}</text>
+    </view>
+  </view>
+</view>
+<view class="list_box mid" wx:if="{{areaList2.length > 0}}">
+  <view class="list_item" wx:for="{{areaList2}}" wx:key="key" bindtap="clickAreaItem" data-index="{{index}}"data-num="1">
+    <view class="mid" style="background-color: {{item.bgk_color}};">
+      <text class="mid" style="color: {{item.font_color}};">{{item}}</text>
     </view>
   </view>
 </view>

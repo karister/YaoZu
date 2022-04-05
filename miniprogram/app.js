@@ -84,8 +84,9 @@ App({
       areaInfo.forEach(area => {
         areaList.push(area.name);
       });
+      areaList.push("其他区域");
       that.globalData.areaList = areaList;
-      console.log(areaList)
+      // console.log(areaList)
     })
 
   }
