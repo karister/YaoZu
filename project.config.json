@@ -20,9 +20,9 @@
         "uploadWithSourceMap": true,
         "compileHotReLoad": false,
         "lazyloadPlaceholderEnable": false,
-        "useMultiFrameRuntime": false,
-        "useApiHook": false,
-        "useApiHostProcess": false,
+        "useMultiFrameRuntime": true,
+        "useApiHook": true,
+        "useApiHostProcess": true,
         "babelSetting": {
             "ignore": [],
             "disablePlugins": [],
@@ -41,7 +41,7 @@
     },
     "appid": "wx83ef593ac2e258c3",
     "projectname": "cloud-dev",
-    "libVersion": "2.19.6",
+    "libVersion": "2.24.5",
     "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
     "condition": {
         "search": {
