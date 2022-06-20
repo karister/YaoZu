@@ -53,8 +53,8 @@
 }
 .label_item_box{
   height: 100%;
-  width: 25%;
   display: flex;
+  flex: auto;
   flex-direction: column;
   /* border: 1rpx solid red; */
 }

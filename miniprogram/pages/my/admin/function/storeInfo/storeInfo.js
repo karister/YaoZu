@@ -66,7 +66,31 @@ Page({
     area: '',
     // 分类列表
     labelList: [''],
+    show: false,
+    labelColumns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+    // 由于picker组件是在标签循环渲染后出现的，无法获取picker对象的index，所有保存一个show为true时的index
+    currentIndex: 0
   },
+
+  onConfirm(event) {
+    let pickedName = event.detail.value;
+    let labelList = this.data.labelList;
+    let labelIndex = this.data.currentIndex;
+    labelList[labelIndex] = pickedName;
+    this.setData({labelList});
+    this.onClose();
+  },
+  showPopup(event) {
+    this.setData({ 
+        show: true,
+        currentIndex: event.currentTarget.dataset.index
+    });
+  },
+  onClose() {
+    this.setData({ show: false });
+  },
+
+
 
   /**
    * 
@@ -253,15 +277,7 @@ Page({
       })
     }
   },
-  /**
-   * 滑动选择区域
-   * @param {滑动改变的索引} event 
-   */
-  onChange: function (event) {
-    const { picker, value, index } = event.detail;
 
-    // Toast(`当前值：${value}, 当前索引：${index}`);
-  },
   /**
    * 取消选择
    */
@@ -281,10 +297,6 @@ Page({
     var placeholder = this.data.placeholder;
     if(value == '其他区域') {
       placeholder = '例：迎宾东大道xxx号';
-      // Toast({
-      //   message: '若您的门市区域为其他区域，请完整填写门市地址，可点击右边定位按钮手动定位',
-      //   duration: 3000
-      // });
       Dialog.alert({
         message: '若您的门市区域为其他区域，请完整填写门市地址，可点击右边定位按钮手动定位',
         confirmButtonText: '知道了'
