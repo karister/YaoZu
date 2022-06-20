@@ -67,7 +67,7 @@ Page({
     // 分类列表
     labelList: [''],
     show: false,
-    labelColumns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+    labelColumns: ['软体家具', '实木家具', '五金家具', '白胚市场', '家具配套'],
     // 由于picker组件是在标签循环渲染后出现的，无法获取picker对象的index，所有保存一个show为true时的index
     currentIndex: 0
   },
@@ -137,60 +137,12 @@ Page({
           console.log(res)
         }
       })
-      /**
-       * 更新product集合中的标签数据
-       * 由于product-labels{imgUrls,labelName}的对象结构，所以只更新labelName需要把labels读取出来再更新
-       */
 
-      //  取product中的labels字段更新至labelsBuffer
-      var labelsBuffer = [];
-      db.collection('product').where({
-        _openid: app.globalData.openid
-      })
-      .get({
-        success: function (res) {
-          // 更新buffer以labelList即修改的标签列表为准
-          let updateFlag = false; //更新标志，即是否已存在的label
-          data.labelList.forEach(labelName => {
-            res.data[0].labels.forEach(label => {
-              // 如果已存在的label，则读取拼凑object写入buffer
-              if(label.labelName == labelName) {
-                updateFlag = true;
-                labelsBuffer.push({
-                  labelName: labelName,
-                  imageObjects: label.imageObjects
-                })
-              }
-            })
-            // 未更新，即新增的label，给imgUrls空列表写入buffer
-            if(!updateFlag) {
-              labelsBuffer.push({
-                labelName: labelName,
-                imageObjects: []
-              })
-            }
-            // 重置标志
-            updateFlag = false;
-          });
-          // console.log(data.labelList)
-          // console.log(labelsBuffer);
-        }
-      })
       // 加载提示在保存信息，等待上方更新完labelsBuffer
       wx.showLoading({
         title: '保存中',
       }) 
       setTimeout(function () {
-        // 更新至product数据库中
-        db.collection('product').where({
-          _openid: app.globalData.openid
-        })
-        .update({
-          data: {
-            brandName: data.brandName,
-            labels: labelsBuffer
-          }
-        })
         wx.hideLoading();
         Toast.success({
           message: '修改成功',
