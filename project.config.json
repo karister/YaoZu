@@ -37,12 +37,13 @@
         "disableUseStrict": false,
         "minifyWXML": true,
         "showES6CompileOption": false,
-        "useCompilerPlugins": false
+        "useCompilerPlugins": false,
+        "useStaticServer": true
     },
     "appid": "wx83ef593ac2e258c3",
     "projectname": "cloud-dev",
     "libVersion": "2.24.5",
-    "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+    "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
     "condition": {
         "search": {
             "list": []
@@ -65,5 +66,16 @@
                 }
             ]
         }
-    }
+    },
+    "compileType": "miniprogram",
+    "srcMiniprogramRoot": "miniprogram/",
+    "packOptions": {
+        "ignore": [],
+        "include": []
+    },
+    "editorSetting": {
+        "tabIndent": "insertSpaces",
+        "tabSize": 4
+    },
+    "description": "项目配置文件，详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html"
 }

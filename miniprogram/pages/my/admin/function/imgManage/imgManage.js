@@ -295,7 +295,7 @@ Page({
         });
         imageListBuffer.push(list);
       });
-      db.collection('product').where({
+      db.collection('mock_product').where({
         _openid: app.globalData.openid
       })
       .update({
@@ -322,7 +322,7 @@ Page({
   onLoad: function (options) {
     const that = this;
     // 得到商家的标签分类
-    db.collection('product').where({
+    db.collection('mock_product').where({
       _openid: app.globalData.openid
     })
     .get({

@@ -65,7 +65,7 @@ Page({
           fail: console.error,
           complete: function () {
             // 更新stores中的认证图片路径
-            db.collection('stores').where({
+            db.collection('mock_stores').where({
               _openid: app.globalData.openid
             })
             .update({
@@ -87,7 +87,7 @@ Page({
    */
   upDateData: function () {
     var that = this;
-    db.collection('stores').where({
+    db.collection('mock_stores').where({
       _openid: app.globalData.openid
     })
     .update({
@@ -119,7 +119,7 @@ Page({
     var that = this;
 
     // 查询认证基本信息 
-    db.collection('stores').where({
+    db.collection('mock_stores').where({
       _openid: app.globalData.openid
     })
     .get({

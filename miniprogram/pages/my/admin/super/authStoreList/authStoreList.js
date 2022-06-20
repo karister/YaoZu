@@ -28,7 +28,7 @@ Page({
   onLoad: function (options) {
     let that = this;
     let display_info = that.data.display_info;
-    db.collection('stores').where({
+    db.collection('mock_stores').where({
       authState: 0,
       viewState: 0
     })

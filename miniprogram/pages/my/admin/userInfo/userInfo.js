@@ -190,7 +190,7 @@ Page({
           url: '/pages/my/join/brandJion/brandJion'
         })
       } else {
-        db.collection('stores').where({
+        db.collection('mock_stores').where({
           _openid: app.globalData.openid
         })
         .get({

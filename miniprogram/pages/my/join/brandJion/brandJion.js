@@ -253,7 +253,7 @@ Page({
         // 延时2000ms等待图片的上传
         setTimeout( ()=> {
           // 创建商家stores集合记录
-          db.collection('stores').add({
+          db.collection('mock_stores').add({
             data: {
               brandImgSrc: data.brandImgSrc,
               brand: data.brandName,
@@ -279,7 +279,7 @@ Page({
 
         
         // 创建产品product集合记录
-        db.collection('product').add({
+        db.collection('mock_product').add({
           data: {
             brandName: data.brandName,
             labels: data.labelObject
@@ -550,7 +550,7 @@ Page({
    */
   onLoad: function (options) {
     const that = this;
-    db.collection('stores').where({
+    db.collection('mock_stores').where({
       _openid: app.globalData.openid
     })
     .get({

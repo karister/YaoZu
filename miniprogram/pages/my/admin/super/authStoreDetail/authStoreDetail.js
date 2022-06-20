@@ -60,7 +60,7 @@ Page({
       fail: console.error
     })
     // store表中认证状态和查看状态改为成功
-    await db.collection('stores').where({
+    await db.collection('mock_stores').where({
       _openid: that.data.storeOpenid
     }).update({
       data: {
@@ -114,7 +114,7 @@ Page({
       storeOpenid
     })
     // 读取用户入驻填写的信息
-    await getSingleDataByOpenid('stores', storeOpenid).then(res=>{
+    await getSingleDataByOpenid('mock_stores', storeOpenid).then(res=>{
       // console.log(res);
       let state = false;
       if(res.authImgUrl.length != 0) {

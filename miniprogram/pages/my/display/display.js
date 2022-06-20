@@ -49,7 +49,7 @@ Page({
       if(i == index) {
         // area_info[index].bgk_color = '#4692B9';
         // area_info[i].font_color = 'white';
-        db.collection('stores').where(getQueryParam(index,null))
+        db.collection('mock_stores').where(getQueryParam(index,null))
         .get({ 
           success: function(res) {
             //打印调试信息
@@ -120,7 +120,7 @@ Page({
     const db = wx.cloud.database()
     var area_info = that.data.area_info;
     for(let i=0; i < 4; i++) {
-      db.collection('stores').where({
+      db.collection('mock_stores').where({
         area: area_info[i].area
       }).count().then(res => {
         console.log(area_info[i].area + ':' + res.total);
@@ -187,7 +187,7 @@ Page({
     for(let i = 0;i < 4; i ++) {
       // 为当前点击的index
       if(i == index) {
-        db.collection('stores').where(getQueryParam(index,null)).skip(old_data_length)
+        db.collection('mock_stores').where(getQueryParam(index,null)).skip(old_data_length)
         .get({ 
           success: function(res) {
             console.log(res.data);

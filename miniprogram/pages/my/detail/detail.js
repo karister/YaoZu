@@ -338,7 +338,7 @@ Page({
       const that = this;
       var display_info = that.data.display_info;
       // 读取stores集合中商家的所有需要被展示的信息
-      db.collection('stores').where({
+      db.collection('mock_stores').where({
         _openid: storeOpenid
       })
       .get({
@@ -381,7 +381,7 @@ Page({
         }
       })
       // 读取product中的产品图片
-      db.collection('product').where({
+      db.collection('mock_product').where({
         _openid: storeOpenid
       })
       .get({
