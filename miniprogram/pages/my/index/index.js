@@ -120,12 +120,12 @@ Page({
     let randomNum;
     let randomNumMax;
     let productInfo;
-    await db.collection('mock_product').where(getRandomData()).count().then(res => {
+    await db.collection('product').where(getRandomData()).count().then(res => {
       randomNumMax = (res.total < 20) ? res.total : 20;
     })
     while (!randomImage.url) {
       randomNum = Math.floor(Math.random() * randomNumMax);
-      await db.collection('mock_product').where(getRandomData()).get().then(res => {
+      await db.collection('product').where(getRandomData()).get().then(res => {
         let labelObjects = res.data[randomNum].labels;
         productInfo = res.data[randomNum];
         randomNum = Math.floor(Math.random() * labelObjects.length);
@@ -134,7 +134,7 @@ Page({
       }).then(async function() {
         if(randomImage.url) {
           console.log(randomImage)
-          await db.collection('mock_stores').where({
+          await db.collection('stores').where({
             _openid: productInfo._openid
           }).get().then(res => {
             randomImage.brandName = res.data[0].brand;

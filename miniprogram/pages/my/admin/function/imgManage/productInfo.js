@@ -73,7 +73,7 @@ Page({
     labelObjects[labelIndex].imageObjects[imageIndex].price = value.price;
     console.log(value);
     console.log(labelObjects);
-    db.collection('mock_product').where({
+    db.collection('product').where({
       _openid: app.globalData.openid
     })
     .update({
@@ -106,7 +106,7 @@ Page({
       let imageIndex = options.imageIndex;
       let labelIndex = options.labelIndex;
       console.log(imageIndex)
-      db.collection('mock_product').where({
+      db.collection('product').where({
         _openid: app.globalData.openid
       })
       .get().then(res=>{

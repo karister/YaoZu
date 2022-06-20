@@ -37,7 +37,7 @@ Page({
       // 1. 获取数据库引用
       const db = wx.cloud.database()
       // 2. 构造查询语句
-      db.collection('mock_stores').where(getQueryParam(null,inputData))
+      db.collection('stores').where(getQueryParam(null,inputData))
       .get({ 
         success: function(res) {
           //无搜素结果

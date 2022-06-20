@@ -49,7 +49,7 @@ Page({
       if(i == index) {
         // area_info[index].bgk_color = '#4692B9';
         // area_info[i].font_color = 'white';
-        db.collection('mock_stores').where(getQueryParam(index,null))
+        db.collection('stores').where(getQueryParam(index,null))
         .get({ 
           success: function(res) {
             //打印调试信息
@@ -116,20 +116,20 @@ Page({
     /**
      * 获取所有area的数据总数便于后面读取数据分页
      */
-    var that = this;
-    const db = wx.cloud.database()
-    var area_info = that.data.area_info;
-    for(let i=0; i < 4; i++) {
-      db.collection('mock_stores').where({
-        area: area_info[i].area
-      }).count().then(res => {
-        console.log(area_info[i].area + ':' + res.total);
-        area_info[i].data_total = res.total;
-        that.setData({
-          area_info
-        })
-      })
-    }
+    // var that = this;
+    // const db = wx.cloud.database()
+    // var area_info = that.data.area_info;
+    // for(let i=0; i < 4; i++) {
+    //   db.collection('stores').where({
+    //     area: area_info[i].area
+    //   }).count().then(res => {
+    //     console.log(area_info[i].area + ':' + res.total);
+    //     area_info[i].data_total = res.total;
+    //     that.setData({
+    //       area_info
+    //     })
+    //   })
+    // }
     // console.log(area_info);
   },
 
@@ -187,7 +187,7 @@ Page({
     for(let i = 0;i < 4; i ++) {
       // 为当前点击的index
       if(i == index) {
-        db.collection('mock_stores').where(getQueryParam(index,null)).skip(old_data_length)
+        db.collection('stores').where(getQueryParam(index,null)).skip(old_data_length)
         .get({ 
           success: function(res) {
             console.log(res.data);

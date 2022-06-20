@@ -188,7 +188,7 @@ Page({
     // 商家身份
     if(identity == 'store') {
       // 读取商家品牌头像和名称
-      await getSingleDataByOpenid('mock_stores').then(res=>{
+      await getSingleDataByOpenid('stores').then(res=>{
         that.setData({
           name: res.brand,
           imageUrl: res.brandImgSrc,

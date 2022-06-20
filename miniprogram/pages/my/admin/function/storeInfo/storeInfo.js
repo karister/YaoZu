@@ -94,7 +94,7 @@ Page({
       /**
        * 全部数据填写提交完毕，写入stores 集合
        */
-      db.collection('mock_stores').where({
+      db.collection('stores').where({
         _openid: app.globalData.openid
       })
       .update({
@@ -120,7 +120,7 @@ Page({
 
       //  取product中的labels字段更新至labelsBuffer
       var labelsBuffer = [];
-      db.collection('mock_product').where({
+      db.collection('product').where({
         _openid: app.globalData.openid
       })
       .get({
@@ -158,7 +158,7 @@ Page({
       }) 
       setTimeout(function () {
         // 更新至product数据库中
-        db.collection('mock_product').where({
+        db.collection('product').where({
           _openid: app.globalData.openid
         })
         .update({
@@ -354,7 +354,7 @@ Page({
           fail: console.error,
           complete: function () {
             // 更新stores中的认证图片路径
-            db.collection('mock_stores').where({
+            db.collection('stores').where({
               _openid: app.globalData.openid
             })
             .update({
@@ -377,7 +377,7 @@ Page({
     
     
     // 读取入驻时填写的信息
-    db.collection('mock_stores').where({
+    db.collection('stores').where({
       _openid: app.globalData.openid
     })
     .get({

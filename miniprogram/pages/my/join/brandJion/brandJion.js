@@ -253,7 +253,7 @@ Page({
         // 延时2000ms等待图片的上传
         setTimeout( ()=> {
           // 创建商家stores集合记录
-          db.collection('mock_stores').add({
+          db.collection('stores').add({
             data: {
               brandImgSrc: data.brandImgSrc,
               brand: data.brandName,
@@ -279,10 +279,11 @@ Page({
 
         
         // 创建产品product集合记录
-        db.collection('mock_product').add({
+        db.collection('product').add({
           data: {
             brandName: data.brandName,
-            labels: data.labelObject
+            // @#@ 商家入驻创建product记录时不再将标签信息写入
+            // labels: data.labelObject
           },
           success: function (res) {
             console.longitude(res);
@@ -550,7 +551,7 @@ Page({
    */
   onLoad: function (options) {
     const that = this;
-    db.collection('mock_stores').where({
+    db.collection('stores').where({
       _openid: app.globalData.openid
     })
     .get({

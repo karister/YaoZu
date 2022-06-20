@@ -24,7 +24,7 @@ Page({
     wx.showLoading({
       title: '修改中...',
     })
-    db.collection('mock_stores').where({
+    db.collection('stores').where({
       _openid: app.globalData.openid
     })
     .update({
@@ -46,7 +46,7 @@ Page({
    */
   onLoad: async function (options) {
     let that = this;
-    await getSingleDataByOpenid('mock_stores').then(res=>{
+    await getSingleDataByOpenid('stores').then(res=>{
       that.setData({
         browseNum: res.browseNum
       })

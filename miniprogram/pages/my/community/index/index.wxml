@@ -42,7 +42,7 @@
 
 
 
-<view style="position: absolute; z-index: 101;" wx:if="{{false}}">
+<view style="position: absolute; z-index: 101;" wx:if="{{true}}">
   <view bindtap="clickToPublish" class="mid write_iconBox">
     <iconfont name="browsed"></iconfont>
   </view>
