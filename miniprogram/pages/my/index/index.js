@@ -58,22 +58,15 @@ Page({
     .get({
       success: res => {
         let imageList = res.data[0].imageList;
-        // let iconList = res.data[0].iconList;
         let imageUrlTemp = [];
-        // let iconUrlTemp = [];
         imageList.forEach( url => {
           if(url != '') {
             imageUrlTemp.push(url);
           }
         });
-        // iconList.forEach( url => {
-        //   if(url != '') {
-        //     iconUrlTemp.push(url);
-        //   }
-        // });
+
         that.setData({
           imgUrls: imageUrlTemp,
-          // imgUrls1: iconUrlTemp
         }) 
       }
     })
@@ -83,32 +76,8 @@ Page({
     })
     .get({
       success: res => {
-        // let iconList = res.data[0].area;
-        // let iconUrlTemp = [];
-        // iconList.forEach( url => {
-        //   if(url != '') {
-        //     iconUrlTemp.push(url);
-        //   }
-        // });
-        let areaList = res.data[0].area;
-        let areaTemp = [];
-        let tempObject = {};
-        areaList.forEach((area,index) => {
-          if(index % 2 == 0) {
-            tempObject.num1 = area.name,
-            tempObject.url1 = area.url
-          } else {
-            tempObject.num2 = area.name,
-            tempObject.url2 = area.url
-            areaTemp.push(tempObject);
-            tempObject = {};
-          }
-        });
-        if(areaList.length % 2 != 0) {
-          areaTemp.push(tempObject);
-        }
         that.setData({
-          imgUrls1: areaTemp
+          imgUrls1: res.data[0].area
         }) 
       }
     })
