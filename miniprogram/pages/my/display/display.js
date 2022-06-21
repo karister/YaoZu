@@ -177,6 +177,7 @@ Page({
     .where({
         label: _.all([valueList[obj.index]])
     })
+    .skip(old_data_length)
     .get().then( res => {
         // console.log('res.data.length:' + res.data.length);
         // console.log('old_data_length:' + old_data_length);
