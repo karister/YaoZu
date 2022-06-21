@@ -95,50 +95,16 @@ Page({
     // 加载商家数据
     this.loadStoresData(options.index);
     // 加载区域信息
-
-
-    // 手动自适应区域信息显示的处理。。。。。。
-    let areaList1 = [];
-    let areaList2 = [];
-    app.globalData.areaList.forEach((area,index) => {
-      if(index < 4)
-        areaList1.push(area);
-      else
-        areaList2.push(area);
-    });
-    console.log(areaList1);
-    console.log(areaList2);
     this.setData({
-      areaList1,
-      areaList2
+      areaList: app.globalData.areaList
     })
-
-    /**
-     * 获取所有area的数据总数便于后面读取数据分页
-     */
-    // var that = this;
-    // const db = wx.cloud.database()
-    // var area_info = that.data.area_info;
-    // for(let i=0; i < 4; i++) {
-    //   db.collection('stores').where({
-    //     area: area_info[i].area
-    //   }).count().then(res => {
-    //     console.log(area_info[i].area + ':' + res.total);
-    //     area_info[i].data_total = res.total;
-    //     that.setData({
-    //       area_info
-    //     })
-    //   })
-    // }
-    // console.log(area_info);
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    // console.error('页面渲染');
-    // this.loadImgSrcData();
+
   },
 
   /**
@@ -181,7 +147,6 @@ Page({
     const that = this;
     const index = that.data.display_index;
     const db = wx.cloud.database()
-    const area_info = that.data.area_info;
     const stores_data = that.data.stores_data;
     const old_data_length = that.data.data_length;
     for(let i = 0;i < 4; i ++) {
@@ -208,8 +173,7 @@ Page({
       }
     }
     that.setData ({
-      display_index: index,
-      area_info 
+      display_index: index
     })
   },
 
