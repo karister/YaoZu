@@ -94,6 +94,7 @@ Page({
             console.log(res.fileID)
             let typeInfo = that.data.typeInfo;
             typeInfo[index].img = res.fileID;
+            typeInfo[index].isUpload = true;
             that.setData({
               typeInfo
             })

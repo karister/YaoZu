@@ -14,6 +14,21 @@ Page({
   },
 
   /**
+   * 获取分类信息
+   * @param {*} e 
+   */
+    getTypeInfo() {
+        const that = this;
+        db.collection('index').where({
+            filed: 'typeInfo'
+        }).get().then( res => {
+            that.setData({
+                typeInfo: res.data[0].typeInfo
+            }) 
+        })
+    },
+
+  /**
    * 点击进入区域商家列表
    * @param {index} e 
    */
@@ -163,6 +178,7 @@ Page({
    */
   onLoad: async function () {
     this.getIndexImage();
+    this.getTypeInfo();
     let hotProductObj = [];
     let productTemp = [];
     let tempObject = {};

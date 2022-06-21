@@ -6,38 +6,21 @@
         <image src="{{item}}"></image>
     </swiper-item>
 </swiper>
-
+<!-- 分类图标 -->
 <view class="labels_box">
-    <view style="height: 50%;width: 100%;display: flex;flex-direction: row;" wx:for="{{2}}" wx:key="key">
-        <view class="label_item_box" wx:for="{{3}}" wx:key="key" wx:for-index="index">
-            <image src="/images/consult.png"></image>
-            <text>客厅家具</text>
-        </view>
+    <view class="label_item_box" wx:for="{{typeInfo}}" wx:key="key" wx:for-item="type">
+        <image src="{{type.img}}"></image>
+        <text>{{type.name}}</text>
     </view>
 </view>
-<!-- 地区图片 -->
-<!-- <view class="areaBigBox">
-    <view class="area-item" wx:for="{{imgUrls1}}" wx:key="key" wx:for-item="area" >
-        <image 
-            src="{{area.url}}" 
-            class="area-image"
-            hover-class="areaImgHover" 
-            bindtap="imgClick" 
-            data-index="{{index}}">
-        </image>
-        <view style="height: 50rpx;" class="mid">
-            {{area.name}}
-        </view>
-    </view>
-</view> -->
-
+<!-- 搜索框 -->
 <view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
     <text style="font-size: 30rpx;font-weight: 600;">搜索商家</text>
 </view>
 <view class="search_box" bindtap="clickToSearch">
     <iconfont name="search" style="margin-left: 20rpx;"></iconfont>
 </view>
-
+<!-- 南康家居馆 -->
 <view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
     <text style="font-size: 30rpx;font-weight: 600;">南康家具馆</text>
 </view>
@@ -59,8 +42,7 @@
         </view>
     </view>
 </view>
-
-
+<!-- 爆款产品 -->
 <view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
     <text style="font-size: 30rpx;font-weight: 600;">最多人看</text>
 </view>
