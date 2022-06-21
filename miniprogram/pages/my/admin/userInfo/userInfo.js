@@ -54,15 +54,14 @@ Page({
         title: '审核商家入驻',
         page: 'authStoreList'
       }, {
-        title: '参数设置',
+        title: '家居馆设置',
         page: 'valueSet'
+      },  {
+        title: '首页分类设置',
+        page: 'typeSet'
       }, {
         title: '首页图片管理',
         page: 'indexImgAdmin'
-      }
-      , {
-        title: '商家管理',
-        page: 'storeAdmin'
       }]
     }
   },

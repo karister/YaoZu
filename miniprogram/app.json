@@ -9,6 +9,7 @@
     "pages/my/admin/super/indexImgAdmin/indexImgAdmin",
     "pages/my/admin/super/storeAdmin/storeAdmin",
     "pages/my/admin/super/valueSet/valueSet",
+    "pages/my/admin/super/typeSet/typeSet",
     "pages/my/test/test",
     
     "pages/my/community/publish/publish",

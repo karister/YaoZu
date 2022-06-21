@@ -1,0 +1,39 @@
+<view class="info_box" > 
+    
+    <form bindsubmit="updateData">
+
+        <view style="display: flex;flex-direction: column;" wx:for="{{typeInfo}}" wx:key="key" wx:for-item="type">
+            <view class="brand_normal_text" >
+                <text>分类标签 {{index+1}}</text>
+                <van-cell-group>
+                <van-field
+                    model:value="{{ type.name }}"
+                    bind:change="setLabelData"
+                    data-index="{{index}}"
+                />
+                </van-cell-group>
+                <iconfont name="add" bindtap="addArea"></iconfont>
+                <view style="width: 40rpx;"></view>
+                <iconfont name="delete" bindtap="deleteArea" data-index="{{index}}"></iconfont>
+            </view>
+            <view class="brand_img_box">
+                <text>分类图标</text>
+                <van-button wx:if="{{!type.isUpload}}" bind:click="uploadImg" data-index="{{index}}" type="primary" size="small" round color="">上传图片</van-button>
+                <image wx:if="{{type.isUpload}}" src="{{type.img}}"></image>
+                <van-button wx:if="{{type.isUpload}}" bind:click="uploadImg" data-index="{{index}}" type="primary" size="small" round color="">更换图片</van-button>
+            </view>
+        </view>
+        
+        <view class="mid" style="margin: 25rpx 0">
+            <van-button type="primary" round plain size="normal" icon="arrow" color="" form-type="submit">保存</van-button>
+        </view> 
+    </form> 
+</view>
+
+
+
+
+<!-- 提交表单的轻提示 -->
+<van-toast id="van-toast"/>
+<!-- 弹窗通知 -->
+<van-dialog id="van-dialog" />
