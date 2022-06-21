@@ -1,4 +1,5 @@
 // pages/my/index/index.js
+const app = getApp();
 const db = wx.cloud.database();
 const _ = db.command;
 import {getRandomData} from '../../../common/common.js'
@@ -33,11 +34,14 @@ Page({
    * @param {index} e 
    */
   imgClick: function (e) {
-      var index = e.currentTarget.dataset.index;
-      console.log(index);
+      let obj = {
+        index: e.currentTarget.dataset.index,
+        type: e.currentTarget.dataset.type
+      }
+      app.globalData.displayObj = obj;
       wx.navigateTo({
-          url: '/pages/my/display/display?index=' + index
-        })
+        url: '/pages/my/display/display'
+      })
   },
   /**
    * 点击进入搜索框

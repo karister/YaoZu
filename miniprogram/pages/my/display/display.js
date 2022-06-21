@@ -2,6 +2,7 @@
 import {getQueryParam} from '../../../common/common.js'
 const db = wx.cloud.database();
 const app = getApp();
+const _ = db.command;
 Page({
 
   /**
@@ -34,70 +35,71 @@ Page({
   /**
    * 加载store集合中的数据，设置对应index区域的渲染数据
    */
-  async loadStoresData(index) {
-    console.log(index);
-    var that = this;
-    // 获取数据库中区域信息
-    // await this.getAreaInfo();
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // 设置data中数组对象的方法
-    // const area_info = that.data.area_info;
-    for(let i = 0;i < app.globalData.areaList.length; i ++) {
-      // area_info[i].bgk_color = '';
-      // area_info[i].font_color = 'black';
-      // 为当前点击的index
-      if(i == index) {
-        // area_info[index].bgk_color = '#4692B9';
-        // area_info[i].font_color = 'white';
-        db.collection('stores').where(getQueryParam(index,null))
-        .get({ 
-          success: function(res) {
-            //打印调试信息
-            // console.log('success');
-            // console.log('res.length:' + res.data.length);
-            //存储匹配结果
-            const stores_data = [];
-            for(let i = 0;i < res.data.length; i++) {
-              stores_data[i] = res.data[i];
-              console.log(stores_data[i]);
-            }
-            // console.error('next load');
-            // 设置展示结果数据
+  async loadStoresData(obj) {
+    let that = this;
+    let valueList = app.globalData.areaList;
+    console.log(obj);
+    // 按区域查找
+    if (obj.type === 'area') {
+        db.collection('stores')
+        .where(getQueryParam(obj.index, null))
+        .get().then( res => {
+            console.log(res.data);
             that.setData({
-              data_length: res.data.length,
-              stores_data
+                data_length: res.data.length,
+                stores_data: res.data
             });
-          }
         })
-        
-      }
+        that.setData({
+            valueList,
+            displayObj: obj
+        })
+        return ;
     }
-    that.setData ({
-      display_index: index
+    // 按分类类别查找
+    valueList = [];
+    await db.collection('index')
+    .where({
+        filed: 'typeInfo'
+    })
+    .get().then( res => {
+        let typeInfo = res.data[0].typeInfo;
+        typeInfo.forEach(type => {
+            valueList.push(type.name);
+        }); 
+    })
+    await db.collection('stores')
+    .where({
+        label: _.all([valueList[obj.index]])
+    })
+    .get().then( res => {
+        that.setData({
+            data_length: res.data.length,
+            stores_data: res.data
+        });
+    })
+    that.setData({
+        valueList,
+        displayObj: obj
     })
   },
 
   /**
    * 点击区域列表
    */
-  clickAreaItem: function (e) {
-    // console.error('点击区域列表');
-    let dataset = e.currentTarget.dataset;
-    this.loadStoresData(dataset.index + dataset.num*4);
-  
+  clickAreaItem: function (event) {
+    let obj = this.data.displayObj;
+    let index = event.currentTarget.dataset.index;
+    obj.index = index;
+    this.loadStoresData(obj);
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    // console.error('页面加载');
-    // 加载商家数据
-    this.loadStoresData(options.index);
-    // 加载区域信息
-    this.setData({
-      areaList: app.globalData.areaList
-    })
+  onLoad: function () {
+    let obj = app.globalData.displayObj;
+    this.loadStoresData(obj);
   },
 
   /**
@@ -138,26 +140,25 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: async function () {
     console.error('触底了！');
 
     /**
      * 触底后再次读取20条数据，从上次数据长度序列开始读取skip(old_data_length)
      */
     const that = this;
-    const index = that.data.display_index;
-    const db = wx.cloud.database()
+    const obj = this.data.displayObj;
     const stores_data = that.data.stores_data;
     const old_data_length = that.data.data_length;
-    for(let i = 0;i < 4; i ++) {
-      // 为当前点击的index
-      if(i == index) {
-        db.collection('stores').where(getQueryParam(index,null)).skip(old_data_length)
-        .get({ 
-          success: function(res) {
-            console.log(res.data);
-            console.log('res.data.length:' + res.data.length);
-            console.log('old_data_length:' + old_data_length);
+
+    // 按区域查找
+    if (obj.type === 'area') {
+        db.collection('stores')
+        .where(getQueryParam(obj.index, null))
+        .skip(old_data_length)
+        .get().then( res => {
+            // console.log('res.data.length:' + res.data.length);
+            // console.log('old_data_length:' + old_data_length);
             //存储匹配结果
             for(let i = 0;i < res.data.length; i++) {
               stores_data[i + old_data_length] = res.data[i];
@@ -167,13 +168,27 @@ Page({
               data_length: res.data.length + old_data_length,
               stores_data
             });
-          }
         })
-        
-      }
+        return ;
     }
-    that.setData ({
-      display_index: index
+    // 按分类类别查找
+    let valueList = this.data.valueList;
+    await db.collection('stores')
+    .where({
+        label: _.all([valueList[obj.index]])
+    })
+    .get().then( res => {
+        // console.log('res.data.length:' + res.data.length);
+        // console.log('old_data_length:' + old_data_length);
+        //存储匹配结果
+        for(let i = 0;i < res.data.length; i++) {
+            stores_data[i + old_data_length] = res.data[i];
+        }
+        // 设置展示结果数据
+        that.setData({
+            data_length: res.data.length + old_data_length,
+            stores_data
+        });
     })
   },
 
