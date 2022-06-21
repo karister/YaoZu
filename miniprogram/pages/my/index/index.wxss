@@ -121,20 +121,30 @@
 
 
 .store-basic-box {
-  width: 96%;
+  /* width: 96%;
   height: 560rpx;
   margin: 20rpx auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: row; */
+
+  width: 100%;
+    text-align: center;
+    display: flex;
+    align-content: flex-start;
+    flex-flow: row wrap;
 }
 .store-basic-item-box {
-  width: 49%;
+  /* width: 49%;
   height: 560rpx;
   display: flex;
   flex-direction: column;
   background-color: white;
   border-radius: 10rpx;
-  box-shadow: 5rpx 5rpx 5rpx 2rpx rgba(85, 85, 85, 0.05);
+  box-shadow: 5rpx 5rpx 5rpx 2rpx rgba(85, 85, 85, 0.05); */
+
+  flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
 }
 .store-basic-item-box image {
   height: 360rpx;

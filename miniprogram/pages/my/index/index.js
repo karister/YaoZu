@@ -153,36 +153,13 @@ Page({
     this.getIndexImage();
     this.getTypeInfo();
     let hotProductObj = [];
-    let productTemp = [];
-    let tempObject = {};
     for (let index = 0; index < 6; index++) {
       await this.getHotProductInfo().then(res => {
-        let product = res;
-        // console.log(res)
-        hotProductObj.push(product)
-        if((index + 1) % 2) {
-          tempObject.url1 = product.url;
-          tempObject.label1 = product.label;
-          tempObject.price1 = product.price;
-          tempObject.brandName1 = product.brandName;
-          tempObject.openid1 = product.openid;
-          tempObject.browseNum1 = product.browseNum;
-          tempObject.labelName1 = product.labelName;
-        } else {
-          tempObject.url2 = product.url;
-          tempObject.label2 = product.label;
-          tempObject.price2 = product.price;
-          tempObject.brandName2 = product.brandName;
-          tempObject.openid2 = product.openid;
-          tempObject.browseNum2 = product.browseNum;
-          tempObject.labelName2 = product.labelName;
-          productTemp.push(tempObject);
-          tempObject = {};
-        }
+        hotProductObj.push(res)
       })
     }
     this.setData({
-      hotProductObj: productTemp
+      hotProductObj
     })
     // console.log(productTemp)
   },
@@ -227,36 +204,11 @@ Page({
    */
   onReachBottom: async function () {
     let hotProductObj = this.data.hotProductObj;
-    let tempProduct = [];
     for (let index = 0; index < 6; index++) {
       await this.getHotProductInfo().then(res => {
-        console.log(res)
-        tempProduct.push(res)
+        hotProductObj.push(res);
       })
     }
-    let tempObject = {};
-    tempProduct.forEach((product,index) => {
-      index += 1;
-      if(index % 2) {
-        tempObject.url1 = product.url;
-        tempObject.label1 = product.label;
-        tempObject.price1 = product.price;
-        tempObject.brandName1 = product.brandName;
-        tempObject.openid1 = product.openid;
-        tempObject.browseNum1 = product.browseNum;
-        tempObject.labelName1 = product.labelName;
-      } else {
-        tempObject.url2 = product.url;
-        tempObject.label2 = product.label;
-        tempObject.price2 = product.price;
-        tempObject.brandName2 = product.brandName;
-        tempObject.openid2 = product.openid;
-        tempObject.browseNum2 = product.browseNum;
-        tempObject.labelName2 = product.labelName;
-        hotProductObj.push(tempObject);
-        tempObject = {};
-      }
-    });
     this.setData({
       hotProductObj
     })
