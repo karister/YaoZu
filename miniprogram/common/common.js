@@ -111,7 +111,7 @@ export function getRandomData() {
 /**
    * 随机获取火爆产品信息
    */
-export async function getHotProductInfo() {
+async function getHotProductInfo() {
   let randomImage = '';
   let randomNum;
   let randomNumMax;

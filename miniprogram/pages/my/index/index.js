@@ -118,20 +118,19 @@ Page({
         productInfo = res.data[randomNum];
         randomNum = Math.floor(Math.random() * labelObjects.length);
         randomImage = labelObjects[randomNum].imageObjects[Math.floor(Math.random() * labelObjects[randomNum].imageObjects.length)];
+        console.log( randomNum)
         randomImage.labelName = labelObjects[randomNum].labelName;
-      }).then(async function() {
-        if(randomImage.url) {
-          console.log(randomImage)
-          await db.collection('stores').where({
-            _openid: productInfo._openid
-          }).get().then(res => {
-            randomImage.brandName = res.data[0].brand;
-            randomImage.openid = res.data[0]._openid;
-            // randomImage.browseNum = res.data[0].browseNum;
-            randomImage.browseNum = that.getRandomNum(1000,3000);
-          })
-        }
       })
+      if(randomImage.url) {
+        await db.collection('stores').where({
+          _openid: productInfo._openid
+        }).get().then(res => {
+          randomImage.brandName = res.data[0].brand;
+          randomImage.openid = res.data[0]._openid;
+          // randomImage.browseNum = res.data[0].browseNum;
+          randomImage.browseNum = that.getRandomNum(1000,3000);
+        })
+      }
     }
     return randomImage;
   },
