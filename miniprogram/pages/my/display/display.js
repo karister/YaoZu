@@ -9,7 +9,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    display_index: 0,
     data_length: 0,
     stores_data: [],
     all_img_src: []
@@ -91,6 +90,9 @@ Page({
     let obj = this.data.displayObj;
     let index = event.currentTarget.dataset.index;
     obj.index = index;
+    this.setData({
+        selectIndex: obj.index
+    })
     this.loadStoresData(obj);
   },
 
@@ -99,6 +101,9 @@ Page({
    */
   onLoad: function () {
     let obj = app.globalData.displayObj;
+    this.setData({
+        selectIndex: obj.index
+    })
     this.loadStoresData(obj);
   },
 

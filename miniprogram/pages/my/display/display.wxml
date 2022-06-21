@@ -18,8 +18,8 @@
 </view> -->
 <view class="list_box mid">
   <view class="list_item" wx:for="{{valueList}}" wx:key="key" bindtap="clickAreaItem" data-index="{{index}}" data-num="0">
-    <view class="mid" style="background-color: {{item.bgk_color}};">
-      <text class="mid" style="color: {{item.font_color}};">{{item}}</text>
+    <view class="mid">
+      <text class="mid" style="color: {{ index == selectIndex ? 'red' : 'black' }};">{{item}}</text>
     </view>
   </view>
 </view>
