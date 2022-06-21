@@ -68,7 +68,7 @@
     </view>
 
     <view class="brand_normal_text" wx:if="{{!isSelected}}" wx:for="{{labelList}}" wx:key="key" wx:for-index="labelIndex">
-      <text>分类标签 {{ labelIndex + 1 }}</text>
+      <text>分类标签</text>
       <van-cell-group>
         <van-field
           model:value="{{ item }}"
@@ -86,13 +86,9 @@
             bind:cancle="onClose"
         />
       </van-popup>
-    
-
-            
-
-      <!-- <iconfont name="add" bindtap="addLabel"></iconfont>
-      <view style="width: 40rpx;"></view>
-      <iconfont name="delete" bindtap="deleteLabel" data-index="{{index}}"></iconfont> -->
+      <iconfont name="add" bindtap="addLabel"></iconfont>
+      <view style="width: 20rpx;"></view>
+      <iconfont name="delete" bindtap="deleteLabel" data-index="{{index}}"></iconfont>
     </view>
 
     <view class="mid" style="margin: 25rpx 0" wx:if="{{!isSelected}}">
