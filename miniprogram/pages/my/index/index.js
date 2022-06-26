@@ -11,7 +11,9 @@ Page({
   data: {
       imgUrls: [],
       imgUrls1: [],
-      hotProductObj: []
+      hotProductObj: [],
+
+
   },
 
   /**

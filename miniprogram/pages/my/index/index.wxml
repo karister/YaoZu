@@ -13,6 +13,12 @@
         <view style="font-size: 28rpx;font-weight: 550; color: black;">{{type.name}}</view>
     </view>
 </view>
+<van-notice-bar
+  left-icon="volume-o"
+  text="在代码阅读过程中人们说脏话的频率是衡量代码质量的唯一标准。"
+/>
+
+
 <!-- 搜索框 -->
 <view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
     <text style="font-size: 32rpx;font-weight: 600;">搜索商家</text>

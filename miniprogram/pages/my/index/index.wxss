@@ -157,3 +157,12 @@
   height: 200rpx;
   
 }
+
+
+
+
+page {
+    --notice-bar-height: 30px
+  }
+
+
