@@ -56,9 +56,12 @@ Page({
       }, {
         title: '家居馆设置',
         page: 'valueSet'
-      },  {
+      }, {
         title: '首页分类设置',
         page: 'typeSet'
+      }, {
+        title: '消息通知设置',
+        page: 'msgSet'
       }, {
         title: '首页图片管理',
         page: 'indexImgAdmin'

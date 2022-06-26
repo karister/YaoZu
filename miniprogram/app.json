@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/my/admin/super/msgSet/msgSet",
     
     "pages/my/index/index",
     "pages/my/community/index/index",
