@@ -52,7 +52,7 @@
             </view>
             <view style="display: flex;flex-direction: row;margin-left: 20rpx;height: 80rpx;font-weight: 400; color: rgb(250, 35, 35);">
                 <view style="font-size: 24rpx;height: 30rpx;margin-top: 23rpx;">￥</view>
-                <text decode="true" style="font-size: 34rpx;line-height: 80rpx;">{{product.price}}&emsp;&emsp;</text>
+                <text decode="true" style="font-size: 32rpx;line-height: 80rpx;">{{(product.price ? product.price : "暂无报价")}}&emsp;&emsp;</text>
                 <view style="font-size: 24rpx;color: rgb(102, 101, 102); height: 30rpx;margin-top: 20rpx;">浏览:{{product.browseNum}}</view>
             </view>
             <view style="font-size: 24rpx;margin-left: 20rpx;height: 30rpx;color: rgb(131, 141, 141);display: flex;flex-direction: row;">

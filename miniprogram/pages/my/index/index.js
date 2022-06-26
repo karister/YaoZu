@@ -158,7 +158,7 @@ Page({
     this.getIndexImage();
     this.getTypeInfo();
     let hotProductObj = [];
-    for (let index = 0; index < 6; index++) {
+    for (let index = 0; index < 4; index++) {
       await this.getHotProductInfo().then(res => {
         hotProductObj.push(res)
       })
