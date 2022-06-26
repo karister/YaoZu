@@ -203,6 +203,7 @@ Page({
   onLoad: async function () {
     this.getMessage();
     this.updateMsg(10000);
+    
     this.getIndexImage();
     this.getTypeInfo();
     let hotProductObj = [];
