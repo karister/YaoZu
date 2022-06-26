@@ -1,6 +1,6 @@
 // pages/my/admin/super/msgSet/msgSet.js
 import Notify from '../../../../../miniprogram_npm/@vant/weapp/notify/notify';
-
+const db = wx.cloud.database();
 Page({
 
     /**
@@ -8,13 +8,9 @@ Page({
      */
     data: {
         msgObj: {
-            content: '在代码阅读过程中人们!',
+            content: '',
             index: 0,
-            list: [
-              '在代码阅读过程中人们!',
-              '中华人民共和国万岁!',
-              '人民万岁!'
-            ]
+            list: []
         },
         isShow: true
     },
@@ -22,7 +18,7 @@ Page({
     /**
      * 添加一条消息
      */
-    addMessage() {
+    async addMessage() {
         let list = this.data.msgObj.list;
         if (list.length == 10) {
             Notify({
@@ -34,6 +30,18 @@ Page({
             return ;
         }
         list.push(this.data.input);
+
+        await db.collection('index').where({
+            filed: 'message'
+        })
+        .update({
+            data: {
+                msgList: list
+            }
+        }).then( res => {
+            
+        })
+
         this.setData({
             'msgObj.list': list,
             input: ''
@@ -44,12 +52,24 @@ Page({
      * 删除一条消息
      * @param {*index} options 
      */
-    delMessage(event) {
+    async delMessage(event) {
         this.setData({isShow: false});
         let index = event.currentTarget.dataset.index;
         console.log(index);
         let list = this.data.msgObj.list;
         list.splice(index, 1);
+
+        await db.collection('index').where({
+            filed: 'message'
+        })
+        .update({
+            data: {
+                msgList: list
+            }
+        }).then( res => {
+            
+        })
+
         this.setData({
             'msgObj.list': list
         })
@@ -61,7 +81,21 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-
+        let msgObj = this.data.msgObj;
+        db.collection('index').where({
+            filed: 'message'
+        }).get().then( res => {
+            let list = res.data[0].msgList;
+            let obj = {
+                content: list[0],
+                index: 0,
+                list: list
+            }
+            msgObj = obj;
+            this.setData({
+                msgObj
+            })
+        })
     },
 
     /**

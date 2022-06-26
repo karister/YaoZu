@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/my/admin/super/msgSet/msgSet",
     
     "pages/my/index/index",
     "pages/my/community/index/index",
@@ -11,6 +10,8 @@
     "pages/my/admin/super/storeAdmin/storeAdmin",
     "pages/my/admin/super/valueSet/valueSet",
     "pages/my/admin/super/typeSet/typeSet",
+    "pages/my/admin/super/msgSet/msgSet",
+
     "pages/my/test/test",
     
     "pages/my/community/publish/publish",

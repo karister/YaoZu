@@ -40,6 +40,28 @@ Page({
         }, time)
     },
 
+
+    /**
+     * 获取数据库中消息通知
+     */
+    getMessage() {
+        let msgObj = this.data.msgObj;
+        db.collection('index').where({
+            filed: 'message'
+        }).get().then( res => {
+            let list = res.data[0].msgList;
+            let obj = {
+                content: list[0],
+                index: 0,
+                list: list
+            }
+            msgObj = obj;
+            this.setData({
+                msgObj
+            })
+        })
+    },
+
   /**
    * 获取分类信息
    * @param {*} e 
@@ -179,7 +201,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function () {
-    this.updateMsg(3000);
+    this.getMessage();
+    this.updateMsg(10000);
     this.getIndexImage();
     this.getTypeInfo();
     let hotProductObj = [];

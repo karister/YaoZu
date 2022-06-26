@@ -2,9 +2,9 @@
 
 
 
-<view wx:if="{{ isShow }}" style="display: flex; flex-direction: column; background-color: white; margin: 20rpx 20rpx; padding-bottom: 20rpx; border-radius: 20rpx; box-shadow: 10rpx 10rpx 10rpx 2rpx rgba(85, 85, 85, 0.05);">
+<view wx:if="{{ isShow }}" class="msg-box">
     <van-notice-bar
-    style="margin: 20rpx 20rpx; margin-bottom: 0rpx;"
+    class="msg-item"
         wx:for="{{ msgObj.list }}" wx:key="key"
         left-icon="volume-o"
         text="{{ index + 1 }} . {{ item }}"
