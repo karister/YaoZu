@@ -12,9 +12,33 @@ Page({
       imgUrls: [],
       imgUrls1: [],
       hotProductObj: [],
-
-
+      msgObj: {
+          content: '在代码阅读过程中人们!',
+          index: 0,
+          list: [
+            '在代码阅读过程中人们!',
+            '中华人民共和国万岁!',
+            '人民万岁!'
+          ]
+      }
   },
+
+  /**
+   * 更新消息通知
+   */
+    updateMsg(time) {
+        setInterval(() => {
+            let msgObj = this.data.msgObj;
+            let index = msgObj.index + 1;
+            if (index >= msgObj.list.length)
+                index = 0;
+            msgObj.content = msgObj.list[index];
+            msgObj.index = index;
+            this.setData({
+                msgObj
+            });
+        }, time)
+    },
 
   /**
    * 获取分类信息
@@ -155,6 +179,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function () {
+    this.updateMsg(3000);
     this.getIndexImage();
     this.getTypeInfo();
     let hotProductObj = [];
