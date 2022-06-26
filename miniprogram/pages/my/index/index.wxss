@@ -162,7 +162,7 @@
 
 
 page {
-    --notice-bar-height: 30px
+    --notice-bar-height: 40px
   }
 
 

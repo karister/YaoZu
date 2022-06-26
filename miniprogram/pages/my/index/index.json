@@ -4,7 +4,8 @@
     "van-grid-item": "@vant/weapp/grid-item/index",
     "van-search": "@vant/weapp/search/index",
     "van-config-provider": "@vant/weapp/config-provider/index",
-    "van-notice-bar": "@vant/weapp/notice-bar/index"
+    "van-notice-bar": "@vant/weapp/notice-bar/index",
+    "van-loading": "@vant/weapp/loading/index"
   },
   "backgroundColor": "#ffffff",
   "backgroundTextStyle": "light",

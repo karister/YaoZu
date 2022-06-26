@@ -65,5 +65,4 @@
     <view class="store-basic-item-divline">
     </view>
 </view>
-
-
+<van-loading vertical color="#1989fa" size="24px">加载中...</van-loading>
