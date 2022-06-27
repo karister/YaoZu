@@ -55,7 +55,6 @@
     /* text-align: center; */
     align-content: flex-start;
     flex-flow: row wrap;
-    row-gap: 10px;
 }
 .auth_img_item {
     flex: 0 0 50%;

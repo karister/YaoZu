@@ -184,6 +184,16 @@
         />
       </van-cell-group>
     </view>
+    <!-- 可不上传认证信息提示 -->
+    <van-cell-group>
+        <van-field
+            value="可稍后上传图片"
+            left-icon="contact"
+            disabled
+            border="{{ false }}"
+        />
+    </van-cell-group>
+
 
     <view class="auth_img_box"> 
       <view style="width: 6%;height: 100%;"></view>
