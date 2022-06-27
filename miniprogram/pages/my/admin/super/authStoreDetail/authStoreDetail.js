@@ -116,11 +116,10 @@ Page({
     // 读取用户入驻填写的信息
     await getSingleDataByOpenid('stores', storeOpenid).then(res=>{
       // console.log(res);
-      let state = false;
-      if(res.authImgUrl.length != 0) {
-        state = true;
-      }
-      console.log(state);
+      let state1 = false;
+      let state2 = false;
+      state1 = (res.authImgUrl[0]) ? true : false
+      state2 = (res.authImgUrl[1]) ? true : false
       let length = res.label.length -1;
       let step0InfoBoxHeight = that.data.step0InfoBoxHeight;
       step0InfoBoxHeight += length*90;
@@ -128,7 +127,8 @@ Page({
         phone: res.phone,
         adminName: res.name,
         authImgUrl: res.authImgUrl,
-        authImgState: state,
+        authImgState1: state1,
+        authImgState2: state2,
         brandName: res.brand,
         brandImgSrc: res.brandImgSrc,
         area: res.area,

@@ -29,17 +29,26 @@
   </view>
 
   <view class="auth_img_box"> 
-    <view style="width: 6%;height: 100%;"></view>
+    <view class="auth_img_item" wx:for="{{ authImgUrl }}" wx:key="key">
+      <image wx:if="{{ item != '' }}" src="{{ item }}" bindtap="previewImg" data-index="{{ data-index }}"></image>
+      <view style="margin-top: 100rpx;" wx:if="{{ item == '' }}">未上传门面图片</view>
+    </view>
+
+
+
+
+  
+    <!-- <view style="width: 6%;height: 100%;"></view>
     <view style="width: 41%;height: 100%;display: flex;flex-direction: column;">
-      <image wx:if="{{authImgState}}" class="auth_img_item" src="{{authImgUrl[0]}}" bindtap="previewImg" data-index="0"></image>
-      <view style="margin-top: 100rpx;" wx:if="{{!authImgState}}">未上传门面图片</view>
+      <image wx:if="{{authImgState}}" class="auth_img_item" src="{{'authImgUrl[0]'}}" bindtap="previewImg" data-index="0"></image>
+      <view style="margin-top: 100rpx;" wx:if="{{!authImgState1}}">未上传门面图片</view>
     </view>
     <view style="width: 6%;height: 100%;"></view>
     <view style="width: 41%;height: 100%;display: flex;flex-direction: column;">
       <image wx:if="{{authImgState}}" class="auth_img_item" src="{{authImgUrl[1]}}" bindtap="previewImg" data-index="1" ></image>
-      <view style="margin-top: 100rpx;" wx:if="{{!authImgState}}">未上传营业执照</view>
+      <view style="margin-top: 100rpx;" wx:if="{{!authImgState2}}">未上传营业执照</view>
     </view>
-    <view style="width: 6%;height: 100%;"></view>
+    <view style="width: 6%;height: 100%;"></view> -->
   </view>
 </view>
 

@@ -92,8 +92,36 @@ Page({
     ],
     adminName: '',
     phoneNumber: '',
-    checked: true,
+    checked: false,
+
+
+    show: false,
+    labelColumns: ['软体家具', '实木家具', '五金家具', '白胚市场', '家具配套'],
+    // 由于picker组件是在标签循环渲染后出现的，无法获取picker对象的index，所有保存一个show为true时的index
+    currentIndex: 0
   },
+
+  onConfirm(event) {
+    let pickedName = event.detail.value;
+    let labelList = this.data.labelList;
+    let labelIndex = this.data.currentIndex;
+    labelList[labelIndex] = pickedName;
+    console.log(labelList);
+    this.setData({labelList});
+    this.onClose();
+  },
+  showPopup(event) {
+      console.log(event.currentTarget.dataset.index);
+    this.setData({ 
+        show: true,
+        currentIndex: event.currentTarget.dataset.index
+    });
+  },
+  onClose() {
+    this.setData({ show: false });
+  },
+
+
   /**
    * 跳转上一步
    */
@@ -140,7 +168,8 @@ Page({
         phoneNumber
       })
       // step1 提交条件
-      isInputFull = (adminName && phoneNumber && data.authImgUrl[0].isUpload && data.authImgUrl[1].isUpload);
+    //   isInputFull = (adminName && phoneNumber && data.authImgUrl[0].isUpload && data.authImgUrl[1].isUpload);
+      isInputFull = (adminName && phoneNumber);
     }
 
     // isInputFull = true;
@@ -295,15 +324,26 @@ Page({
 
       // console.log(data);
     } else {
-      if(step == 0 && !data.checked) {
-        Toast.fail({
-          message: '请完整填写并勾选下方服务协议',
-          duration: 1000
-        });
-        return ;
+      if(step == 0) {
+          if (!data.checked) {
+              Toast.fail({
+                  message: '请查看平台用户协议并勾选',
+                  duration: 1000
+              });
+          }
+
+          if (!data.brandImgSrc) {
+              Toast.fail({
+                  message: '请上传品牌头像',
+                  duration: 1000
+              });
+            
+          }
+
+          return ;
       }
       Toast.fail({
-        message: '请完整填写',
+        message: '请完整填写门店信息',
         duration: 1000
       });
     } 
@@ -448,15 +488,7 @@ Page({
       })
     }
   },
-  /**
-   * 滑动选择区域
-   * @param {滑动改变的索引} event 
-   */
-  onChange: function (event) {
-    const { picker, value, index } = event.detail;
 
-    // Toast(`当前值：${value}, 当前索引：${index}`);
-  },
   /**
    * 取消选择
    */
