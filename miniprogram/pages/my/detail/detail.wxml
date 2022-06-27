@@ -77,12 +77,12 @@
   <van-tab title="{{label.labelName}}" wx:for="{{display_info.labelList}}" wx:key="key" wx:for-item="label">
     <view class="product_item_box" wx:for="{{label.imageObjects}}" wx:key="key" wx:for-item="imgObj" wx:for-index="imgIndex">
         <view class="product_img_box">
-            <image src="{{imgObj.url}}" bindtap="viewImage" data-index="{{imgIndex}}" data-name="{{label.labelName}}"></image>
+            <image src="{{imgObj.url}}" bindtap="viewImage" data-index="{{imgIndex}}" data-name="{{label.labelName}}" mode="widthFix" ></image>
         </view>
         <view style="width: 90%;height: 160rpx;margin: 0 auto;">
             <view style="font-size: 38rpx;font-weight: 550;">{{imgObj.label}}</view>
             <view style="font-size: 30rpx;font-weight: 500;">[{{imgObj.model}}]</view>
-            <view style="font-size: 38rpx;font-weight: 500;color: rgb(167, 32, 32);">￥{{imgObj.price}}</view>
+            <view style="font-size: 38rpx;font-weight: 500;color: rgb(167, 32, 32);">￥{{imgObj.price ? imgObj.price : "暂无报价"}}</view>
         </view>
     </view>
   </van-tab>
