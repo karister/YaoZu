@@ -30,7 +30,8 @@ Page({
     // 正常的图片框颜色
     normalColor: '#e4e4e4',
     // 是否隐藏头部提示信息
-    hideview: false
+    hideview: false,
+    empty: false
     
 
   },
@@ -63,6 +64,7 @@ Page({
     imgUrls.push([]);
     this.setData({
         hideview: false,
+        empty: false,
         labelObject,
         imgUrls
     })
@@ -286,69 +288,77 @@ Page({
     var imgUrls = this.data.imgUrls;
     console.log(imgUrls)
     console.log(labelObject)
-    // 将上传图片得到的临时链接通过上传到云存储换取fileID
-    imgUrls[labelIndex].forEach( (item,index) => {
-      var now = new Date();
-      var time = now.getFullYear().toString() + (now.getMonth()+1).toString() + now.getDate().toString() + now.getDay().toString() + now.getHours().toString() + now.getMinutes().toString();
-      // console.log(time);
-      // 上传到云存储
-      wx.cloud.uploadFile({
-        cloudPath: 'product_img/' + data.brandName + '/' + data.labelObject[labelIndex].labelName + '/' + time + '/' + index + '.png', // 上传至云端的路径
-        filePath: item, // 临时文件路径
-        success: res => {
-          console.log(res.fileID);
-          imgUrls[labelIndex][index] = res.fileID;
-          labelObject[labelIndex].images[index].url = res.fileID;
-          // 换取到fileID更新到page data
-          that.setData({imgUrls});
-        },
-        fail: console.error('上传云存储失败')
-      })
-    })
-
-    wx.showLoading({
-      title: '保存中',
-    })
-    // 延时2000ms等待图片上传到云存储换取fileID
-    setTimeout( ()=> {
-      // 更新图片地址到数据库
-      // 构建空列表（同数据库中product-labels列表结构一致）
-      var dbLabelObbject = [];
-      labelObject.forEach( labelOb => {
-        dbLabelObbject.push({
-          imageObjects: labelOb.images,
-          labelName: labelOb.labelName
+    console.log(labelIndex)
+    // if(imgUrls[labelIndex].length == 0) {
+    //     Toast.fail({
+    //         message: '请上传图片',
+    //         duration: 1000
+    //    });
+    // } else {
+        // 将上传图片得到的临时链接通过上传到云存储换取fileID
+        imgUrls[labelIndex].forEach( (item,index) => {
+          var now = new Date();
+          var time = now.getFullYear().toString() + (now.getMonth()+1).toString() + now.getDate().toString() + now.getDay().toString() + now.getHours().toString() + now.getMinutes().toString();
+          // console.log(time);
+          // 上传到云存储
+          wx.cloud.uploadFile({
+            cloudPath: 'product_img/' + data.brandName + '/' + data.labelObject[labelIndex].labelName + '/' + time + '/' + index + '.png', // 上传至云端的路径
+            filePath: item, // 临时文件路径
+            success: res => {
+              console.log(res.fileID);
+              imgUrls[labelIndex][index] = res.fileID;
+              labelObject[labelIndex].images[index].url = res.fileID;
+              // 换取到fileID更新到page data
+              that.setData({imgUrls});
+            },
+            fail: console.error('上传云存储失败')
+          })
         })
-      } )
-      // 从iamgeUrls即纯图片数组中，去除有效url
-      let imageListBuffer = [];
-      imgUrls.forEach(images => {
-        let list = [];
-        images.forEach(url => {
-          if(url != '')
-            list.push(url)
-        });
-        imageListBuffer.push(list);
-      });
-      db.collection('product').where({
-        _openid: app.globalData.openid
-      })
-      .update({
-        data:{
-          labels: dbLabelObbject,
-          imageList: imageListBuffer
-        },
-        success: function (res) {
-          // console.log(res); 
-        },
-        fail: console.error
-      })
-      wx.hideLoading();
-      Toast.success({
-        message: '发布成功',
-        duration: 1000
-      });
-    },3000); 
+
+        wx.showLoading({
+          title: '保存中',
+        })
+        // 延时2000ms等待图片上传到云存储换取fileID
+        setTimeout( ()=> {
+          // 更新图片地址到数据库
+          // 构建空列表（同数据库中product-labels列表结构一致）
+          var dbLabelObbject = [];
+          labelObject.forEach( labelOb => {
+            dbLabelObbject.push({
+              imageObjects: labelOb.images,
+              labelName: labelOb.labelName
+            })
+          } )
+          // 从iamgeUrls即纯图片数组中，去除有效url
+          let imageListBuffer = [];
+          imgUrls.forEach(images => {
+            let list = [];
+            images.forEach(url => {
+              if(url != '')
+                list.push(url)
+            });
+            imageListBuffer.push(list);
+          });
+          db.collection('product').where({
+            _openid: app.globalData.openid
+          })
+          .update({
+            data:{
+              labels: dbLabelObbject,
+              imageList: imageListBuffer
+            },
+            success: function (res) {
+              // console.log(res); 
+            },
+            fail: console.error
+          })
+          wx.hideLoading();
+          Toast.success({
+            message: '发布成功',
+            duration: 1000
+          });
+        },3000); 
+    // }
   },
 
   /**
@@ -363,40 +373,48 @@ Page({
     .get({
       success: function (res) {
         var labelData = res.data[0].labels;
-        var labelObject = that.data.labelObject;
-        var imgUrls = that.data.imgUrls;
-        let imageList = [];
-        for(let i = 0; i < labelData.length; i++) {
-          imageList = [];
-          if(labelData[i].imageObjects.length == 0) {
-            labelObject.push({
-              labelName: labelData[i].labelName,
-              images:[],
-              disable: true,
-              selectIndex: 0,
-              urlsEmpty: true//显示空状态
-            })          
-          } else {
-            labelData[i].imageObjects.forEach( imgObj => {
-              imageList.push(imgObj.url);
-            } )
-            labelObject.push({
-              labelName: labelData[i].labelName,
-              images: labelData[i].imageObjects,
-              disable: true,
-              selectIndex: 0,
-              urlsEmpty: false//不显示空状态
-            })
-          }
-          imgUrls.push(imageList)
-          console.log(imageList)
+
+        if(!labelData) {
+            that.setData({
+                empty: true
+            });
+        } else {
+            var labelObject = that.data.labelObject;
+            var imgUrls = that.data.imgUrls;
+            let imageList = [];
+            
+            for(let i = 0; i < labelData.length; i++) {
+            imageList = [];
+            if(labelData[i].imageObjects.length == 0) {
+                labelObject.push({
+                labelName: labelData[i].labelName,
+                images:[],
+                disable: true,
+                selectIndex: 0,
+                urlsEmpty: true//显示空状态
+                })          
+            } else {
+                labelData[i].imageObjects.forEach( imgObj => {
+                imageList.push(imgObj.url);
+                } )
+                labelObject.push({
+                labelName: labelData[i].labelName,
+                images: labelData[i].imageObjects,
+                disable: true,
+                selectIndex: 0,
+                urlsEmpty: false//不显示空状态
+                })
+            }
+            imgUrls.push(imageList)
+            console.log(imageList)
+            }
+            // console.log(imgUrls)
+            that.setData({
+            labelObject,
+            imgUrls,
+            brandName: res.data[0].brandName
+            });
         }
-        console.log(imgUrls)
-        that.setData({
-          labelObject,
-          imgUrls,
-          brandName: res.data[0].brandName
-        });
       }
     })
     
