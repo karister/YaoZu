@@ -75,6 +75,6 @@
 </van-empty>
 
 <view bindtap="addLabelObject" class="mid write_iconBox">
-    <iconfont name="add"></iconfont>
+    <iconfont name="browsed"></iconfont>
 </view>
 

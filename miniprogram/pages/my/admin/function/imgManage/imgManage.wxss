@@ -67,7 +67,7 @@
       height: 100rpx;
       border-radius: 50rpx;
       border: 2rpx solid rgb(190, 182, 182);
-      background-color: rgb(39, 53, 255);
+      background-color: white;  
       position: fixed;bottom: 50rpx;right: 50rpx;z-index: 9999;  
     }
   
