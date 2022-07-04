@@ -75,6 +75,7 @@ export function checkAuthed () {
  */
 export function getQueryParam(index,arg) {
   const areas = app.globalData.areaList;
+  console.log(areas);
   let param = '';
   if(arg != null) {
     param = {

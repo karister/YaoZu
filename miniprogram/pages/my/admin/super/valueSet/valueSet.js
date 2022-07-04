@@ -133,6 +133,36 @@ Page({
     }) 
   },
 
+  /**
+   * 获取数据库中原来的区域名称，用于更新其他库中的区域名称
+   * 
+   */
+  getOriginAreas: async function() {
+    let areaList = []
+    await db.collection('index').where({
+        filed: 'areaInfo'
+    }).get().then( res => {
+        res.data[0].area.forEach(area => {
+            areaList.push(area.name);
+        })
+    })
+    return areaList;
+  },
+
+  /**
+   * 更新stores中area字段的修改
+   */
+  updateForArea(origin, now) {
+    db.collection('stores').where({
+        area: origin
+    })
+    .update({
+        data: {
+            area: now
+        }
+    })
+  },
+
     /**
      * 
      * @param {*} options 
@@ -144,13 +174,18 @@ Page({
         areaList.forEach(area => {
             iconList.push(area.url);
         });
-        console.log(areaList)
+
+        let originAreaList = await this.getOriginAreas();
+        originAreaList.forEach((originArea,index) => {
+            this.updateForArea(originArea, areaList[index].name);
+        })
+
         db.collection('index').where({
             filed: 'areaInfo'
         })
         .update({
             data: {
-                area: that.data.areas,
+                area: areaList,
                 iconList: iconList,
                 checked: that.data.checked
             },

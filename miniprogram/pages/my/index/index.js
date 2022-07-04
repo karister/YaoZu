@@ -12,15 +12,7 @@ Page({
       imgUrls: [],
       imgUrls1: [],
       hotProductObj: [],
-      msgObj: {
-          content: '在代码阅读过程中人们!',
-          index: 0,
-          list: [
-            '在代码阅读过程中人们!',
-            '中华人民共和国万岁!',
-            '人民万岁!'
-          ]
-      }
+      msgObj: {}
   },
 
   /**
@@ -128,6 +120,7 @@ Page({
     })
     .get({
       success: res => {
+          console.log(res.data[0].data);
         that.setData({
           imgUrls1: res.data[0].area
         }) 

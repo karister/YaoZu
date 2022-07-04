@@ -33,7 +33,7 @@ Page({
     // 点击选择区域按钮的状态
     isClick: true,
     // 选择器的值(许多地方使用了area,尽量不要修改，增加不影响)
-    columns: ['中心市场', '博览中心', '家私城', '光明家具城','其他区域'],
+    columns: app.globalData.areaList,
     // 暂时只用到了经纬度，在遍历时请使用值比较
     area_info: [
       {
