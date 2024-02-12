@@ -2,7 +2,8 @@
 const app = getApp();
 const db = wx.cloud.database();
 const _ = db.command;
-const collectionName = 'index';
+
+const GET_INDEX_INFO_FUNCTION = 'getIndexInfo';
 const INDEX_IMAGE_OPTIONS = require('../../../common/constant');
 import {getRandomData} from '../../../common/common.js'
 Page({
@@ -12,6 +13,7 @@ Page({
    */
   data: {
       swiperList: [],
+      categoryList: [],
   },
 
   /**
@@ -94,27 +96,65 @@ Page({
    * 获取index页面图片
    */
   async getIndexImage() {
-    try {
-      const result = await db.collection(collectionName)
-        .where({
-          category: INDEX_IMAGE_OPTIONS.SWIPER
-        })
-        .get();
-       console.log("result.data: ", result.data);
-      // 获取查询结果的数据
-      const swiperList = result.data.map(({ item })  => ({
-        url: item.fileID,
-        _id: item._id
-      }));
+    const that = this;
+    const categories = [
+      INDEX_IMAGE_OPTIONS.SWIPER,
+      INDEX_IMAGE_OPTIONS.CATEGORY
+    ]
+    console.log('categories: ', categories);
+    wx.cloud.callFunction({
+      name: GET_INDEX_INFO_FUNCTION,
+      data: {
+        categories
+      },
+      success: function (res) {
+        console.log('云函数GET_INDEX_INFO_FUNCTION调用成功：', res);
+        // 处理返回结果
+        // 从云函数返回的数据中提取不同的列表
+        const swiperList = res.result.data.filter(item => item.category === INDEX_IMAGE_OPTIONS.SWIPER).map(imageItem => ({
+          url: imageItem.item.fileID
+        }));
+        const categoryList = res.result.data.filter(item => item.category === INDEX_IMAGE_OPTIONS.CATEGORY).map(imageItem => ({
+          url: imageItem.item.fileID,
+          label: imageItem.item.label
+        }));;
 
-      // 在这里可以处理获取到的图片信息，比如将数据存储到页面的数据变量中
-      this.setData({
-        swiperList: swiperList
-      });
-      console.log('从数据库获取图片信息成功', swiperList);
-    } catch (error) {
-      console.error('从数据库获取图片信息失败', error);
-    }
+        console.log('swiperList:', swiperList);
+        console.log('categoryList:', categoryList);
+
+        that.setData({
+          swiperList: swiperList,
+          categoryList: categoryList
+        });
+      },
+      fail: function (error) {
+        console.error('云函数GET_INDEX_INFO_FUNCTION调用失败：', error);
+        // 处理错误
+      }
+    });
+
+
+    // try {
+    //   const result = await db.collection(collectionName)
+    //     .where({
+    //       category: INDEX_IMAGE_OPTIONS.SWIPER
+    //     })
+    //     .get();
+    //    console.log("result.data: ", result.data);
+    //   // 获取查询结果的数据
+    //   const swiperList = result.data.map(({ item })  => ({
+    //     url: item.fileID,
+    //     _id: item._id
+    //   }));
+
+    //   // 在这里可以处理获取到的图片信息，比如将数据存储到页面的数据变量中
+    //   this.setData({
+    //     swiperList: swiperList
+    //   });
+    //   console.log('从数据库获取图片信息成功', swiperList);
+    // } catch (error) {
+    //   console.error('从数据库获取图片信息失败', error);
+    // }
   },
 
   //生成从minNum到maxNum的随机数
