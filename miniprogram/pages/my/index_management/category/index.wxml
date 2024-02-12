@@ -1,0 +1,42 @@
+<view class="info_box" > 
+  <van-empty 
+    description="空无一物！点击进行设置" 
+    wx:if="{{!fileList.length}}"
+    bindtap="addLabelItem"
+  />
+  <form bindsubmit="submit">
+      <view style="display: flex;flex-direction: column;" wx:for="{{fileList}}" wx:key="key" wx:for-item="category">
+          <view class="brand_normal_text" >
+              <text>分类标签 {{index+1}}</text>
+              <van-cell-group>
+              <van-field
+                  value="{{ category.label }}"
+                  bind:change="setLabelData"
+                  data-index="{{index}}"
+              />
+              </van-cell-group>
+              <iconfont name="add" bindtap="addLabelItem"></iconfont>
+              <view style="width: 40rpx;"></view>
+              <iconfont name="delete" bindtap="deleteLabelItem" data-index="{{index}}"></iconfont>
+          </view>
+          <view class="brand_img_box">
+              <text>分类图标</text>
+              <van-button wx:if="{{!category.fileID}}" bind:click="uploadImage" data-index="{{index}}" type="primary" size="small" round color="">上传图片</van-button>
+              <image wx:if="{{category.fileID}}" src="{{category.fileID}}"></image>
+              <van-button wx:if="{{category.fileID}}" bind:click="uploadImage" data-index="{{index}}" type="primary" size="small" round color="">更换图片</van-button>
+          </view>
+      </view>
+      
+      <view class="mid" style="margin: 25rpx 0">
+          <van-button type="primary" round plain size="normal" icon="arrow" color="" form-type="submit">保存</van-button>
+      </view> 
+  </form> 
+</view>
+
+
+
+
+<!-- 提交表单的轻提示 -->
+<van-toast id="van-toast"/>
+<!-- 弹窗通知 -->
+<van-dialog id="van-dialog" />

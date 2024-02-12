@@ -102,7 +102,7 @@ Page({
         .get();
        console.log("result.data: ", result.data);
       // 获取查询结果的数据
-      const swiperList = result.data.map(item => ({
+      const swiperList = result.data.map(({ item })  => ({
         url: item.fileID,
         _id: item._id
       }));
@@ -238,15 +238,15 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: async function () {
-    let hotProductObj = this.data.hotProductObj;
-    for (let index = 0; index < 6; index++) {
-      await this.getHotProductInfo().then(res => {
-        hotProductObj.push(res);
-      })
-    }
-    this.setData({
-      hotProductObj
-    })
+    // let hotProductObj = this.data.hotProductObj;
+    // for (let index = 0; index < 6; index++) {
+    //   await this.getHotProductInfo().then(res => {
+    //     hotProductObj.push(res);
+    //   })
+    // }
+    // this.setData({
+    //   hotProductObj
+    // })
     // console.log(hotProductObj)
   },
 

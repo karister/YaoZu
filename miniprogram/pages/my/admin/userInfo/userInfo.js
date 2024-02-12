@@ -21,9 +21,9 @@ Page({
       },
       {
         iconStr: 'info',
-        text: '店铺信息',
+        text: '类目设置',
         class: 'van-hairline--bottom',
-        option: 'swiper'
+        option: INDEX_IMAGE_OPTIONS.CATEGORY
       },
       {
         iconStr: 'tupian',
@@ -97,9 +97,18 @@ Page({
   /**
    * swiper 图片管理
    */
-  swiperFill: function () {
+  swiperSetting: function () {
     wx.navigateTo({
       url: '/pages/my/index_management/swiper/index',
+    })
+  },
+
+  /**
+   * category 图片管理
+   */
+  categorySetting: function () {
+    wx.navigateTo({
+      url: '/pages/my/index_management/category/index',
     })
   },
 
@@ -146,7 +155,11 @@ Page({
 
     switch (option) {
       case INDEX_IMAGE_OPTIONS.SWIPER: {
-        this.swiperFill(); 
+        this.swiperSetting(); 
+        break;
+      }
+      case INDEX_IMAGE_OPTIONS.CATEGORY: {
+        this.categorySetting(); 
         break;
       }
     }

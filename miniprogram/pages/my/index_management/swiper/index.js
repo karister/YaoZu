@@ -4,8 +4,8 @@ const db = wx.cloud.database();
 const collectionName = 'index';
 const INDEX_IMAGE_OPTIONS = require('../../../../common/constant');
 // 在需要插入图片信息的地方
-const imageDocument = {
-  fileID: 'yourFileId',  // 云存储返回的 fileId
+const imageItem = {
+  item: 'object',  // item对象
   category: INDEX_IMAGE_OPTIONS.SWIPER,  // 图片所属的分类
 };
 Page({
@@ -74,7 +74,6 @@ Page({
           console.log(e);
         });
     },
-
     // 上传图片
     uploadImage(event) {
       const { file } = event.detail;
@@ -95,7 +94,6 @@ Page({
       fileList.splice(index, 1);
       this.setData({ fileList });
     },
-
     //删除对应DB记录
     deleteToDB(deletedImages) {
       deletedImages.forEach(async (item) => {
@@ -116,11 +114,11 @@ Page({
     addToDB(fileIdList) {
       fileIdList.forEach(async (url) => {
         try {
-          imageDocument.fileID = url;
+          imageItem.item = {fileID: url};
           // 使用 where 条件选择需要更新的记录
           const result = await db.collection(collectionName)
           .add({
-            data: imageDocument,
+            data: imageItem,
           });
           wx.showToast({ title: '更新成功', icon: 'none' });
         } catch (error) {
@@ -138,7 +136,7 @@ Page({
     },
 
     getImagesFromDB: async function () {
-      console.log("get index image");
+      console.log("get index image: ", INDEX_IMAGE_OPTIONS.SWIPER);
       try {
         const result = await db.collection(collectionName)
           .where({
@@ -147,7 +145,7 @@ Page({
           .get();
          console.log("result.data: ", result.data);
         // 获取查询结果的数据
-        const fileList = result.data.map(item => ({
+        const fileList = result.data.map(({ item })  => ({
           url: item.fileID,
           _id: item._id
         }));
