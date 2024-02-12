@@ -40,7 +40,7 @@
         "useCompilerPlugins": false,
         "useStaticServer": true
     },
-    "appid": "wx83ef593ac2e258c3",
+    "appid": "wx1832c9c99965ee08",
     "projectname": "cloud-dev",
     "libVersion": "2.24.5",
     "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",

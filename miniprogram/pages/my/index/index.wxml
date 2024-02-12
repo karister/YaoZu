@@ -2,8 +2,8 @@
 <!-- 地区轮播图 -->
 <swiper class="swiperBox" indicator-dots autoplay interval="2000" circular
 	indicator-active-color="#ffffff" indicator-color="rgba(0, 0, 0, .3)"> 
-    <swiper-item wx:for="{{imgUrls}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
-        <image src="{{item}}"></image>
+    <swiper-item wx:for="{{swiperList}}" wx:key="key" bindtap="imgClick" data-index="{{index}}">
+        <image src="{{item.url}}"></image>
     </swiper-item>
 </swiper>
 <!-- 分类图标 -->

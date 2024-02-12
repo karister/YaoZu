@@ -10,9 +10,6 @@ App({
     nickName: '',
     // 微信绑定手机号
     phoneNumber: '',
-    test: 'test',
-    checked: '',
-    areaList: []
   },
 
 
@@ -21,11 +18,7 @@ App({
       console.error('请使用 2.2.3 或以上的基础库以使用云能力');
     } else {
       wx.cloud.init({
-        // env 参数说明：
-        //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
-        //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
-        //   如不填则使用默认环境（第一个创建的环境）
-        // env: 'my-env-id',
+        env: 'cloud1-9gfitrmvaedbeba4',
         traceUser: true,
       });
     }
@@ -35,13 +28,13 @@ App({
 
     // 获取用户openid
     wx.cloud.callFunction({
-      name: 'getOpenid',
+      name: 'getOpenId',
       success: function (res) {
         console.log('openid: ' + res.result.openid);
         that.globalData.openid = res.result.openid;
       },
       fail: console.error,
-      complete: function () {
+      complete: function () { 
         // 读取用户表查询用户是否存在
         db.collection('user').where({
           _openid: that.globalData.openid
@@ -53,40 +46,35 @@ App({
               // 写入用户
               db.collection('user').add({
                 data: {
-                  name: 'normal',
-                  identity: 'user',
+                  role: 'user',
+                  phoneNumber: '',
                   createTime: (new Date()),
                   updateTime: (new Date())
                 },
                 success: function(res) {
-                  // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
                   console.log(res)
                 }
               })
             } else {
-              // 用户存在则写入头像和名称至globalData
               console.log('user has exist')
-              that.globalData.avatarUrl = res.data[0].avatarUrl;
-              that.globalData.nickName = res.data[0].nickName;
-              that.globalData.phoneNumber = res.data[0].phoneNumber;
             }
           }
         })
       }
     })
     // this.globalData = {};
-    db.collection('index').where({
-      filed: 'areaInfo'
-    }).get().then( res => {
-      that.globalData.checked = res.data[0].checked;
-      let areaInfo = res.data[0].area;
-      let areaList = [];
-      areaInfo.forEach(area => {
-        areaList.push(area.name);
-      });
-      that.globalData.areaList = areaList;
-      // console.log(areaList)
-    })
+    // db.collection('index').where({
+    //   filed: 'areaInfo'
+    // }).get().then( res => {
+    //   that.globalData.checked = res.data[0].checked;
+    //   let areaInfo = res.data[0].area;
+    //   let areaList = [];
+    //   areaInfo.forEach(area => {
+    //     areaList.push(area.name);
+    //   });
+    //   that.globalData.areaList = areaList;
+    //   // console.log(areaList)
+    // })
 
   }
   

@@ -4,6 +4,8 @@ import {checkAuthed,getSingleDataByOpenid} from '../../../../common/common.js'
 const db = wx.cloud.database();
 const _ = db.command;
 const app = getApp();
+
+ const INDEX_IMAGE_OPTIONS = require('../../../../common/constant.js');
 Page({
 
   /**
@@ -13,13 +15,15 @@ Page({
     admin_info: [
       {
         iconStr: 'shenhe',
-        text: '我的认证',
-        class: 'van-hairline--bottom'
+        text: '轮播图设置',
+        class: 'van-hairline--bottom',
+        option: INDEX_IMAGE_OPTIONS.SWIPER
       },
       {
         iconStr: 'info',
         text: '店铺信息',
-        class: 'van-hairline--bottom'
+        class: 'van-hairline--bottom',
+        option: 'swiper'
       },
       {
         iconStr: 'tupian',
@@ -91,6 +95,15 @@ Page({
   },
 
   /**
+   * swiper 图片管理
+   */
+  swiperFill: function () {
+    wx.navigateTo({
+      url: '/pages/my/index_management/swiper/index',
+    })
+  },
+
+  /**
    * 我的认证
    */
   myAuthFun: function () {
@@ -128,24 +141,18 @@ Page({
    * @param {功能index} event 
    */
   actionFuntion: function (event) {
-    // 是否已授权
-    if(checkAuthed()) {
-      var index = event.currentTarget.dataset.index;
-      // console.log('function: ' + index );
-      if(index == 0) {
-        this.myAuthFun();
-      } else if(index == 1) {
-        this.storeInfo();
-      } else if(index == 2) {
-        this.imgManage();
-      } else if(index == 3) {
-        this.diySet();
-      }   
-    } else{
-      this.setData({
-        show: true
-      })
+    var option = event.currentTarget.dataset.option;
+    console.log("option: ", option);
+
+    switch (option) {
+      case INDEX_IMAGE_OPTIONS.SWIPER: {
+        this.swiperFill(); 
+        break;
+      }
     }
+    
+
+      
   },
 
   /**
@@ -258,7 +265,7 @@ Page({
     wx.getUserProfile({
       desc: '获取你的昵称、头像、地区及性别',
       success: res => {
-        // console.log(res)
+        console.log(res)
         // 成功获取
         var avatarUrl = res.userInfo.avatarUrl;
         var nickName = res.userInfo.nickName;
@@ -318,7 +325,7 @@ Page({
     console.log(app.globalData);
     await getSingleDataByOpenid('user').then(res=>{
       // 超级功能权限拥有者
-      if(res.name == 'admin') {
+      if(res.role == 'admin') {
         that.setData({superShow: true})
         // let admin_info = that.data.admin_info;
         // admin_info[admin_info.length-1].class = 'van-hairline--bottom';
@@ -361,11 +368,11 @@ Page({
    */
   onShow: function () {
     // 未授权
-    if(!checkAuthed()){
-      this.setData({
-        show: true
-      })
-    };
+    // if(!checkAuthed()){
+    //   this.setData({
+    //     show: true
+    //   })
+    // };
   },
 
   /**

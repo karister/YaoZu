@@ -1,0 +1,16 @@
+
+<van-uploader 
+    file-list="{{ fileList }}" 
+    max-count="4"
+    accept="media"
+    multiple
+    preview-size="100"
+    upload-text="点击上传图片"
+    bind:after-read="uploadImage" 
+    bind:delete="deleteImage"
+  />
+
+  <view class="publish_button mid" bindtap="submit">
+  <iconfont style="margin-right: 10rpx;" name="publish"></iconfont>
+  <view>发布信息</view>
+</view>

@@ -32,6 +32,7 @@
     "pages/my/search/search",
 
     "pages/my/detail/detail",
+    "pages/my/index_management/swiper/index",
 
     "pages/my/display/display"
     

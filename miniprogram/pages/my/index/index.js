@@ -2,6 +2,8 @@
 const app = getApp();
 const db = wx.cloud.database();
 const _ = db.command;
+const collectionName = 'index';
+const INDEX_IMAGE_OPTIONS = require('../../../common/constant');
 import {getRandomData} from '../../../common/common.js'
 Page({
 
@@ -9,10 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-      imgUrls: [],
-      imgUrls1: [],
-      hotProductObj: [],
-      msgObj: {}
+      swiperList: [],
   },
 
   /**
@@ -94,38 +93,28 @@ Page({
   /**
    * 获取index页面图片
    */
-  getIndexImage() {
-    const that = this;
-    db.collection('index').where({
-      filed: 'index_image'
-    })
-    .get({
-      success: res => {
-        let imageList = res.data[0].imageList;
-        let imageUrlTemp = [];
-        imageList.forEach( url => {
-          if(url != '') {
-            imageUrlTemp.push(url);
-          }
-        });
+  async getIndexImage() {
+    try {
+      const result = await db.collection(collectionName)
+        .where({
+          category: INDEX_IMAGE_OPTIONS.SWIPER
+        })
+        .get();
+       console.log("result.data: ", result.data);
+      // 获取查询结果的数据
+      const swiperList = result.data.map(item => ({
+        url: item.fileID,
+        _id: item._id
+      }));
 
-        that.setData({
-          imgUrls: imageUrlTemp,
-        }) 
-      }
-    })
-
-    db.collection('index').where({
-      filed: 'areaInfo'
-    })
-    .get({
-      success: res => {
-          console.log(res.data[0].data);
-        that.setData({
-          imgUrls1: res.data[0].area
-        }) 
-      }
-    })
+      // 在这里可以处理获取到的图片信息，比如将数据存储到页面的数据变量中
+      this.setData({
+        swiperList: swiperList
+      });
+      console.log('从数据库获取图片信息成功', swiperList);
+    } catch (error) {
+      console.error('从数据库获取图片信息失败', error);
+    }
   },
 
   //生成从minNum到maxNum的随机数
@@ -194,21 +183,20 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function () {
-    this.getMessage();
-    this.updateMsg(5000);
+    // this.getMessage();
+    // this.updateMsg(5000);
 
     this.getIndexImage();
-    this.getTypeInfo();
-    let hotProductObj = [];
-    for (let index = 0; index < 4; index++) {
-      await this.getHotProductInfo().then(res => {
-        hotProductObj.push(res)
-      })
-    }
-    this.setData({
-      hotProductObj
-    })
-    // console.log(productTemp)
+    // this.getTypeInfo();
+    // let hotProductObj = [];
+    // for (let index = 0; index < 4; index++) {
+    //   await this.getHotProductInfo().then(res => {
+    //     hotProductObj.push(res)
+    //   })
+    // }
+    // this.setData({
+    //   hotProductObj
+    // })
   },
 
   /**

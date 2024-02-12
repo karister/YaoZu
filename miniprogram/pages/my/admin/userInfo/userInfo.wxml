@@ -66,13 +66,9 @@
 
 </view>
 
-<view hidden="{{identity == 'store'}}">
-  <van-empty description="商家入驻解锁更多精彩！" />
-</view>
-
-<view class="admin_function_box" hidden="{{identity == 'user'}}">
+<view class="admin_function_box">
   <view  wx:for="{{admin_info}}" class="{{item.class}}" wx:key="key">
-    <view class="admin_function_item_box " bindtap="actionFuntion" data-index="{{index}}">
+    <view class="admin_function_item_box " bindtap="actionFuntion" data-option="{{item.option}}">
       <view style="width: 8%;">
         <iconfont name="{{item.iconStr}}"></iconfont>
       </view>
