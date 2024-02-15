@@ -14,6 +14,7 @@ Page({
   data: {
       swiperList: [],
       categoryList: [],
+      areaList: [],
   },
 
   /**
@@ -99,7 +100,9 @@ Page({
     const that = this;
     const categories = [
       INDEX_IMAGE_OPTIONS.SWIPER,
-      INDEX_IMAGE_OPTIONS.CATEGORY
+      INDEX_IMAGE_OPTIONS.CATEGORY,
+      INDEX_IMAGE_OPTIONS.AREA,
+      INDEX_IMAGE_OPTIONS.MESSAGE
     ]
     console.log('categories: ', categories);
     wx.cloud.callFunction({
@@ -111,20 +114,38 @@ Page({
         console.log('云函数GET_INDEX_INFO_FUNCTION调用成功：', res);
         // 处理返回结果
         // 从云函数返回的数据中提取不同的列表
-        const swiperList = res.result.data.filter(item => item.category === INDEX_IMAGE_OPTIONS.SWIPER).map(imageItem => ({
+        const swiperList = res.result.data
+        .filter(item => item.category === INDEX_IMAGE_OPTIONS.SWIPER)
+        .map(imageItem => ({
           url: imageItem.item.fileID
         }));
-        const categoryList = res.result.data.filter(item => item.category === INDEX_IMAGE_OPTIONS.CATEGORY).map(imageItem => ({
+        const categoryList = res.result.data
+        .filter(item => item.category === INDEX_IMAGE_OPTIONS.CATEGORY)
+        .map(imageItem => ({
           url: imageItem.item.fileID,
           label: imageItem.item.label
         }));;
+        const areaList = res.result.data
+        .filter(item => item.category === INDEX_IMAGE_OPTIONS.AREA)
+        .map(imageItem => ({
+          url: imageItem.item.fileID,
+          areaName: imageItem.item.areaName
+        }));;
+        const messageList = res.result.data
+        .filter(item => item.category === INDEX_IMAGE_OPTIONS.MESSAGE)
+        .map(message => message.item.content)
+        .join('    '); // 使用4个空格进行分隔
 
         console.log('swiperList:', swiperList);
         console.log('categoryList:', categoryList);
+        console.log('areaList:', areaList);
+        console.log('messageList:', messageList);
 
         that.setData({
           swiperList: swiperList,
-          categoryList: categoryList
+          categoryList: categoryList,
+          areaList: areaList,
+          messageList: messageList
         });
       },
       fail: function (error) {

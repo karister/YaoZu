@@ -23,9 +23,11 @@
         "pages/my/join/policy/policy",
         "pages/my/search/search",
         "pages/my/detail/detail",
-        "pages/my/index_management/swiper/index",
         "pages/my/display/display",
-        "pages/my/index_management/category/index"
+        "pages/my/index_management/swiper/index",
+        "pages/my/index_management/category/index",
+        "pages/my/index_management/area/index",
+        "pages/my/index_management/message/index"
     ],
     "window": {
         "backgroundColor": "#ffffff",

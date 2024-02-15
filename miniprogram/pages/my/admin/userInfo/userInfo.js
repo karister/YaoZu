@@ -21,19 +21,21 @@ Page({
       },
       {
         iconStr: 'info',
-        text: '类目设置',
+        text: '分类标签设置',
         class: 'van-hairline--bottom',
         option: INDEX_IMAGE_OPTIONS.CATEGORY
       },
       {
         iconStr: 'tupian',
-        text: '展图管理',
-        class: 'van-hairline--bottom'
+        text: '热门区域设置',
+        class: 'van-hairline--bottom',
+        option: INDEX_IMAGE_OPTIONS.AREA
       },
       {
         iconStr: 'set',
-        text: '个性化修改',
-        class: ''
+        text: '消息通知设置',
+        class: '',
+        option: INDEX_IMAGE_OPTIONS.MESSAGE
       }
     ],
     // 是否第一次使用小程序
@@ -95,23 +97,17 @@ Page({
   },
 
   /**
-   * swiper 图片管理
+   * swiper 主页设置页面跳转
    */
-  swiperSetting: function () {
+  gotoIndexSettingPage: function (target) {
+    const baseUrl = '/pages/my/index_management/';
+    const url = `${baseUrl}${target}/index`;
+  
+    // 使用 wx.navigateTo 跳转页面
     wx.navigateTo({
-      url: '/pages/my/index_management/swiper/index',
-    })
+      url: url,
+    });
   },
-
-  /**
-   * category 图片管理
-   */
-  categorySetting: function () {
-    wx.navigateTo({
-      url: '/pages/my/index_management/category/index',
-    })
-  },
-
   /**
    * 我的认证
    */
@@ -152,20 +148,7 @@ Page({
   actionFuntion: function (event) {
     var option = event.currentTarget.dataset.option;
     console.log("option: ", option);
-
-    switch (option) {
-      case INDEX_IMAGE_OPTIONS.SWIPER: {
-        this.swiperSetting(); 
-        break;
-      }
-      case INDEX_IMAGE_OPTIONS.CATEGORY: {
-        this.categorySetting(); 
-        break;
-      }
-    }
-    
-
-      
+    this.gotoIndexSettingPage(option) 
   },
 
   /**
@@ -358,14 +341,14 @@ Page({
       console.error('检查openid的身份失败！')
     })
     // 已授权则更新page data的个人信息
-    if(checkAuthed()) {
-      that.setData({
-        // 更新头像和名称至page data
-        avatarUrl: app.globalData.avatarUrl,
-        nickName: app.globalData.nickName,
-        phoneNumber: app.globalData.phoneNumber
-      })
-    }
+    // if(checkAuthed()) {
+    //   that.setData({
+    //     // 更新头像和名称至page data
+    //     avatarUrl: app.globalData.avatarUrl,
+    //     nickName: app.globalData.nickName,
+    //     phoneNumber: app.globalData.phoneNumber
+    //   })
+    // }
     // 检查用户是否为超级功能拥有者
   },
 

@@ -17,24 +17,24 @@
 <van-notice-bar
   style="margin-top: 10rpx;"
   left-icon="volume-o"
-  text="{{ msgObj.content }}"
+  text="{{ messageList }}"
 />
 <!-- 搜索框 -->
 <view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
-    <text style="font-size: 32rpx;font-weight: 600;">搜索商家</text>
+    <text style="font-size: 32rpx;font-weight: 600;">搜索房源</text>
 </view>
 <view class="search_box" bindtap="clickToSearch">
     <iconfont name="search" style="margin-left: 20rpx;"></iconfont>
 </view>
-<!-- 南康家居馆 -->
+<!-- 热门出租区域 -->
 <view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
-    <text style="font-size: 32rpx;font-weight: 600;">南康家具馆</text>
+    <text style="font-size: 32rpx;font-weight: 600;">热门出租区域</text>
 </view>
 <view class="area-basic-box">
-    <view class="area-basic-item-box" wx:for="{{imgUrls1}}" wx:key="key" wx:for-item="area">
+    <view class="area-basic-item-box" wx:for="{{areaList}}" wx:key="key" wx:for-item="area">
         <image src="{{area.url}}" bindtap="imgClick" data-index="{{index}}" data-type="area"></image>
         <view class="area-basic-item-text">
-            <text class="mid">{{area.name}}</text>
+            <text class="mid">{{area.areaName}}</text>
         </view>
     </view>
 </view>

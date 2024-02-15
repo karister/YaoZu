@@ -1,6 +1,8 @@
 const INDEX_IMAGE_OPTIONS = {
   SWIPER: 'swiper',
-  CATEGORY: 'category'
+  CATEGORY: 'category',
+  AREA: 'area',
+  MESSAGE: 'message'
 };
 
 // 导出常量对象

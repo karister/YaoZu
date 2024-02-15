@@ -1,0 +1,42 @@
+<view class="info_box" > 
+  <van-empty 
+    description="空无一物！点击进行设置" 
+    wx:if="{{!fileList.length}}"
+    bindtap="addAreaItem"
+  />
+  <form bindsubmit="submit">
+      <view style="display: flex;flex-direction: column;" wx:for="{{fileList}}" wx:key="key" wx:for-item="area">
+          <view class="brand_normal_text" >
+              <text>热门区域 {{index+1}}</text>
+              <van-cell-group>
+              <van-field
+                  value="{{ area.areaName }}"
+                  bind:change="setAreaNameData"
+                  data-index="{{index}}"
+              />
+              </van-cell-group>
+              <iconfont name="add" bindtap="addAreaItem"></iconfont>
+              <view style="width: 40rpx;"></view>
+              <iconfont name="delete" bindtap="deleteAreaItem" data-index="{{index}}"></iconfont>
+          </view>
+          <view class="brand_img_box">
+              <text>区域图标</text>
+              <van-button wx:if="{{!area.fileID}}" bind:click="uploadImage" data-index="{{index}}" type="primary" size="small" round color="">上传图片</van-button>
+              <image wx:if="{{area.fileID}}" src="{{area.fileID}}"></image>
+              <van-button wx:if="{{area.fileID}}" bind:click="uploadImage" data-index="{{index}}" type="primary" size="small" round color="">更换图片</van-button>
+          </view>
+      </view>
+      
+      <view class="mid" style="margin: 25rpx 0">
+          <van-button type="primary" round plain size="normal" icon="arrow" color="" form-type="submit">保存</van-button>
+      </view> 
+  </form> 
+</view>
+
+
+
+
+<!-- 提交表单的轻提示 -->
+<van-toast id="van-toast"/>
+<!-- 弹窗通知 -->
+<!-- <van-dialog id="van-dialog" /> -->

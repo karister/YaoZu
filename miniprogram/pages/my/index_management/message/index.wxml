@@ -1,0 +1,36 @@
+<van-notify id="van-notify" />
+
+
+
+<view wx:if="{{ messageList.length }}" class="msg-box">
+    <van-notice-bar
+    class="msg-item"
+        wx:for="{{ messageList }}" wx:key="key"
+        left-icon="volume-o"
+        text="{{ index + 1 }} . {{ item.content }}"
+        mode="closeable"
+        bind:close="delMessage"
+        data-index="{{ index }}"
+    />
+</view>
+
+
+
+
+<van-cell-group>
+  <van-field
+    model:value="{{ input }}"
+    center
+    clearable
+    type="textarea"
+    autosize
+    label="通知消息"
+    placeholder="请输入消息内容"
+    border="{{ false }}"
+    use-button-slot
+  >
+    <van-button slot="button" size="small" type="primary" bindtap="addMessage">
+        添加
+    </van-button>
+  </van-field>
+</van-cell-group>
