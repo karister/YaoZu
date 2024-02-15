@@ -41,9 +41,9 @@ Page({
       }
 
       const newUrls = fileList
-      .filter(item => !originFileList.some(originItem => originItem.url === item.url));
+      .filter(item => !originFileList.some(originItem => originItem._id === item._id));
       const deletedUrls = originFileList
-      .filter(originItem => !fileList.some(item => item.url === originItem.url));
+      .filter(originItem => !fileList.some(item => item._id === originItem._id));
 
       console.log("fileList: ", fileList);
       console.log("originFileList: ", originFileList);
@@ -62,11 +62,18 @@ Page({
     //上传到云
     uploadToCloud(updatedImages) {
       const uploadTasks = updatedImages.map(file => this.uploadFilePromise(`my-photo/${new Date().getTime()}.png`, file));
+
+      wx.showLoading({
+        title: '正在保存',
+      })
+
       Promise.all(uploadTasks)
         .then(data => {
           wx.showToast({ title: '上传成功', icon: 'none' });
           const newFileList = data.map(item => item.fileID);
-  
+          
+          wx.hideLoading();
+
           this.addToDB(newFileList)
         })
         .catch(e => {
@@ -145,9 +152,9 @@ Page({
           .get();
          console.log("result.data: ", result.data);
         // 获取查询结果的数据
-        const fileList = result.data.map(({ item })  => ({
-          url: item.fileID,
-          _id: item._id
+        const fileList = result.data.map((imageItem) => ({
+          url: imageItem.item.fileID,
+          _id: imageItem._id
         }));
   
         // 在这里可以处理获取到的图片信息，比如将数据存储到页面的数据变量中

@@ -1,3 +1,6 @@
+// import Toast from '../../../../miniprogram_npm/@vant/weapp/toast/toast';
+import Toast from '@vant/weapp/toast/toast';
+
 const db = wx.cloud.database();
 const INDEX_DB = 'index';
 const CATEGORY_STORE = 'category_image';
@@ -69,16 +72,26 @@ Page({
     uploadToCloud() {
       const { fileList } = this.data;
 
+      wx.showLoading({
+        title: '正在保存',
+      })
+
       fileList.forEach(async (item, index) => {
         const url = item.fileID; // 假设图片数据中有一个 url 字段存储 fileID
-    
+
         if (!item.needUpload) {
+          await this.updateToDB(index)
+          if (fileList.length === (index+1)) {
+            wx.hideLoading();
+            wx.showToast({
+              title: '保存成功',
+              icon: 'success',
+              duration: 1000
+            })
+          }
+          // 本次不上传图片
           return ;
         }
-
-        wx.showLoading({
-          title: '正在保存',
-        })
 
         try {
           // 上传图片到云存储
@@ -93,9 +106,15 @@ Page({
           fileList[index].fileID = fileID;
     
           // 可选：如果需要，你还可以将 fileID 存入数据库或执行其他操作
-          this.updateToDB(index)
-
-          wx.hideLoading();
+          await this.updateToDB(index)
+          if (fileList.length === (index+1)) {
+            wx.hideLoading();
+            wx.showToast({
+              title: '保存成功',
+              icon: 'success',
+              duration: 1000
+            })
+          }
     
           // 更新页面数据
           this.setData({
@@ -118,10 +137,17 @@ Page({
           _id: fileList[index]._id,
         })
         .remove();
-        wx.showToast({ title: '更新成功', icon: 'none' });
+        wx.showToast({
+          title: '保存成功',
+          icon: 'success',
+          duration: 1000
+        })
       } catch (error) {
-        console.error('更新数据库失败', error);
-        wx.showToast({ title: '更新失败', icon: 'none' });
+        wx.showToast({
+          title: '保存失败',
+          icon: 'error',
+          duration: 1000
+        })
       }
     },
     //更新对应DB记录
