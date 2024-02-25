@@ -2,12 +2,10 @@
 
 App({
   globalData: {
+    //role
+    role: '',
     // openid
     openid: '',
-    // 用户头像地址
-    avatarUrl: '',
-    // 用户微信昵称
-    nickName: '',
     // 微信绑定手机号
     phoneNumber: '',
   },
@@ -30,7 +28,7 @@ App({
     wx.cloud.callFunction({
       name: 'getOpenId',
       success: function (res) {
-        console.log('openid: ' + res.result.openid);
+        console.log('app get openid: ' + res.result.openid);
         that.globalData.openid = res.result.openid;
       },
       fail: console.error,
@@ -41,6 +39,7 @@ App({
         })
         .get({
           success: function (res) {
+            console.log('get user successful: ', res)
             // 用户不存在
             if(res.data.length == 0) {
               // 写入用户
@@ -52,30 +51,20 @@ App({
                   updateTime: (new Date())
                 },
                 success: function(res) {
-                  console.log(res)
+                  console.log('create user successful: ', res._id)
                 }
               })
             } else {
-              console.log('user has exist')
+              const userInfo = res.data[0];
+              console.log('user exist: ', userInfo)
+              // 读取用户信息存储到globaldata
+              that.globalData.role = userInfo.role;
+              that.globalData.phoneNumber = userInfo.phoneNumber;
             }
           }
         })
       }
     })
-    // this.globalData = {};
-    // db.collection('index').where({
-    //   filed: 'areaInfo'
-    // }).get().then( res => {
-    //   that.globalData.checked = res.data[0].checked;
-    //   let areaInfo = res.data[0].area;
-    //   let areaList = [];
-    //   areaInfo.forEach(area => {
-    //     areaList.push(area.name);
-    //   });
-    //   that.globalData.areaList = areaList;
-    //   // console.log(areaList)
-    // })
-
   }
   
 });

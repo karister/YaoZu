@@ -14,15 +14,8 @@
       <view style="height: 50rpx;" class="mid">
         <text style="font-size: 26rpx;color: rgb(75, 73, 75);">请在稍后的提示框中点击“允许”</text>
       </view>
-      <!-- cloud://cloud1-1g5um355baea68a0.636c-cloud1-1g5um355baea68a0-1308371549/other/authToast.png" -->
-      <!-- cloud://cloud-env-9ggt1lz9119de7b5.636c-cloud-env-9ggt1lz9119de7b5-1308852391/other/authToast.png -->
-      <!-- <image 
-        src="cloud://cloud-env-9ggt1lz9119de7b5.636c-cloud-env-9ggt1lz9119de7b5-1308852391/other/authToast.png"
-        style="height: 400rpx;width: 500rpx;border-radius: 20rpx;margin: 25rpx auto;"
-        >
-      </image> -->
       <view style="width: 300rpx;height: 100rpx; margin: 25rpx auto;">
-        <button type="primary" bindtap="getUserInfo" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">我知道了</button>
+        <button type="primary" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">我知道了</button>
       </view>
     </view>
   </view>
@@ -45,7 +38,7 @@
     </view>
   </view>
 
-  <view class="userinfo_box">
+  <!-- <view class="userinfo_box">
     <view class="function1 mid" catchtap="browseFunction">
       <iconfont name="browsed"></iconfont>
       <text style="font-size: 26rpx;margin-top: 10rpx;">最近浏览</text>
@@ -62,7 +55,7 @@
       <iconfont name="collect"></iconfont>
       <text style="font-size: 26rpx;margin-top: 10rpx;">我的收藏</text>
     </view> 
-  </view>
+  </view> -->
 
 </view>
 

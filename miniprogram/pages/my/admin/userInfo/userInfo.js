@@ -41,9 +41,9 @@ Page({
     // 是否第一次使用小程序
     isFirstLogin: false,
     // 用户头像地址
-    avatarUrl: '',
+    avatarUrl: 'cloud://cloud1-9gfitrmvaedbeba4.636c-cloud1-9gfitrmvaedbeba4-1315869654/OIP.jpg',
     // 用户微信昵称
-    nickName: '',
+    nickName: '微信用户',
     // 微信手机号
     phoneNumber: '',
     // 遮罩层状态
@@ -224,13 +224,22 @@ Page({
       data: {
         weRunData: wx.cloud.CloudID(e.detail.cloudID),
       },
-      success: res => {
-        // console.log(res)
+      success: function (res) {
+        console.log('getPhoneNumber: ', res)
         // 更新globalData以便后续检查是否授权
         app.globalData.phoneNumber = res.result.phoneNumber;
-        // 更新Page Data complete后更新至数据库以便小程序登陆时读取数据库数据判断是否授权
+      
+        db.collection('user').where({
+          _openid: app.globalData.openid
+        })
+        .update({
+          data: {
+            phoneNumber: res.result.phoneNumber
+          }
+        })
+      
         that.setData({
-          phoneNumber: res.result.phoneNumber
+          show: false
         })
       },
       fail: err => {
@@ -239,117 +248,26 @@ Page({
         that.setData({
           phoneNumber: ''
         })
-      },
-      complete: () => {
-        db.collection('user').where({
-          _openid: app.globalData.openid
-        })
-        .update({
-          data: {
-            phoneNumber: that.data.phoneNumber
-          }
-        })
       }
     })
   },
 
-  /**
-   * 点击获取授权
-   */
-  getUserInfo: function () {
-    const that = this;
-    wx.getUserProfile({
-      desc: '获取你的昵称、头像、地区及性别',
-      success: res => {
-        console.log(res)
-        // 成功获取
-        var avatarUrl = res.userInfo.avatarUrl;
-        var nickName = res.userInfo.nickName;
-        // 写入globalData
-        app.globalData.avatarUrl = avatarUrl;
-        app.globalData.nickName = nickName;
-        // 关闭遮罩层，更新page data
-        that.setData({ 
-          show: false,
-          avatarUrl: avatarUrl,
-          nickName: nickName
-        });
-      },
-      fail: res => {
-        // console.log(res)
-        //拒绝授权
-        that.setData({ show: false });
-      },
-      complete: function () {
-        // console.log(that.data.avatarUrl)
-        // 更新用户头像和名称
-        db.collection('user').where({
-          _openid: app.globalData.openid
-        })
-        .update({
-          data: {
-            avatarUrl: app.globalData.avatarUrl,
-            nickName: app.globalData.nickName,
-            updateTime: (new Date())
-          },
-          success: function(res) {
-            // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
-            console.log(res.errMsg);
-          }
-        })
-        // 更新浏览记录表中的头像和名称
-        // 2.21.12.21 发现这段代码更新的字段没有使用价值，故屏蔽之
-        // db.collection('browse').where({
-        //   _openid: app.globalData.openid
-        // })
-        // .update({
-        //   data: {
-        //     avatarUrl: app.globalData.avatarUrl,
-        //     nickName: app.globalData.nickName,
-        //   }
-        // })
-      }
-    })
+  // 自定义方法：检查phoneNumber是否有值，设置show属性
+  checkPhoneNumber: function () {
+    if (app.globalData.phoneNumber) {
+      this.setData({ phoneNumber: app.globalData.phoneNumber });
+      return ;
+    }
+     // true
+    this.setData({ show: true });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: async function (options) {
-    // 查询用户的身份和内部别名
-    const that = this;
-    console.log(app.globalData);
-    await getSingleDataByOpenid('user').then(res=>{
-      // 超级功能权限拥有者
-      if(res.role == 'admin') {
-        that.setData({superShow: true})
-        // let admin_info = that.data.admin_info;
-        // admin_info[admin_info.length-1].class = 'van-hairline--bottom';
-        // let adminObj = {
-        //   iconStr: 'super',
-        //   text: '超级功能',
-        //   class: ''
-        // };
-        // admin_info.push(adminObj);
-        // that.setData({
-        //   admin_info,
-        //   adminFuncHeight: 500
-        // });
-      }
-        that.setData({identity: res.identity});
-    }).catch(error=>{
-      console.error('检查openid的身份失败！')
-    })
-    // 已授权则更新page data的个人信息
-    // if(checkAuthed()) {
-    //   that.setData({
-    //     // 更新头像和名称至page data
-    //     avatarUrl: app.globalData.avatarUrl,
-    //     nickName: app.globalData.nickName,
-    //     phoneNumber: app.globalData.phoneNumber
-    //   })
-    // }
-    // 检查用户是否为超级功能拥有者
+  onLoad: function (options) {
+    console.log("app global data: ", app.globalData);
+    this.checkPhoneNumber();
   },
 
   /**

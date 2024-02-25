@@ -9,7 +9,7 @@
 
 .block {
   width: 600rpx;
-  height: 800rpx;
+  /* height: 800rpx; */
   border-radius: 20rpx;
   background-color: #fff;
   display: flex;
@@ -25,7 +25,7 @@
 
 .basic_box{
   width: 90%;
-  height: 400rpx;
+  /* height: 400rpx; */
   margin: 20rpx auto;
   background-color: white;
   border-radius: 20rpx;
