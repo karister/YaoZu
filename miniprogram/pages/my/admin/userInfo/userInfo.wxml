@@ -43,13 +43,13 @@
       <iconfont name="browsed"></iconfont>
       <text style="font-size: 26rpx;margin-top: 10rpx;">最近浏览</text>
     </view>
-    <view class="function2 mid" catchtap="brandJoin" wx:if="{{identity == 'user'}}">
+    <view class="function2 mid" catchtap="brandJoin" wx:if="{{!isHouseOwner}}">
       <iconfont name="join"></iconfont>
-      <text style="font-size: 32rpx;margin-top: 10rpx;">商家入驻</text>
+      <text style="font-size: 32rpx;margin-top: 10rpx;">我要出租</text>
     </view>
-    <view class="function2 mid" catchtap="brandJoin" wx:if="{{identity == 'store'}}">
+    <view class="function2 mid" catchtap="brandJoin" wx:if="{{isHouseOwner}}">
       <iconfont name="join"></iconfont>
-      <text style="font-size: 32rpx;margin-top: 10rpx;">我的店铺</text>
+      <text style="font-size: 32rpx;margin-top: 10rpx;">我的房源</text>
     </view>
     <view class="function3 mid" catchtap="collectFunction">
       <iconfont name="collect"></iconfont>
@@ -59,7 +59,7 @@
 
 </view>
 
-<view class="admin_function_box">
+<view class="admin_function_box" wx:if="{{isAdmin}}">
   <view  wx:for="{{admin_info}}" class="{{item.class}}" wx:key="key">
     <view class="admin_function_item_box " bindtap="actionFuntion" data-option="{{item.option}}">
       <view style="width: 8%;">
@@ -72,6 +72,9 @@
     </view>
   </view>
 </view>
+
+
+<button type="primary" bind:tap="addHouseImg">添加房源信息图片</button>
 
 <view style="width: 90%;margin: 20rpx auto;background-color: white;border-radius: 20rpx;" wx:if="{{superShow}}" bindtap="onClickSuper">
   <view class="admin_function_item_box ">

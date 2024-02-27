@@ -131,18 +131,18 @@
     flex-wrap: wrap;
 }
 .store-basic-item-box {
-    height: 560rpx;
+    height: 240rpx;
     background-color: white;
     border-radius: 10rpx;
     box-shadow: 5rpx 5rpx 5rpx 2rpx rgba(85, 85, 85, 0.05);
-    margin: 10rpx auto;
+    margin: 20rpx auto;
 
-    flex: 0 0 48%;
+    flex: 0 0 46%;
     display: flex;
     flex-direction: column;
 }
 .store-basic-item-box image {
-  height: 360rpx;
+  height: 240rpx;
   width: 100%;
   margin: 0 auto;
   border-radius: 10rpx;

@@ -2,7 +2,7 @@
 const app = getApp();
 const db = wx.cloud.database();
 const _ = db.command;
-
+const HOUSE_DB = 'house_img'
 const GET_INDEX_INFO_FUNCTION = 'getIndexInfo';
 const INDEX_IMAGE_OPTIONS = require('../../../common/constant');
 import {getRandomData} from '../../../common/common.js'
@@ -15,6 +15,8 @@ Page({
       swiperList: [],
       categoryList: [],
       areaList: [],
+
+      houseImgList: [],
   },
 
   /**
@@ -240,6 +242,21 @@ Page({
       url: '/pages/my/detail/detail?openid=' + openid
     })
   },
+
+
+  getHouseImage() {
+    wx.cloud.callFunction({
+      name: 'getHouseImgs',
+      success: (res) => {
+        console.log('Cloud Function Result:', res);
+        const houseImgList = res.result.data || [];
+        this.setData({ houseImgList });
+      },
+      fail: (error) => {
+        console.error('Failed to call cloud function', error);
+      },
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -248,6 +265,8 @@ Page({
     // this.updateMsg(5000);
 
     this.getIndexImage();
+
+    this.getHouseImage();
     // this.getTypeInfo();
     // let hotProductObj = [];
     // for (let index = 0; index < 4; index++) {

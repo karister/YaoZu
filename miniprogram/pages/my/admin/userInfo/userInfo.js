@@ -4,8 +4,10 @@ import {checkAuthed,getSingleDataByOpenid} from '../../../../common/common.js'
 const db = wx.cloud.database();
 const _ = db.command;
 const app = getApp();
-
- const INDEX_IMAGE_OPTIONS = require('../../../../common/constant.js');
+const ADMIN_ROLE = 'admin';
+const HOUSE_STORE = 'house_img'
+const HOUSE_DB = 'house_img'
+const INDEX_IMAGE_OPTIONS = require('../../../../common/constant.js');
 Page({
 
   /**
@@ -38,8 +40,6 @@ Page({
         option: INDEX_IMAGE_OPTIONS.MESSAGE
       }
     ],
-    // 是否第一次使用小程序
-    isFirstLogin: false,
     // 用户头像地址
     avatarUrl: 'cloud://cloud1-9gfitrmvaedbeba4.636c-cloud1-9gfitrmvaedbeba4-1315869654/OIP.jpg',
     // 用户微信昵称
@@ -48,8 +48,10 @@ Page({
     phoneNumber: '',
     // 遮罩层状态
     show: false,
-    // 用户身份,决定入口功能
-    identity: 'user',
+    // 是否为admin身份
+    isAdmin: false,
+    // 是否为房东身份
+    isHouseOwner: false,
     // 超级功能显示
     superShow: false,
     // 超级功能数据
@@ -239,6 +241,7 @@ Page({
         })
       
         that.setData({
+          phoneNumber: res.result.phoneNumber,
           show: false
         })
       },
@@ -252,7 +255,7 @@ Page({
     })
   },
 
-  // 自定义方法：检查phoneNumber是否有值，设置show属性
+  // 检查phoneNumber是否有值，设置show属性
   checkPhoneNumber: function () {
     if (app.globalData.phoneNumber) {
       this.setData({ phoneNumber: app.globalData.phoneNumber });
@@ -262,12 +265,61 @@ Page({
     this.setData({ show: true });
   },
 
+  // 检查role = admin
+  checkRole: function() {
+    if (ADMIN_ROLE === app.globalData.role) {
+      this.setData({ isAdmin: true });
+    }
+  },
+
+  addHouseImg: async function () {
+    wx.showLoading({
+      title: '正在上传',
+    })
+    try {
+      const result = await wx.chooseMedia({
+        count: 1,
+        sizeType: ['original', 'compressed'],
+        sourceType: ['album', 'camera'],
+      });
+
+      const { tempFilePath } = result.tempFiles[0];
+      
+      // 上传图片到云存储
+      const uploadResult = await wx.cloud.uploadFile({
+        cloudPath: `${HOUSE_STORE}/${new Date().getTime()}.png`,
+        filePath: tempFilePath, // 这里的 url 应该是图片的本地路径或者临时路径
+      });
+
+      const fileID = uploadResult.fileID;
+
+      // 可选：如果需要，你还可以将 fileID 存入数据库或执行其他操作
+      const dbResult = await db.collection(HOUSE_DB).add({
+        data: {
+          url: fileID
+        },
+      });
+
+      wx.hideLoading();
+      wx.showToast({
+        title: '添加成功',
+        icon: 'success',
+        duration: 1000
+      })
+
+      console.log('上传成功', tempFilePath);
+    } catch (error) {
+      console.error('上传失败', error);
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log("app global data: ", app.globalData);
     this.checkPhoneNumber();
+    this.checkRole();
   },
 
   /**

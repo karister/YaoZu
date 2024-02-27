@@ -40,9 +40,16 @@
 </view>
 <!-- 爆款产品 -->
 <view style="height: 50rpx;margin-left: 20rpx;margin-top: 10rpx;">
-    <text style="font-size: 32rpx;font-weight: 600;">最多人看</text>
+    <text style="font-size: 32rpx;font-weight: 600;">热门房源</text>
 </view>
+
 <view class="store-basic-box" >
+  <view class="store-basic-item-box" wx:for="{{houseImgList}}" wx:key="key">
+      <image src="{{item}}">
+      </image>
+  </view>
+</view>
+<!-- <view class="store-basic-box" >
     <view class="store-basic-item-box" bindtap="clickToStore" data-openid="{{product.openid}}" wx:for="{{hotProductObj}}" wx:key="key" wx:for-item="product">
         <image src="{{product.url}}">
         </image>
@@ -65,4 +72,4 @@
     <view class="store-basic-item-divline">
     </view>
 </view>
-<van-loading vertical color="#1989fa" size="24px">加载中...</van-loading>
+<van-loading vertical color="#1989fa" size="24px">加载中...</van-loading> -->
